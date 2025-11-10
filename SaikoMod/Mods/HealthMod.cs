@@ -3,7 +3,7 @@
 namespace SaikoMod.Mods
 {
     [HarmonyPatch(typeof(HealthManager))]
-    public class HealthMod
+    internal class HealthMod
     {
         public static bool noDamage = false;
         public static bool noKill = false;
@@ -11,22 +11,19 @@ namespace SaikoMod.Mods
         [HarmonyPatch("ApplyBleedDamage"), HarmonyPrefix]
         static bool ApplyBleedDamagePatch()
         {
-            if (noDamage) return false;
-            return true;
+            return !noDamage;
         }
 
         [HarmonyPatch("ApplyDamage"), HarmonyPrefix]
         static bool ApplyDamagePatch()
         {
-            if (noDamage) return false;
-            return true;
+            return !noDamage;
         }
 
         [HarmonyPatch("Kill"), HarmonyPrefix]
         static bool KillPatch()
         {
-            if (noKill) return false;
-            return true;
+            return !noKill;
         }
     }
 }

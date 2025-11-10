@@ -5,25 +5,27 @@ using System;
 using SaikoMod.Mods;
 using UnityEngine;
 using SaikoMod.Controller;
+using BepInEx.Configuration;
 
 namespace SaikoMod
 {
-    [BepInPlugin(modGUID, modName, modVer)]
+    [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]
     public class ModBase : BaseUnityPlugin
     {
-        const string modGUID = "Altertoriel.SaikoMod";
-        const string modName = "Saiko Mod Menu";
-        const string modVer = "0.0.0.1";
+        public const string modGUID = "Altertoriel.SaikoMod";
+        public const string modVer = "0.0.0.2";
 
         public static Version Version => new Version(modVer);
 
-        internal static ModBase i;
+        internal static ModBase instance;
         internal ManualLogSource mls;
 
         public static GameObject manager;
 
+        internal ConfigEntry<bool> allowChangeWindowTitle;
+
         void Awake() {
-            i = this;
+            instance = this;
             Harmony harmony = new Harmony(modGUID);
 
             manager = new GameObject("SaikoModMenu");
@@ -34,7 +36,12 @@ namespace SaikoMod
             mls.LogInfo("Mod Loaded Successfully.");
             mls.LogInfo($"Mod Version: {modVer}");
 
+            allowChangeWindowTitle = Config.Bind("Misc", "Allow Change Window Title", false);
+
             harmony.PatchAllConditionals();
+
+            if (allowChangeWindowTitle.Value)
+                WindowTitle.SetText(Application.productName + " (Modded)");
         }
     }
 }

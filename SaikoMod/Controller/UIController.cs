@@ -62,6 +62,9 @@ namespace SaikoMod.Controller
                     case MenuTab.Saiko:
                         TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), SaikoUI.Window, "<b>Saiko Mod</b>");
                         break;
+                    case MenuTab.Settings:
+                        TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), SettingsUI.Window, "<b>Settings</b>");
+                        break;
                 }
             }
         }
@@ -78,6 +81,10 @@ namespace SaikoMod.Controller
             if (GUILayout.Button("<b>Saiko Mod</b>", GUILayout.Height(21f)))
             {
                 MenuTab = (MenuTab == MenuTab.Saiko) ? MenuTab.Off : MenuTab.Saiko;
+            }
+            if (GUILayout.Button("<b>Settings</b>", GUILayout.Height(21f)))
+            {
+                MenuTab = (MenuTab == MenuTab.Settings) ? MenuTab.Off : MenuTab.Settings;
             }
         }
     }

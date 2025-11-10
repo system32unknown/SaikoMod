@@ -90,7 +90,9 @@
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
+    <Compile Include="Mods\GameMod.cs" />
     <Compile Include="Mods\HealthMod.cs" />
+    <Compile Include="Mods\MainMenuMod.cs" />
     <Compile Include="Mods\YandMod.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\Field.cs" />
@@ -119,8 +121,13 @@
     <Compile Include="Windows\SaikoUI.cs" />
     <Compile Include="Windows\PlayerUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mods\SaikoTracker.cs" />
+    <Compile Include="Core\Components\SaikoTracker.cs" />
+    <Compile Include="Windows\SettingsUI.cs" />
+    <Compile Include="WindowTitle.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /q/y/i "$(TargetPath)" "C:\Users\COM\Documents\Saikonosutoka201\BepInEx\plugins\" /E /H /C</PostBuildEvent>
+  </PropertyGroup>
 </Project>

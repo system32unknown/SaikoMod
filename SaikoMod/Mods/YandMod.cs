@@ -3,14 +3,22 @@
 namespace SaikoMod.Mods
 {
     [HarmonyPatch(typeof(YandereController))]
-    public class YandModController {
+    internal class YandModController {
         public static bool notDetected = false;
+        public static bool lookingatPlayer = false;
         
         [HarmonyPatch("isInNpcFOV"), HarmonyPrefix]
         static bool FOVPatch()
         {
-            if (notDetected) return false;
-            return true;    
+            return !notDetected;    
+        }
+
+        [HarmonyPatch("Update"), HarmonyPostfix]
+        static void PostUpdate(YandereController __instance) {
+            if (lookingatPlayer)
+            {
+                __instance.lookAtIK.solver.target = __instance.playerHead;
+            }
         }
     }
 
@@ -24,8 +32,7 @@ namespace SaikoMod.Mods
         [HarmonyPatch("PlayerCanDetectAI"), HarmonyPrefix]
         static bool PlayerCanDetectPatch()
         {
-            if (notDetected) return false;
-            return true;
+            return !notDetected;
         }
 
         [HarmonyPatch("DetectPlayerLookingDown"), HarmonyPrefix]
@@ -38,15 +45,13 @@ namespace SaikoMod.Mods
         [HarmonyPatch("PlayerAttactAI"), HarmonyPrefix]
         static bool PlayerAttactAIPatch()
         {
-            if (notAttacted) return false;
-            return true;
+            return !notAttacted;
         }
 
         [HarmonyPatch("DistanceReachedPlayerAndAI"), HarmonyPrefix]
         static bool DistanceReachedPlayerAndAIPatch()
         {
-            if (noDistanceCheck) return false;
-            return true;
+            return !noDistanceCheck;
         }
     }
 }
