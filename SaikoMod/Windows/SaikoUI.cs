@@ -31,16 +31,18 @@ namespace SaikoMod.Windows
             {
                 YandModAI.noDistanceCheck = !YandModAI.noDistanceCheck;
             }
-            if (RGUI.Button(YandModController.lookingatPlayer, "Looking At Player"))
+            if (RGUI.Button(YandModController.notAlerted, "No Alerted"))
             {
-                YandModController.lookingatPlayer = !YandModController.lookingatPlayer;
+                YandModController.notAlerted = !YandModController.notAlerted;
             }
+            YandModController.lookMode = RGUI.Field(YandModController.lookMode, "Look Mode");
             GUILayout.EndVertical();
             YandereController[] yanderes = Resources.FindObjectsOfTypeAll(typeof(YandereController)) as YandereController[];
             if (yanderes.Length != 0)
             {
                 YandereController yand = yanderes[0];
                 GUILayout.Label($"AI State: {yand.aI.currentState}");
+                GUILayout.Label($"Anger Level: {yand.mood.angerLevel}");
             }
         }
 

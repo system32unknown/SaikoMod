@@ -14,10 +14,20 @@ namespace SaikoMod.Mods
         static void Postfix(HFPS_GameManager __instance)
         {
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
-            tracker.pc = __instance.playerController;
+            tracker.from = __instance.playerController.yandereController.transform;
+            tracker.to = __instance.playerController.transform;
 
             Image img = Resources.FindObjectsOfTypeAll<Image>().Where(x => x.name == "PausePanel").First();
             img.enabled = false;
+        }
+
+        public static bool EyeEnabled
+        {
+            get { return HFPS_GameManager.instance.playerController.cameraMotionController.eyeBlinkAnim.gameObject.activeSelf; }
+            set
+            {
+                HFPS_GameManager.instance.playerController.cameraMotionController.eyeBlinkAnim.gameObject.SetActive(value);
+            }
         }
     }
 

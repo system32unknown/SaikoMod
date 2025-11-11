@@ -4,14 +4,16 @@ using UnityEngine.AI;
 namespace SaikoMod.Components {
     public class SaikoTracker : MonoBehaviour {
         LineRenderer lr;
-        public PlayerController pc;
+
+        public Transform from;
+        public Transform to;
 
         public static bool updateTracker = false;
         float updateTimer = 0.0f;
         public static float updateRate = 10f;
 
         void Start() {
-            lr = pc.yandereController.gameObject.AddComponent<LineRenderer>();
+            lr = base.gameObject.AddComponent<LineRenderer>();
 
             Material line_Material = new Material(Shader.Find("Sprites/Default"));
             line_Material.renderQueue = 3999;
@@ -29,15 +31,15 @@ namespace SaikoMod.Components {
                 updateTimer -= Time.deltaTime;
                 if (updateTimer <= 0.0f)
                 {
-                    reloadPath();
+                    GeneratePath(from.position, to.position);
                     updateTimer = updateRate;
                 }
             }
         }
 
-        void reloadPath() {
+        void GeneratePath(Vector3 from, Vector3 to) {
             NavMeshPath path = new NavMeshPath();
-            NavMesh.CalculatePath(pc.yandereController.transform.position, pc.transform.position, NavMesh.AllAreas, path); // Saves the path in the path variable.
+            NavMesh.CalculatePath(from, to, NavMesh.AllAreas, path);
             Vector3[] corners = path.corners;
             lr.positionCount = corners.Length;
             lr.SetPositions(corners);

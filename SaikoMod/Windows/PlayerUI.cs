@@ -23,10 +23,13 @@ namespace SaikoMod.Windows
             {
                 SaikoTracker.updateTracker = !SaikoTracker.updateTracker;
             }
-            SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 1f, 10f, 3f, "Update Rate");
+            SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
             GUILayout.EndVertical();
+            if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision"))
+            {
+                GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
+            }
 
-            GUILayout.BeginVertical("Box");
             if (RGUI.Button(HealthMod.noKill, "No Kill"))
             {
                 HealthMod.noKill = !HealthMod.noKill;
@@ -35,7 +38,6 @@ namespace SaikoMod.Windows
             {
                 HealthMod.noDamage = !HealthMod.noDamage;
             }
-            GUILayout.EndVertical();
         }
 
         private static void Title()
