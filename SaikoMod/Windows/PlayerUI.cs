@@ -25,10 +25,15 @@ namespace SaikoMod.Windows
             }
             SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
             GUILayout.EndVertical();
-            if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision"))
+
+            try
             {
-                GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
-            }
+                if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision"))
+                {
+                    GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
+                }
+            } catch {}
+
 
             if (RGUI.Button(HealthMod.noKill, "No Kill"))
             {
@@ -39,8 +44,9 @@ namespace SaikoMod.Windows
                 HealthMod.noDamage = !HealthMod.noDamage;
             }
 
-            HealthManager hm = HFPS_GameManager.instance.healthManager;
-            if (hm != null) {
+            if (HFPS_GameManager.instance != null) {
+                HealthManager hm = HFPS_GameManager.instance.healthManager;
+
                 GUILayout.BeginVertical("Box");
                 hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
                 hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");

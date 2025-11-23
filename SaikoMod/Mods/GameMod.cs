@@ -20,16 +20,22 @@ namespace SaikoMod.Mods
             img.enabled = false;
 
             __instance.healthManager.Health = 200f;
+            pc = __instance.playerController;
         }
 
         public static bool EyeEnabled
         {
-            get { return HFPS_GameManager.instance.playerController.cameraMotionController.eyeBlinkAnim.gameObject.activeSelf; }
-            set
-            {
-                HFPS_GameManager.instance.playerController.cameraMotionController.eyeBlinkAnim.gameObject.SetActive(value);
+            get {
+                if (pc != null)
+                    return pc.cameraMotionController.eyeBlinkAnim.gameObject.activeSelf;
+                else return false;
+            }
+            set {
+                if (pc != null) pc.cameraMotionController.eyeBlinkAnim.gameObject.SetActive(value);
             }
         }
+
+        static PlayerController pc;
     }
 
     [HarmonyPatch(typeof(Tutorial))]

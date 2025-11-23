@@ -27,6 +27,7 @@ namespace SaikoMod.Windows
 
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Corruptions");
+            GUILayout.BeginVertical("Box");
             vertRange.min = RGUI.SliderFloat(vertRange.min, .1f, 2f, .1f, "Vert Min");
             vertRange.max = RGUI.SliderFloat(vertRange.max, .1f, 2f, .1f, "Vert Max");
             GUILayout.EndVertical();
@@ -49,7 +50,7 @@ namespace SaikoMod.Windows
                     catch { }
                 }
             }
-            
+            GUILayout.EndVertical();
         }
 
         static void Title() {
