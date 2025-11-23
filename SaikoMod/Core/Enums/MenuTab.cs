@@ -5,6 +5,7 @@
         Off,
         Player,
         Saiko,
+        Game,
         Others,
         Settings
     }

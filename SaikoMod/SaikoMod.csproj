@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -99,6 +99,8 @@
     <Compile Include="Mods\GameMod.cs" />
     <Compile Include="Mods\HealthMod.cs" />
     <Compile Include="Mods\MainMenuMod.cs" />
+    <Compile Include="Mods\PlayerMod.cs" />
+    <Compile Include="Mods\PointTexturePatch.cs" />
     <Compile Include="Mods\YandMod.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\Field.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="RapidGUI\Field\EnumField.cs" />
     <Compile Include="RapidGUI\Field\ListField.cs" />
     <Compile Include="RapidGUI\Field\StandardField.cs" />
-    <Compile Include="RapidGUI\MixMax.cs" />
+    <Compile Include="RapidGUI\MinMax.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />
@@ -123,7 +125,13 @@
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\MeshUtils.cs" />
+    <Compile Include="Utils\RandomUtil.cs" />
     <Compile Include="Utils\ReflectionHelpers.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Windows\GameUI.cs" />
+    <Compile Include="Windows\OtherUI.cs" />
     <Compile Include="Windows\SaikoUI.cs" />
     <Compile Include="Windows\PlayerUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,7 +24,7 @@ namespace SaikoMod
         }
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText")]
-        static extern bool SetWindowText(System.IntPtr hwnd, System.String lpString);
+        static extern bool SetWindowText(IntPtr hwnd, string lpString);
 
         static void SetTextInternal(string text) {
             System.IntPtr handle = GetWindowHandle();

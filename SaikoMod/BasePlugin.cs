@@ -8,8 +8,7 @@ using SaikoMod.Controller;
 using BepInEx.Configuration;
 using SaikoMod.Core.Components;
 
-namespace SaikoMod
-{
+namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]
     public class ModBase : BaseUnityPlugin
     {
@@ -47,8 +46,7 @@ namespace SaikoMod
             if (allowChangeWindowTitle.Value)
                 WindowTitle.SetText(Application.productName + " (Modded)");
 
-            if (showFPSDisplay.Value)
-            {
+            if (showFPSDisplay.Value) {
                 GameObject fpsDisplay = new GameObject("FPS_Display");
                 fpsDisplay.AddComponent<FPSDisplay>();
                 DontDestroyOnLoad(fpsDisplay);

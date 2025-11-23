@@ -2,8 +2,7 @@
 using SaikoMod.Core.Enums;
 using UnityEngine;
 
-namespace SaikoMod.Mods
-{
+namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(YandereController))]
     internal class YandModController {
         public static bool notDetected = false;
@@ -54,20 +53,19 @@ namespace SaikoMod.Mods
     [HarmonyPatch(typeof(YandereAI))]
     public class YandModAI
     {
-        public static bool notDetected = false;
         public static bool notAttacted = false;
         public static bool noDistanceCheck = false;
 
         [HarmonyPatch("PlayerCanDetectAI"), HarmonyPrefix]
         static bool PlayerCanDetectPatch()
         {
-            return !notDetected;
+            return !YandModController.notDetected;
         }
 
         [HarmonyPatch("DetectPlayerLookingDown"), HarmonyPrefix]
         static bool DetectPlayerLookingDownPatch()
         {
-            return !notDetected;
+            return !YandModController.notDetected;
         }
 
         [HarmonyPatch("PlayerAttactAI"), HarmonyPrefix]

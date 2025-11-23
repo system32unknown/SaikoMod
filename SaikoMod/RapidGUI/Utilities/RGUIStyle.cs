@@ -166,7 +166,7 @@ namespace RapidGUI
         }
 
 
-        private static void CreateWarningLabel()
+        static void CreateWarningLabel()
         {
             var style = new GUIStyle(GUI.skin.box)
             {
@@ -178,7 +178,7 @@ namespace RapidGUI
             warningLabel = style;
         }
 
-        private static void CreateWarningLabelNoStyle()
+        static void CreateWarningLabelNoStyle()
         {
             var style = new GUIStyle(GUI.skin.label)
             {

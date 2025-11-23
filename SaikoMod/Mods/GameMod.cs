@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using SaikoMod.Components;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +18,8 @@ namespace SaikoMod.Mods
 
             Image img = Resources.FindObjectsOfTypeAll<Image>().Where(x => x.name == "PausePanel").First();
             img.enabled = false;
+
+            __instance.healthManager.Health = 200f;
         }
 
         public static bool EyeEnabled

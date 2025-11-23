@@ -11,7 +11,7 @@ namespace SaikoMod.Windows
         public static bool showMenu;
         public static Rect rect = new Rect(1, 1, 100, 100);
 
-        public static void Window(int windowID)
+        public static void Window(int _)
         {
             GUI.backgroundColor = Color.black;
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
@@ -38,9 +38,17 @@ namespace SaikoMod.Windows
             {
                 HealthMod.noDamage = !HealthMod.noDamage;
             }
+
+            HealthManager hm = HFPS_GameManager.instance.healthManager;
+            if (hm != null) {
+                GUILayout.BeginVertical("Box");
+                hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
+                hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
+                GUILayout.EndVertical();
+            }
         }
 
-        private static void Title()
+        static void Title()
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("<b>Player Mods</b>", GUILayout.Height(21f));

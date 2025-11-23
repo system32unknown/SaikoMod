@@ -1,21 +1,14 @@
 ﻿using UnityEngine;
 
-namespace SaikoMod.Core.Components
-{
-    public class FPSDisplay : MonoBehaviour
-    {
-        private void OnGUI()
-        {
-            if (!ModBase.instance.showFPSDisplay.Value)
-            {
-                return;
-            }
+namespace SaikoMod.Core.Components {
+    public class FPSDisplay : MonoBehaviour {
+        void OnGUI() {
+            if (!ModBase.instance.showFPSDisplay.Value) return;
             this.Framerate();
-            GUI.Label(new Rect(10f, 10f, 100f, 20f), this.fps_lastFramerate.ToString("#") + "fps");
+            GUI.Label(new Rect(2f, 2f, 100f, 20f), this.fps_lastFramerate.ToString("#") + "fps");
         }
 
-        private void Framerate()
-        {
+        void Framerate() {
             if (this.fps_timeCounter < this.fps_refreshTime)
             {
                 this.fps_timeCounter += Time.deltaTime;
@@ -28,11 +21,8 @@ namespace SaikoMod.Core.Components
         }
 
         public float fps_timeCounter;
-
         public float fps_refreshTime = 1f;
-
         public float fps_lastFramerate;
-
         public int fps_frameCounter;
     }
 }
