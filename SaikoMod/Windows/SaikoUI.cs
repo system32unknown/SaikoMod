@@ -47,13 +47,14 @@ namespace SaikoMod.Windows
                 yand.mood.mood = RGUI.Field(yand.mood.mood, "AI Mood");
                 GUILayout.Label($"Anger Level: {yand.mood.angerLevel}");
 
-                if (GUILayout.Button("RNG Voice"))
-                {
+                if (GUILayout.Button("RNG Voice")) {
                     LipSyncUtils.Shufflevoices(yand.facial.foundYou);
                     LipSyncUtils.Shufflevoices(yand.facial.angryVoice);
                     LipSyncUtils.Shufflevoices(yand.facial.dontHide);
                     LipSyncUtils.Shufflevoices(yand.facial.heyyou);
                     LipSyncUtils.Shufflevoices(yand.facial.iwillpunish);
+                    LipSyncUtils.Shufflevoices(yand.facial.laughs);
+                    LipSyncUtils.Shufflevoices(yand.facial.introVoices);
                 }
             }
         }

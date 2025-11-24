@@ -93,11 +93,11 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Controller\UIController.cs" />
-    <Compile Include="Core\Components\CustomCam.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />
-    <Compile Include="Mods\CCTVMod.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Core\Components\CCTVManager.cs" />
     <Compile Include="Mods\GameMod.cs" />
     <Compile Include="Mods\HealthMod.cs" />
     <Compile Include="Mods\MainMenuMod.cs" />

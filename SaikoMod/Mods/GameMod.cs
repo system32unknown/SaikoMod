@@ -13,8 +13,6 @@ namespace SaikoMod.Mods
         static void Postfix(HFPS_GameManager __instance)
         {
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
-            CustomCam cam = new GameObject("CustomCam").AddComponent<CustomCam>();
-            cam.AttachCam("POV", CustomCam.GetHead("yandere"));
 
             pc = __instance.playerController;
             tracker.from = pc.yandereController.transform;

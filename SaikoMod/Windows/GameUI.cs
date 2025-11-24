@@ -1,6 +1,7 @@
 ﻿using RapidGUI;
 using UnityEngine;
 using SaikoMod.Controller;
+using SaikoMod.Core.Components;
 
 namespace SaikoMod.Windows
 {
@@ -19,6 +20,7 @@ namespace SaikoMod.Windows
 
             GameData.instance.difficultyChosen = RGUI.Field(GameData.instance.difficultyChosen, "Game Difficulty");
             if (GUILayout.Button("Fix CF2 Canvas")) HFPS_GameManager.instance.cf2rig.enabled = true;
+            if (!CCTVManager.AddedMoreCam && GUILayout.Button("Add POV CCTV")) SaikoMod.Core.Components.CCTVManager.AddMoreCam();
 
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Messages");

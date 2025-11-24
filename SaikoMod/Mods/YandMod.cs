@@ -48,6 +48,12 @@ namespace SaikoMod.Mods {
             return !notChoking;
         }
 
+        [HarmonyPatch("KillPlayerFromFront"), HarmonyPrefix]
+        static bool KillPlayerFromFrontPatch()
+        {
+            return !HealthMod.noKill;
+        }
+
         [HarmonyPatch("Update"), HarmonyPostfix]
         static void PostUpdate(YandereController __instance)
         {
