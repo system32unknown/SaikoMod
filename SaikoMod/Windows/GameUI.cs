@@ -18,6 +18,7 @@ namespace SaikoMod.Windows
             Title();
 
             GameData.instance.difficultyChosen = RGUI.Field(GameData.instance.difficultyChosen, "Game Difficulty");
+            if (GUILayout.Button("Fix CF2 Canvas")) HFPS_GameManager.instance.cf2rig.enabled = true;
 
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Messages");
@@ -37,7 +38,6 @@ namespace SaikoMod.Windows
             GUILayout.Label("Endings");
             if (GUILayout.Button("Good Ending")) HFPS_GameManager.instance.GoodEnding();
             if (GUILayout.Button("Bad Ending")) HFPS_GameManager.instance.BadEnding();
-            if (GUILayout.Button("Worse Ending")) HFPS_GameManager.instance.ShowHint("( ͡° ͜ʖ ͡°)");
             GUILayout.EndVertical();
         }
 

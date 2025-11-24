@@ -43,36 +43,18 @@ namespace SaikoMod.Windows
             YandereController[] yanderes = Resources.FindObjectsOfTypeAll(typeof(YandereController)) as YandereController[];
             if (yanderes.Length != 0) {
                 yand = yanderes[0];
-                GUILayout.Label($"AI State: {yand.aI.currentState}");
+                yand.aI.currentState = RGUI.Field(yand.aI.currentState, "AI State");
+                yand.mood.mood = RGUI.Field(yand.mood.mood, "AI Mood");
                 GUILayout.Label($"Anger Level: {yand.mood.angerLevel}");
 
-                GUILayout.BeginVertical("Box");
-                GUILayout.Label("LipSync");
                 if (GUILayout.Button("RNG Voice"))
                 {
-                    foreach (LipSyncVoice voice in yand.facial.foundYou) {
-                        LipSyncData data = voice.clip;
-                        foreach (PhonemeMarker phoneme in data.phonemeData) {
-                            phoneme.useRandomness = RandomUtil.GetBool();
-                            phoneme.intensity = Random.Range(1f, 5f);
-                            phoneme.phonemeNumber = Random.Range(0, 10);
-                        }
-
-                        foreach (AnimationCurve curve in data.phonemePoseCurves)
-                        {
-                            for (int i = 0; i < curve.keys.Length; ++i)
-                            {
-                                Keyframe k = curve.keys[i];
-                                k.value = Random.Range(-2f, 2f);
-#pragma warning disable CS0618 // Type or member is obsolete
-                                k.tangentMode = Random.Range(0, 21);
-#pragma warning restore CS0618 // Type or member is obsolete
-                                curve.MoveKey(i, k);
-                            }
-                        }
-                    }
+                    LipSyncUtils.Shufflevoices(yand.facial.foundYou);
+                    LipSyncUtils.Shufflevoices(yand.facial.angryVoice);
+                    LipSyncUtils.Shufflevoices(yand.facial.dontHide);
+                    LipSyncUtils.Shufflevoices(yand.facial.heyyou);
+                    LipSyncUtils.Shufflevoices(yand.facial.iwillpunish);
                 }
-                GUILayout.EndVertical();
             }
         }
 

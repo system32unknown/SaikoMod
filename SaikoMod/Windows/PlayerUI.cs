@@ -26,14 +26,10 @@ namespace SaikoMod.Windows
             SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
             GUILayout.EndVertical();
 
-            try
+            if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision"))
             {
-                if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision"))
-                {
-                    GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
-                }
-            } catch {}
-
+                GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
+            }
 
             if (RGUI.Button(HealthMod.noKill, "No Kill"))
             {
@@ -42,6 +38,10 @@ namespace SaikoMod.Windows
             if (RGUI.Button(HealthMod.noDamage, "No Damage"))
             {
                 HealthMod.noDamage = !HealthMod.noDamage;
+            }
+            if (RGUI.Button(YandModController.notChoking, "No Choking"))
+            {
+                YandModController.notChoking = !YandModController.notChoking;
             }
 
             if (HFPS_GameManager.instance != null) {

@@ -13,29 +13,34 @@ namespace SaikoMod.Mods
         static void Postfix(HFPS_GameManager __instance)
         {
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
-            tracker.from = __instance.playerController.yandereController.transform;
-            tracker.to = __instance.playerController.transform;
+            pc = __instance.playerController;
+            tracker.from = pc.yandereController.transform;
+            tracker.to = pc.transform;
 
             Image img = Resources.FindObjectsOfTypeAll<Image>().Where(x => x.name == "PausePanel").First();
             img.enabled = false;
 
             __instance.healthManager.Health = 200f;
-            pc = __instance.playerController;
+            eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
         }
 
         public static bool EyeEnabled
         {
             get {
                 if (pc != null)
-                    return pc.cameraMotionController.eyeBlinkAnim.gameObject.activeSelf;
+                    return eyeObject.transform.GetChild(0).gameObject.activeSelf && eyeObject.transform.GetChild(1).gameObject.activeSelf;
                 else return false;
             }
             set {
-                if (pc != null) pc.cameraMotionController.eyeBlinkAnim.gameObject.SetActive(value);
+                if (pc != null) {
+                    eyeObject.transform.GetChild(0).gameObject.SetActive(value);
+                    eyeObject.transform.GetChild(1).gameObject.SetActive(value);
+                }
             }
         }
 
         static PlayerController pc;
+        static GameObject eyeObject;
     }
 
     [HarmonyPatch(typeof(Tutorial))]

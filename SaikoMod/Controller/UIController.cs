@@ -46,6 +46,7 @@ namespace SaikoMod.Controller
         {
             showMainMenu = false;
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         void OnGUI()

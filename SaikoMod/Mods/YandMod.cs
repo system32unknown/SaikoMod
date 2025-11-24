@@ -7,6 +7,7 @@ namespace SaikoMod.Mods {
     internal class YandModController {
         public static bool notDetected = false;
         public static bool notAlerted = false;
+        public static bool notChoking = false;
         public static SaikoLookMode lookMode = SaikoLookMode.None;
 
         static Transform[] transforms;
@@ -33,6 +34,18 @@ namespace SaikoMod.Mods {
         static bool AlertToPlayerPositionPatch()
         {
             return !notAlerted;
+        }
+
+        [HarmonyPatch("AtemptKidnapPlayer"), HarmonyPrefix]
+        static bool AtemptKidnapPlayerPatch()
+        {
+            return !notChoking;
+        }
+
+        [HarmonyPatch("ChokePlayer"), HarmonyPrefix]
+        static bool ChokePlayerPatch()
+        {
+            return !notChoking;
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]

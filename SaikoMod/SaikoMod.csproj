@@ -93,6 +93,7 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Controller\UIController.cs" />
+    <Compile Include="Core\Components\CustomCam.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
+    <Compile Include="Utils\LipSyncUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MeshUtils.cs" />
     <Compile Include="Utils\RandomUtil.cs" />
