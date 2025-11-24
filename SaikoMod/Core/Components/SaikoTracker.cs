@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace SaikoMod.Components {
+namespace SaikoMod.Core.Components {
     public class SaikoTracker : MonoBehaviour {
         LineRenderer lr;
 

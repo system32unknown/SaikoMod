@@ -1,7 +1,7 @@
 ﻿using RapidGUI;
 using UnityEngine;
 using SaikoMod.Controller;
-using SaikoMod.Components;
+using SaikoMod.Core.Components;
 using SaikoMod.Mods;
 
 namespace SaikoMod.Windows

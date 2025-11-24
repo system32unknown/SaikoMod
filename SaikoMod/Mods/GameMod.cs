@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using SaikoMod.Components;
+using SaikoMod.Core.Components;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +13,9 @@ namespace SaikoMod.Mods
         static void Postfix(HFPS_GameManager __instance)
         {
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
+            CustomCam cam = new GameObject("CustomCam").AddComponent<CustomCam>();
+            cam.AttachCam("POV", CustomCam.GetHead("yandere"));
+
             pc = __instance.playerController;
             tracker.from = pc.yandereController.transform;
             tracker.to = pc.transform;

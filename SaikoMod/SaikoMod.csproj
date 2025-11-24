@@ -97,6 +97,7 @@
     <Compile Include="Core\Components\FPSDisplay.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />
+    <Compile Include="Mods\CCTVMod.cs" />
     <Compile Include="Mods\GameMod.cs" />
     <Compile Include="Mods\HealthMod.cs" />
     <Compile Include="Mods\MainMenuMod.cs" />
@@ -144,6 +145,6 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /q/y/i "$(TargetPath)" "C:\Users\COM\Documents\Saikonosutoka201\BepInEx\plugins\" /E /H /C</PostBuildEvent>
+    <PostBuildEvent>xcopy /q/y/i "$(TargetPath)" "C:\Users\%25USERNAME%25\Documents\Saikonosutoka201\BepInEx\plugins\" /E /H /C</PostBuildEvent>
   </PropertyGroup>
 </Project>
