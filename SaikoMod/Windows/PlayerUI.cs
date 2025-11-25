@@ -44,6 +44,25 @@ namespace SaikoMod.Windows
                 YandModController.notChoking = !YandModController.notChoking;
             }
 
+            PlayerController[] playerControllers = Resources.FindObjectsOfTypeAll<PlayerController>();
+            if (playerControllers.Length != 0) {
+                PlayerController playerControl = playerControllers[0];
+                if (RGUI.Button(playerControl.beingRide, "Being Ride"))
+                {
+                    playerControl.beingRide = !playerControl.beingRide;
+                }
+            }
+
+            CameraMotionController[] motionController = Resources.FindObjectsOfTypeAll<CameraMotionController>();
+            if (motionController.Length != 0 && GUILayout.Button("Escape Chair")) {
+                CameraMotionController motion = motionController[0];
+                motion.playerController.playerAnimModel.SetBool("Sitting", false);
+                SaikoMod.Utils.ReflectionHelpers.ReflectionSetVariable(motion, "isFollowingIntroCam", false);
+                motion.playerController.boundedInChair = false;
+                motion.chairWithRope.SetActive(false);
+                motion.cameraMotionAnim.enabled = true;
+            }
+
             if (HFPS_GameManager.instance != null) {
                 HealthManager hm = HFPS_GameManager.instance.healthManager;
 

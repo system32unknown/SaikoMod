@@ -1,5 +1,4 @@
-﻿using SaikoMod.Extensions;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SaikoMod.Core.Components {
     class CCTVManager {

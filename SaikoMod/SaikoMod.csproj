@@ -65,6 +65,10 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
@@ -94,6 +98,7 @@
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
+    <Compile Include="Core\Converter.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="RapidGUI\Field\ListField.cs" />
     <Compile Include="RapidGUI\Field\StandardField.cs" />
     <Compile Include="RapidGUI\MinMax.cs" />
+    <Compile Include="RapidGUI\Misc.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />

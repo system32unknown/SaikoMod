@@ -25,6 +25,12 @@ namespace SaikoMod.Mods
             eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
         }
 
+        [HarmonyPatch("Retry")]
+        static void Prefix()
+        {
+            CCTVManager.AddedMoreCam = false;
+        }
+
         public static bool EyeEnabled
         {
             get {
