@@ -46,8 +46,7 @@ namespace SaikoMod.Windows
                         if (Random.Range(0, 5) == 2) MeshUtils.ScrambleNormals(s_mesh, Random.Range(normRange.min, normRange.max));
                         if (Random.Range(0, 5) == 2) MeshUtils.ScrambleTriangles(s_mesh);
                         if (Random.Range(0, 5) == 2) s_mesh.RecalculateBounds();
-                    }
-                    catch { }
+                    } catch { }
                 }
             }
             GUILayout.EndVertical();

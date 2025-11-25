@@ -1,4 +1,5 @@
 ﻿using SaikoMod.Controller;
+using RapidGUI;
 using UnityEngine;
 
 namespace SaikoMod.Windows
@@ -14,6 +15,8 @@ namespace SaikoMod.Windows
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
             Title();
+
+            RGUI.Divider(Color.white);
         }
 
         static void Title()

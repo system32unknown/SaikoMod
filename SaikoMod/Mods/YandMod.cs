@@ -16,7 +16,7 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("Start"), HarmonyPostfix]
         static void InitYandController()
         {
-            transforms = Resources.FindObjectsOfTypeAll(typeof(Transform)) as Transform[];
+            transforms = Resources.FindObjectsOfTypeAll<Transform>();
         }
 
         [HarmonyPatch("isInNpcFOV"), HarmonyPrefix]

@@ -10,7 +10,6 @@ namespace RapidGUI
         public static GUIStyle popup;
         public static GUIStyle darkWindow;
         public static GUIStyle alignLeftBox;
-        public static GUIStyle line;
 
         public static GUIStyle warningLabel;
         public static GUIStyle warningLabelNoStyle;
@@ -30,7 +29,6 @@ namespace RapidGUI
 
         public static void CreateStyles()
         {
-            CreateLine();
             CreateButton();
             CreateFlatButton();
             CreatePopupFlatButton();
@@ -39,16 +37,6 @@ namespace RapidGUI
             CreateAlignLeftBox();
             CreateWarningLabel();
             CreateWarningLabelNoStyle();
-        }
-
-        static void CreateLine()
-        {
-            GUIStyle style = new GUIStyle() {
-                name = nameof(line)
-            };
-            style.normal.background = RGUIStyle.white;
-            style.fixedHeight = 1f;
-            line = style;
         }
 
         static void CreateButton()
@@ -108,9 +96,7 @@ namespace RapidGUI
             popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
             popupTex.Apply();
 
-            style.normal.background =
-            style.hover.background = popupTex;
-
+            style.normal.background = style.hover.background = popupTex;
             style.name = nameof(popup);
             popup = style;
         }

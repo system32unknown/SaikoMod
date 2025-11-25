@@ -3,7 +3,6 @@ using UnityEngine;
 using SaikoMod.Controller;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
-using RogoDigital.Lipsync;
 
 namespace SaikoMod.Windows
 {
@@ -40,9 +39,8 @@ namespace SaikoMod.Windows
             YandModController.lookMode = RGUI.Field(YandModController.lookMode, "Look Mode");
             GUILayout.EndVertical();
 
-            YandereController[] yanderes = Resources.FindObjectsOfTypeAll(typeof(YandereController)) as YandereController[];
-            if (yanderes.Length != 0) {
-                yand = yanderes[0];
+            yand = ReflectionHelpers.GetSingleResourceOfType<YandereController>();
+            if (yand != null) {
                 yand.aI.currentState = RGUI.Field(yand.aI.currentState, "AI State");
                 yand.mood.mood = RGUI.Field(yand.mood.mood, "AI Mood");
                 yand.mood.saikoState = RGUI.Field(yand.mood.saikoState, "Saiko State");
@@ -51,13 +49,9 @@ namespace SaikoMod.Windows
                 if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
 
                 if (GUILayout.Button("RNG Voice")) {
-                    LipSyncUtils.Shufflevoices(yand.facial.foundYou);
-                    LipSyncUtils.Shufflevoices(yand.facial.angryVoice);
-                    LipSyncUtils.Shufflevoices(yand.facial.dontHide);
-                    LipSyncUtils.Shufflevoices(yand.facial.heyyou);
-                    LipSyncUtils.Shufflevoices(yand.facial.iwillpunish);
-                    LipSyncUtils.Shufflevoices(yand.facial.laughs);
-                    LipSyncUtils.Shufflevoices(yand.facial.introVoices);
+                    foreach (LipSyncVoice[] voices in SaikoMod.Utils.ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) {
+                        LipSyncUtils.Shufflevoices(voices);
+                    }
                 }
             }
         }

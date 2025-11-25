@@ -1,11 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using BepInEx.Configuration;
 using HarmonyLib;
 using System;
-using SaikoMod.Mods;
 using UnityEngine;
+using SaikoMod.Mods;
 using SaikoMod.Controller;
-using BepInEx.Configuration;
 using SaikoMod.Core.Components;
 
 namespace SaikoMod {

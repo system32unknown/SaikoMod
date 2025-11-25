@@ -3,6 +3,7 @@ using UnityEngine;
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
 using SaikoMod.Mods;
+using SaikoMod.Utils;
 
 namespace SaikoMod.Windows
 {
@@ -44,22 +45,20 @@ namespace SaikoMod.Windows
                 YandModController.notChoking = !YandModController.notChoking;
             }
 
-            PlayerController[] playerControllers = Resources.FindObjectsOfTypeAll<PlayerController>();
-            if (playerControllers.Length != 0) {
-                PlayerController playerControl = playerControllers[0];
-                if (RGUI.Button(playerControl.beingRide, "Being Ride"))
+            PlayerController player = ReflectionHelpers.GetSingleResourceOfType<PlayerController>();
+            if (player != null) {
+                if (RGUI.Button(player.beingRide, "Being Ride"))
                 {
-                    playerControl.beingRide = !playerControl.beingRide;
+                    player.beingRide = !player.beingRide;
                 }
             }
 
-            CameraMotionController[] motionController = Resources.FindObjectsOfTypeAll<CameraMotionController>();
-            if (motionController.Length != 0 && GUILayout.Button("Escape Chair")) {
-                CameraMotionController motion = motionController[0];
-                motion.playerController.playerAnimModel.SetBool("Sitting", false);
-                Utils.ReflectionHelpers.ReflectionSetVariable(motion, "isFollowingIntroCam", false);
-                motion.playerController.boundedInChair = false;
-                motion.chairWithRope.SetActive(false);
+            CameraMotionController cam = ReflectionHelpers.GetSingleResourceOfType<CameraMotionController>();
+            if (cam != null && GUILayout.Button("Escape Chair")) {
+                cam.playerController.playerAnimModel.SetBool("Sitting", false);
+                Utils.ReflectionHelpers.ReflectionSetVariable(cam, "isFollowingIntroCam", false);
+                cam.playerController.boundedInChair = false;
+                cam.chairWithRope.SetActive(false);
                 HFPS_GameManager.instance.scriptManager.GetScript<PlayerFunctions>().enabled = true;
                 HFPS_GameManager.instance.cf2rig.enabled = true;
                 HFPS_GameManager.instance.uiInteractive = true;
