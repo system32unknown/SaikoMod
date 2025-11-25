@@ -1,5 +1,6 @@
 ﻿using RapidGUI;
 using UnityEngine;
+using SaikoMod.Mods;
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
 
@@ -25,23 +26,16 @@ namespace SaikoMod.Windows
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Messages");
             gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
-            if (GUILayout.Button("Show Hint")) {
-                HFPS_GameManager.instance.ShowHint(gameMessage);
-            }
-            if (GUILayout.Button("Show Notification")) {
-                HFPS_GameManager.instance.AddMessage(gameMessage);
-            }
-            if (GUILayout.Button("Show Pickup")) {
-                HFPS_GameManager.instance.AddPickupMessage(gameMessage);
-            }
+            if (GUILayout.Button("Show Hint")) HFPS_GameManager.instance.ShowHint(gameMessage);
+            if (GUILayout.Button("Show Notification")) HFPS_GameManager.instance.AddMessage(gameMessage);
+            if (GUILayout.Button("Show Pickup")) HFPS_GameManager.instance.AddPickupMessage(gameMessage);
             GUILayout.EndVertical();
-
-            RGUI.Divider();
 
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Endings");
             if (GUILayout.Button("Good Ending")) HFPS_GameManager.instance.GoodEnding();
             if (GUILayout.Button("Bad Ending")) HFPS_GameManager.instance.BadEnding();
+            if (RGUI.Button(YandModController.noBadEnding, "No Bad Ending")) YandModController.noBadEnding = !YandModController.noBadEnding;
             GUILayout.EndVertical();
         }
 

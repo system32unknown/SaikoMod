@@ -45,11 +45,10 @@ namespace SaikoMod.Windows
                 yand = yanderes[0];
                 yand.aI.currentState = RGUI.Field(yand.aI.currentState, "AI State");
                 yand.mood.mood = RGUI.Field(yand.mood.mood, "AI Mood");
+                yand.mood.saikoState = RGUI.Field(yand.mood.saikoState, "Saiko State");
+                yand.slowDownType = RGUI.Field(yand.slowDownType, "Slowdown Type");
                 yand.mood.angerLevel = RGUI.SliderInt(yand.mood.angerLevel, 0, 10, 0, "Anger Level");
-                if (RGUI.Button(yand.isActive, "Is Active"))
-                {
-                    yand.isActive = !yand.isActive;
-                }
+                if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
 
                 if (GUILayout.Button("RNG Voice")) {
                     LipSyncUtils.Shufflevoices(yand.facial.foundYou);

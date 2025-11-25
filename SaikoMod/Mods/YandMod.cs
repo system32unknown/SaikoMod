@@ -8,6 +8,7 @@ namespace SaikoMod.Mods {
         public static bool notDetected = false;
         public static bool notAlerted = false;
         public static bool notChoking = false;
+        public static bool noBadEnding = false;
         public static SaikoLookMode lookMode = SaikoLookMode.None;
 
         static Transform[] transforms;
@@ -48,6 +49,11 @@ namespace SaikoMod.Mods {
             return !notChoking;
         }
 
+        [HarmonyPatch("SpawnAtGameIntroPos"), HarmonyPrefix]
+        static bool SpawnAtGameIntroPosPatch()
+        {
+            return !noBadEnding;
+        }
         [HarmonyPatch("KillPlayerFromFront"), HarmonyPrefix]
         static bool KillPlayerFromFrontPatch()
         {

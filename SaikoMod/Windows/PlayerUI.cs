@@ -57,10 +57,12 @@ namespace SaikoMod.Windows
             if (motionController.Length != 0 && GUILayout.Button("Escape Chair")) {
                 CameraMotionController motion = motionController[0];
                 motion.playerController.playerAnimModel.SetBool("Sitting", false);
-                SaikoMod.Utils.ReflectionHelpers.ReflectionSetVariable(motion, "isFollowingIntroCam", false);
+                Utils.ReflectionHelpers.ReflectionSetVariable(motion, "isFollowingIntroCam", false);
                 motion.playerController.boundedInChair = false;
                 motion.chairWithRope.SetActive(false);
-                motion.cameraMotionAnim.enabled = true;
+                HFPS_GameManager.instance.scriptManager.GetScript<PlayerFunctions>().enabled = true;
+                HFPS_GameManager.instance.cf2rig.enabled = true;
+                HFPS_GameManager.instance.uiInteractive = true;
             }
 
             if (HFPS_GameManager.instance != null) {
