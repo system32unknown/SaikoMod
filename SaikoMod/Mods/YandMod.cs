@@ -5,10 +5,11 @@ using UnityEngine;
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(YandereController))]
     internal class YandModController {
-        public static bool notDetected = false;
-        public static bool notAlerted = false;
-        public static bool notChoking = false;
+        public static bool noDetect = false;
+        public static bool noAlert = false;
+        public static bool noChoke = false;
         public static bool noBadEnding = false;
+        public static bool noPushing = false;
         public static SaikoLookMode lookMode = SaikoLookMode.None;
 
         static Transform[] transforms;
@@ -22,31 +23,31 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("isInNpcFOV"), HarmonyPrefix]
         static bool FOVPatch()
         {
-            return !notDetected;    
+            return !noDetect;    
         }
 
         [HarmonyPatch("PlayerFoundDetection"), HarmonyPrefix]
         static bool PlayerFoundDetectionPatch()
         {
-            return !notDetected;
+            return !noDetect;
         }
 
         [HarmonyPatch("AlertToPlayerPosition"), HarmonyPrefix]
         static bool AlertToPlayerPositionPatch()
         {
-            return !notAlerted;
+            return !noAlert;
         }
 
         [HarmonyPatch("AtemptKidnapPlayer"), HarmonyPrefix]
         static bool AtemptKidnapPlayerPatch()
         {
-            return !notChoking;
+            return !noChoke;
         }
 
         [HarmonyPatch("ChokePlayer"), HarmonyPrefix]
         static bool ChokePlayerPatch()
         {
-            return !notChoking;
+            return !noChoke;
         }
 
         [HarmonyPatch("SpawnAtGameIntroPos"), HarmonyPrefix]
@@ -58,6 +59,18 @@ namespace SaikoMod.Mods {
         static bool KillPlayerFromFrontPatch()
         {
             return !HealthMod.noKill;
+        }
+
+        [HarmonyPatch("PushPlayerDown"), HarmonyPrefix]
+        static bool PushPlayerDownPatch()
+        {
+            return !noPushing;
+        }
+
+        [HarmonyPatch("LookThroughWindow"), HarmonyPrefix]
+        static bool LookThroughWindowPatch()
+        {
+            return !noDetect;
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]
@@ -84,13 +97,13 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("PlayerCanDetectAI"), HarmonyPrefix]
         static bool PlayerCanDetectPatch()
         {
-            return !YandModController.notDetected;
+            return !YandModController.noDetect;
         }
 
         [HarmonyPatch("DetectPlayerLookingDown"), HarmonyPrefix]
         static bool DetectPlayerLookingDownPatch()
         {
-            return !YandModController.notDetected;
+            return !YandModController.noDetect;
         }
 
         [HarmonyPatch("PlayerAttactAI"), HarmonyPrefix]

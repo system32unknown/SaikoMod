@@ -40,12 +40,12 @@ namespace SaikoMod.Windows
             {
                 HealthMod.noDamage = !HealthMod.noDamage;
             }
-            if (RGUI.Button(YandModController.notChoking, "No Choking"))
+            if (RGUI.Button(YandModController.noChoke, "No Choking"))
             {
-                YandModController.notChoking = !YandModController.notChoking;
+                YandModController.noChoke = !YandModController.noChoke;
             }
 
-            PlayerController player = ReflectionHelpers.GetSingleResourceOfType<PlayerController>();
+            PlayerController player = Object.FindObjectOfType<PlayerController>();
             if (player != null) {
                 if (RGUI.Button(player.beingRide, "Being Ride"))
                 {
@@ -53,7 +53,7 @@ namespace SaikoMod.Windows
                 }
             }
 
-            CameraMotionController cam = ReflectionHelpers.GetSingleResourceOfType<CameraMotionController>();
+            CameraMotionController cam = Object.FindObjectOfType<CameraMotionController>();
             if (cam != null && GUILayout.Button("Escape Chair")) {
                 cam.playerController.playerAnimModel.SetBool("Sitting", false);
                 Utils.ReflectionHelpers.ReflectionSetVariable(cam, "isFollowingIntroCam", false);

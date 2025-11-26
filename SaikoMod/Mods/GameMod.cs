@@ -58,4 +58,14 @@ namespace SaikoMod.Mods
             __instance.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
+
+    [HarmonyPatch(typeof(StairDrop))]
+    class StairPatch
+    {
+        [HarmonyPatch("OnTriggerEnter")]
+        static bool Prefix()
+        {
+            return !YandModController.noPushing;
+        }
+    }
 }

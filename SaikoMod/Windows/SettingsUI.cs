@@ -15,8 +15,6 @@ namespace SaikoMod.Windows
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
             Title();
-
-            RGUI.Divider(Color.white);
         }
 
         static void Title()

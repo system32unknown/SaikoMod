@@ -20,26 +20,15 @@ namespace SaikoMod.Windows
             Title();
 
             GUILayout.BeginVertical("Box");
-            if (RGUI.Button(YandModController.notDetected, "No Detect"))
-            {
-                YandModController.notDetected = !YandModController.notDetected;
-            }
-            if (RGUI.Button(YandModAI.notAttacted, "No Attact"))
-            {
-                YandModAI.notAttacted = !YandModAI.notAttacted;
-            }
-            if (RGUI.Button(YandModAI.noDistanceCheck, "No Distance Check"))
-            {
-                YandModAI.noDistanceCheck = !YandModAI.noDistanceCheck;
-            }
-            if (RGUI.Button(YandModController.notAlerted, "No Alerted"))
-            {
-                YandModController.notAlerted = !YandModController.notAlerted;
-            }
+            if (RGUI.Button(YandModController.noDetect, "No Detect")) YandModController.noDetect = !YandModController.noDetect;
+            if (RGUI.Button(YandModAI.notAttacted, "No Attact")) YandModAI.notAttacted = !YandModAI.notAttacted;
+            if (RGUI.Button(YandModAI.noDistanceCheck, "No Distance Check")) YandModAI.noDistanceCheck = !YandModAI.noDistanceCheck;
+            if (RGUI.Button(YandModController.noAlert, "No Alerted")) YandModController.noAlert = !YandModController.noAlert;
+            if (RGUI.Button(YandModController.noPushing, "No Push")) YandModController.noPushing = !YandModController.noPushing;
             YandModController.lookMode = RGUI.Field(YandModController.lookMode, "Look Mode");
             GUILayout.EndVertical();
 
-            yand = ReflectionHelpers.GetSingleResourceOfType<YandereController>();
+            yand = Object.FindObjectOfType<YandereController>();
             if (yand != null) {
                 yand.aI.currentState = RGUI.Field(yand.aI.currentState, "AI State");
                 yand.mood.mood = RGUI.Field(yand.mood.mood, "AI Mood");
@@ -49,7 +38,7 @@ namespace SaikoMod.Windows
                 if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
 
                 if (GUILayout.Button("RNG Voice")) {
-                    foreach (LipSyncVoice[] voices in SaikoMod.Utils.ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) {
+                    foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) {
                         LipSyncUtils.Shufflevoices(voices);
                     }
                 }
