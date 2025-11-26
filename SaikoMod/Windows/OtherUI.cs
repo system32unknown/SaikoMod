@@ -2,6 +2,7 @@
 using UnityEngine;
 using SaikoMod.Controller;
 using SaikoMod.Utils;
+using SaikoMod.Mods;
 
 namespace SaikoMod.Windows
 {
@@ -20,6 +21,7 @@ namespace SaikoMod.Windows
         };
 
         static int otherPage = 0;
+        public static string patternCode = PuzzleMod.GetPatterns;
 
         public static void Window(int _) {
             GUI.backgroundColor = Color.black;
@@ -59,6 +61,11 @@ namespace SaikoMod.Windows
                         }
                     }
                     GUILayout.EndVertical();
+                    break;
+
+                case 1:
+                    patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
+                    if (GUILayout.Button("Set Pattern")) PuzzleMod.SetPuzzle(patternCode);
                     break;
             }
             otherPage = RGUI.Page(otherPage, 3, true);

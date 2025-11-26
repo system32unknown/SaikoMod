@@ -20,43 +20,32 @@ namespace SaikoMod.Windows
             Title();
 
             GUILayout.BeginVertical("Box");
-            if (RGUI.Button(SaikoTracker.updateTracker, "Update Tracker"))
-            {
-                SaikoTracker.updateTracker = !SaikoTracker.updateTracker;
-            }
+            if (RGUI.Button(SaikoTracker.updateTracker, "Update Tracker")) SaikoTracker.updateTracker = !SaikoTracker.updateTracker;
             SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
             GUILayout.EndVertical();
 
-            if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision"))
-            {
-                GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
-            }
-
-            if (RGUI.Button(HealthMod.noKill, "No Kill"))
-            {
-                HealthMod.noKill = !HealthMod.noKill;
-            }
-            if (RGUI.Button(HealthMod.noDamage, "No Damage"))
-            {
-                HealthMod.noDamage = !HealthMod.noDamage;
-            }
-            if (RGUI.Button(YandModController.noChoke, "No Choking"))
-            {
-                YandModController.noChoke = !YandModController.noChoke;
-            }
+            if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
+            if (RGUI.Button(HealthMod.noKill, "No Kill")) HealthMod.noKill = !HealthMod.noKill;
+            if (RGUI.Button(HealthMod.noDamage, "No Damage")) HealthMod.noDamage = !HealthMod.noDamage;
+            if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
             PlayerController player = Object.FindObjectOfType<PlayerController>();
+            CameraMotionController cam = Object.FindObjectOfType<CameraMotionController>();
+            HealthManager hm = Object.FindObjectOfType<HealthManager>();
+
             if (player != null) {
-                if (RGUI.Button(player.beingRide, "Being Ride"))
-                {
-                    player.beingRide = !player.beingRide;
-                }
+                if (RGUI.Button(player.beingRide, "Being Ride")) player.beingRide = !player.beingRide;
+                GUILayout.BeginVertical("Box");
+                player.runSpeed = RGUI.SliderFloat(player.runSpeed, 0f, 999f, 200f, "Run Speed");
+                player.walkSpeed = RGUI.SliderFloat(player.walkSpeed, 0f, 999f, 200f, "Walk Speed");
+                player.crouchSpeed = RGUI.SliderFloat(player.crouchSpeed, 0f, 999f, 200f, "Crouch Speed");
+                player.proneSpeed = RGUI.SliderFloat(player.proneSpeed, 0f, 999f, 200f, "Prone Speed");
+                GUILayout.EndVertical();
             }
 
-            CameraMotionController cam = Object.FindObjectOfType<CameraMotionController>();
             if (cam != null && GUILayout.Button("Escape Chair")) {
                 cam.playerController.playerAnimModel.SetBool("Sitting", false);
-                Utils.ReflectionHelpers.ReflectionSetVariable(cam, "isFollowingIntroCam", false);
+                ReflectionHelpers.ReflectionSetVariable(cam, "isFollowingIntroCam", false);
                 cam.playerController.boundedInChair = false;
                 cam.chairWithRope.SetActive(false);
                 HFPS_GameManager.instance.scriptManager.GetScript<PlayerFunctions>().enabled = true;
@@ -64,9 +53,7 @@ namespace SaikoMod.Windows
                 HFPS_GameManager.instance.uiInteractive = true;
             }
 
-            if (HFPS_GameManager.instance != null) {
-                HealthManager hm = HFPS_GameManager.instance.healthManager;
-
+            if (hm != null) {
                 GUILayout.BeginVertical("Box");
                 hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
                 hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
