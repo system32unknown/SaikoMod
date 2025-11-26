@@ -2,7 +2,6 @@
 using UnityEngine;
 using SaikoMod.Controller;
 using SaikoMod.Utils;
-using SaikoMod.Mods;
 
 namespace SaikoMod.Windows
 {
@@ -43,16 +42,25 @@ namespace SaikoMod.Windows
                     normRange.max = RGUI.SliderFloat(normRange.max, .1f, 2f, .1f, "Norm Max");
                     GUILayout.EndVertical();
 
-                    if (GUILayout.Button("Corrupt Mesh"))
-                    {
-                        foreach (MeshFilter go in Object.FindObjectsOfType<MeshFilter>())
-                        {
+                    if (GUILayout.Button("Corrupt Mesh")) {
+                        foreach (MeshFilter go in Object.FindObjectsOfType<MeshFilter>()) {
                             Mesh s_mesh = go.mesh;
                             if (!s_mesh.isReadable) continue;
                             if (Random.Range(0, 5) == 2) MeshUtils.ScrambleVertices(s_mesh, Random.Range(vertRange.min, vertRange.max));
                             if (Random.Range(0, 5) == 2) MeshUtils.ScrambleNormals(s_mesh, Random.Range(normRange.min, normRange.max));
                             if (Random.Range(0, 5) == 2) MeshUtils.ScrambleTriangles(s_mesh);
                             if (Random.Range(0, 5) == 2) s_mesh.RecalculateBounds();
+                        }
+                    }
+
+                    if (GUILayout.Button("Corrupt Audios"))
+                    {
+                        AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
+                        foreach (AudioSource source in Resources.FindObjectsOfTypeAll<AudioSource>())
+                        {
+                            source.pitch = Random.Range(-3f, 3f);
+                            source.clip = clips[Random.Range(0, clips.Length - 1)];
+                            source.loop = RandomUtil.GetBool();
                         }
                     }
                     GUILayout.EndVertical();

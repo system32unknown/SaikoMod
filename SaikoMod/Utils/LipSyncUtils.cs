@@ -7,8 +7,11 @@ namespace SaikoMod.Utils
     {
         public static void Shufflevoices(LipSyncVoice[] voices)
         {
+            AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
             foreach (LipSyncVoice voice in voices) {
                 LipSyncData data = voice.clip;
+                data.clip = clips[Random.Range(0, clips.Length - 1)];
+                data.transcript = voices[Random.Range(0, voices.Length - 1)].clip.transcript;
                 foreach (PhonemeMarker phoneme in data.phonemeData)
                 {
                     phoneme.useRandomness = RandomUtil.GetBool();

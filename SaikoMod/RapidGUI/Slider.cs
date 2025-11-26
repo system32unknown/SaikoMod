@@ -16,7 +16,7 @@ namespace RapidGUI
             GUI.backgroundColor = Color.white;
             GUILayout.BeginHorizontal();
             GUILayout.Label("<b>" + label + "</b>", GUILayout.MinWidth(SliderSetting.minWidth));
-            var ret = GUILayout.HorizontalSlider(v, min, max, GUILayout.MinWidth(SliderSetting.minWidth));
+            float ret = GUILayout.HorizontalSlider(v, min, max, GUILayout.MinWidth(SliderSetting.minWidth));
             ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
 
             GUI.backgroundColor = Color.black;
@@ -33,7 +33,7 @@ namespace RapidGUI
             GUI.backgroundColor = Color.white;
             GUILayout.BeginHorizontal();
             GUILayout.Label("<b>" + label + "</b>", GUILayout.MinWidth(SliderSetting.minWidth));
-            var ret = (int)GUILayout.HorizontalSlider(v, min, max, GUILayout.MinWidth(SliderSetting.minWidth));
+            int ret = (int)GUILayout.HorizontalSlider(v, min, max, GUILayout.MinWidth(SliderSetting.minWidth));
             ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
 
             GUI.backgroundColor = Color.black;
