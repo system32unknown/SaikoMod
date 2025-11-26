@@ -49,7 +49,6 @@ namespace RapidGUI
 
 
     #region Internal
-
     public class MinMax<T>
     {
         public T min;

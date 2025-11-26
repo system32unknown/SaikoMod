@@ -4,7 +4,9 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using System;
 using UnityEngine;
+#region do not remove it.
 using SaikoMod.Mods;
+#endregion
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
 
@@ -13,7 +15,7 @@ namespace SaikoMod {
     public class ModBase : BaseUnityPlugin
     {
         public const string modGUID = "Altertoriel.SaikoMod";
-        public const string modVer = "0.0.0.2";
+        public const string modVer = "0.0.0.3";
 
         public static Version Version => new Version(modVer);
 

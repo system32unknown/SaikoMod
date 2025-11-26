@@ -11,7 +11,7 @@ namespace RapidGUI
 
         public static string SelectionPopup(string current, string[] displayOptions)
         {
-            var idx = Array.IndexOf(displayOptions, current);
+            int idx = Array.IndexOf(displayOptions, current);
             GUILayout.Box(current, RGUIStyle.alignLeftBox);
             var newIdx = PopupOnLastRect(idx, displayOptions);
             if (newIdx != idx)
@@ -34,12 +34,10 @@ namespace RapidGUI
 
         public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int mouseButton = -1, string label = "") => Popup(GUILayoutUtility.GetLastRect(), mouseButton, selectionIndex, displayOptions, label);
 
-
-
         public static int Popup(Rect launchRect, int mouseButton, int selectionIndex, string[] displayOptions, string label = "")
         {
-            var ret = selectionIndex;
-            var controlId = GUIUtility.GetControlID(FocusType.Passive);
+            int ret = selectionIndex;
+            int controlId = GUIUtility.GetControlID(FocusType.Passive);
 
             // not Popup Owner
             if (popupControlId != controlId)
@@ -62,9 +60,9 @@ namespace RapidGUI
             // Active
             else
             {
-                var type = Event.current.type;
+                EventType type = Event.current.type;
 
-                var result = popupWindow.result;
+                int? result = popupWindow.result;
                 if (result.HasValue && type == EventType.Layout)
                 {
                     if (result.Value >= 0) // -1 when the popup is closed by clicking outside the window
@@ -76,7 +74,6 @@ namespace RapidGUI
                 }
                 else
                 {
-
                     if ((type == EventType.Layout) || (type == EventType.Repaint))
                     {
                         var buttonStyle = RGUIStyle.popupFlatButton;
@@ -116,7 +113,6 @@ namespace RapidGUI
             return ret;
         }
 
-
         class PopupWindow : IDoGUIWindow
         {
             public string label;
@@ -132,13 +128,12 @@ namespace RapidGUI
 
             public void DoGUIWindow()
             {
-                GUI.ModalWindow(PopupWindowId, GetWindowRect(), (id) =>
-                {
-                    using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
+                GUI.ModalWindow(PopupWindowId, GetWindowRect(), (id) => {
+                    using (GUILayout.ScrollViewScope sc = new GUILayout.ScrollViewScope(scrollPosition))
                     {
                         scrollPosition = sc.scrollPosition;
 
-                        for (var j = 0; j < displayOptions.Length; ++j)
+                        for (int j = 0; j < displayOptions.Length; ++j)
                         {
                             if (GUILayout.Button(displayOptions[j], RGUIStyle.popupFlatButton))
                             {
@@ -152,8 +147,7 @@ namespace RapidGUI
                     {
                         result = -1; ;
                     }
-                }
-                , label, RGUIStyle.popup);
+                } , label, RGUIStyle.popup);
             }
 
             public void CloseWindow() { result = -1; }

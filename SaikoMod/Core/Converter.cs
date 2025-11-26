@@ -11,7 +11,7 @@ namespace SaikoMod.Core
 			{
 				this.tex = new Texture2D(1, 1);
 				ImageConversion.LoadImage(this.tex, imageData);
-				this.tex.filterMode = 0;
+				this.tex.filterMode = FilterMode.Point;
 			}
 
 			public Texture(Color32 color)
@@ -22,10 +22,7 @@ namespace SaikoMod.Core
 				this.tex.Apply();
 			}
 
-			public Texture(Color color)
-				: this((Color32)color)
-			{
-			}
+			public Texture(Color color) : this((Color32)color) {}
 
 			public void Dispose()
 			{

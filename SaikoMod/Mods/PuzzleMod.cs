@@ -11,7 +11,7 @@ namespace SaikoMod.Mods
         [HarmonyPatch("Start")]
         static void Postfix(ElectricPuzzle __instance) {
             if (__instance != null) i = __instance;
-            OtherUI.patternCode = GetPatterns;
+            GameUI.patternCode = GetPatterns;
         }
 
         public static void SetPuzzle(string digits) {

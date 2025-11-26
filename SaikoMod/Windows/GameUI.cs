@@ -11,6 +11,9 @@ namespace SaikoMod.Windows
         public static bool showMenu;
         public static Rect rect = new Rect(1, 1, 100, 100);
         static string gameMessage = "";
+        static Message.MessageType messageType = Message.MessageType.Hint;
+
+        public static string patternCode = "";
 
         public static void Window(int _)
         {
@@ -26,9 +29,13 @@ namespace SaikoMod.Windows
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Messages");
             gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
-            if (GUILayout.Button("Show Hint")) HFPS_GameManager.instance.ShowHint(gameMessage);
-            if (GUILayout.Button("Show Notification")) HFPS_GameManager.instance.AddMessage(gameMessage);
-            if (GUILayout.Button("Show Pickup")) HFPS_GameManager.instance.AddPickupMessage(gameMessage);
+            messageType = RGUI.Field(messageType, "Message Type");
+            if (GUILayout.Button("Send Message")) switch (messageType) {
+                case Message.MessageType.Hint: HFPS_GameManager.instance.ShowHint(gameMessage); break;
+                case Message.MessageType.Message: HFPS_GameManager.instance.AddMessage(gameMessage); break;
+                case Message.MessageType.ItemName: HFPS_GameManager.instance.AddPickupMessage(gameMessage); break;
+                default: break;
+            }
             GUILayout.EndVertical();
 
             GUILayout.BeginVertical("Box");
@@ -37,6 +44,22 @@ namespace SaikoMod.Windows
             if (GUILayout.Button("Bad Ending")) HFPS_GameManager.instance.BadEnding();
             if (RGUI.Button(YandModController.noBadEnding, "No Bad Ending")) YandModController.noBadEnding = !YandModController.noBadEnding;
             GUILayout.EndVertical();
+
+            ElectricPuzzle ep = Object.FindObjectOfType<ElectricPuzzle>();
+            Electricity ele = Object.FindObjectOfType<Electricity>();
+            if (ep != null)
+            {
+                GUILayout.BeginVertical("Box");
+                GUILayout.Label("Electric Puzzle");
+                patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
+                if (GUILayout.Button("Set Pattern")) PuzzleMod.SetPuzzle(patternCode);
+                if (!ep.puzzleSolved && GUILayout.Button("Solve Puzzle")) ep.PuzzleSolved();
+                if (ep.puzzleSolved && !ele.isPoweredOn && GUILayout.Button("Switch On"))
+                {
+                    ele.SwitcherUp();
+                }
+                GUILayout.EndVertical();
+            }
         }
 
         static void Title()

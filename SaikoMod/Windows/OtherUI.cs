@@ -20,8 +20,7 @@ namespace SaikoMod.Windows
             max = .1f
         };
 
-        static int otherPage = 0;
-        public static string patternCode = PuzzleMod.GetPatterns;
+        static int page = 0;
 
         public static void Window(int _) {
             GUI.backgroundColor = Color.black;
@@ -29,7 +28,7 @@ namespace SaikoMod.Windows
 
             Title();
 
-            switch (otherPage)
+            switch (page)
             {
                 case 0:
                     GUILayout.BeginVertical("Box");
@@ -48,27 +47,21 @@ namespace SaikoMod.Windows
                     {
                         foreach (MeshFilter go in Object.FindObjectsOfType<MeshFilter>())
                         {
-                            try
-                            {
-                                Mesh s_mesh = go.mesh;
-                                if (!s_mesh.isReadable) continue;
-                                if (Random.Range(0, 5) == 2) MeshUtils.ScrambleVertices(s_mesh, Random.Range(vertRange.min, vertRange.max));
-                                if (Random.Range(0, 5) == 2) MeshUtils.ScrambleNormals(s_mesh, Random.Range(normRange.min, normRange.max));
-                                if (Random.Range(0, 5) == 2) MeshUtils.ScrambleTriangles(s_mesh);
-                                if (Random.Range(0, 5) == 2) s_mesh.RecalculateBounds();
-                            }
-                            catch { }
+                            Mesh s_mesh = go.mesh;
+                            if (!s_mesh.isReadable) continue;
+                            if (Random.Range(0, 5) == 2) MeshUtils.ScrambleVertices(s_mesh, Random.Range(vertRange.min, vertRange.max));
+                            if (Random.Range(0, 5) == 2) MeshUtils.ScrambleNormals(s_mesh, Random.Range(normRange.min, normRange.max));
+                            if (Random.Range(0, 5) == 2) MeshUtils.ScrambleTriangles(s_mesh);
+                            if (Random.Range(0, 5) == 2) s_mesh.RecalculateBounds();
                         }
                     }
                     GUILayout.EndVertical();
                     break;
 
                 case 1:
-                    patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
-                    if (GUILayout.Button("Set Pattern")) PuzzleMod.SetPuzzle(patternCode);
                     break;
             }
-            otherPage = RGUI.Page(otherPage, 3, true);
+            page = RGUI.Page(page, 3, true);
         }
 
         static void Title() {

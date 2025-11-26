@@ -11,6 +11,9 @@ namespace SaikoMod.Windows
     {
         public static bool showMenu;
         public static Rect rect = new Rect(1, 1, 100, 100);
+        static int page = 0;
+
+        static Vector3 tempPlayerPos = Vector3.zero;
 
         public static void Window(int _)
         {
@@ -19,46 +22,62 @@ namespace SaikoMod.Windows
 
             Title();
 
-            GUILayout.BeginVertical("Box");
-            if (RGUI.Button(SaikoTracker.updateTracker, "Update Tracker")) SaikoTracker.updateTracker = !SaikoTracker.updateTracker;
-            SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
-            GUILayout.EndVertical();
+            switch (page)
+            {
+                case 0:
+                    GUILayout.BeginVertical("Box");
+                    if (RGUI.Button(SaikoTracker.updateTracker, "Update Tracker")) SaikoTracker.updateTracker = !SaikoTracker.updateTracker;
+                    SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
+                    GUILayout.EndVertical();
 
-            if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
-            if (RGUI.Button(HealthMod.noKill, "No Kill")) HealthMod.noKill = !HealthMod.noKill;
-            if (RGUI.Button(HealthMod.noDamage, "No Damage")) HealthMod.noDamage = !HealthMod.noDamage;
-            if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
+                    if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
+                    if (RGUI.Button(HealthMod.noKill, "No Kill")) HealthMod.noKill = !HealthMod.noKill;
+                    if (RGUI.Button(HealthMod.noDamage, "No Damage")) HealthMod.noDamage = !HealthMod.noDamage;
+                    if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
-            PlayerController player = Object.FindObjectOfType<PlayerController>();
-            CameraMotionController cam = Object.FindObjectOfType<CameraMotionController>();
-            HealthManager hm = Object.FindObjectOfType<HealthManager>();
+                    PlayerController player = Object.FindObjectOfType<PlayerController>();
+                    CameraMotionController cam = Object.FindObjectOfType<CameraMotionController>();
+                    HealthManager hm = Object.FindObjectOfType<HealthManager>();
 
-            if (player != null) {
-                if (RGUI.Button(player.beingRide, "Being Ride")) player.beingRide = !player.beingRide;
-                GUILayout.BeginVertical("Box");
-                player.runSpeed = RGUI.SliderFloat(player.runSpeed, 0f, 999f, 200f, "Run Speed");
-                player.walkSpeed = RGUI.SliderFloat(player.walkSpeed, 0f, 999f, 200f, "Walk Speed");
-                player.crouchSpeed = RGUI.SliderFloat(player.crouchSpeed, 0f, 999f, 200f, "Crouch Speed");
-                player.proneSpeed = RGUI.SliderFloat(player.proneSpeed, 0f, 999f, 200f, "Prone Speed");
-                GUILayout.EndVertical();
+                    if (player != null)
+                    {
+                        if (RGUI.Button(player.beingRide, "Being Ride")) player.beingRide = !player.beingRide;
+                        GUILayout.BeginVertical("Box");
+                        player.runSpeed = RGUI.SliderFloat(player.runSpeed, 0f, 999f, 200f, "Run Speed");
+                        player.walkSpeed = RGUI.SliderFloat(player.walkSpeed, 0f, 999f, 200f, "Walk Speed");
+                        player.crouchSpeed = RGUI.SliderFloat(player.crouchSpeed, 0f, 999f, 200f, "Crouch Speed");
+                        player.proneSpeed = RGUI.SliderFloat(player.proneSpeed, 0f, 999f, 200f, "Prone Speed");
+                        player.state = RGUI.SliderInt(player.state, 0, 2, 0, "Player State");
+                        GUILayout.EndVertical();
+                    }
+
+                    if (cam != null && GUILayout.Button("Escape Chair"))
+                    {
+                        cam.playerController.playerAnimModel.SetBool("Sitting", false);
+                        ReflectionHelpers.ReflectionSetVariable(cam, "isFollowingIntroCam", false);
+                        cam.playerController.boundedInChair = false;
+                        cam.chairWithRope.SetActive(false);
+                        HFPS_GameManager.instance.scriptManager.GetScript<PlayerFunctions>().enabled = true;
+                        HFPS_GameManager.instance.cf2rig.enabled = true;
+                        HFPS_GameManager.instance.uiInteractive = true;
+                    }
+
+                    if (hm != null)
+                    {
+                        GUILayout.BeginVertical("Box");
+                        hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
+                        hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
+                        GUILayout.EndVertical();
+                    }
+                    break;
+
+                case 1:
+                    GUILayout.BeginVertical("Box");
+                    GUILayout.Label("Waypoints");
+                    GUILayout.EndVertical();
+                    break;
             }
-
-            if (cam != null && GUILayout.Button("Escape Chair")) {
-                cam.playerController.playerAnimModel.SetBool("Sitting", false);
-                ReflectionHelpers.ReflectionSetVariable(cam, "isFollowingIntroCam", false);
-                cam.playerController.boundedInChair = false;
-                cam.chairWithRope.SetActive(false);
-                HFPS_GameManager.instance.scriptManager.GetScript<PlayerFunctions>().enabled = true;
-                HFPS_GameManager.instance.cf2rig.enabled = true;
-                HFPS_GameManager.instance.uiInteractive = true;
-            }
-
-            if (hm != null) {
-                GUILayout.BeginVertical("Box");
-                hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
-                hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
-                GUILayout.EndVertical();
-            }
+            page = RGUI.Page(page, 3, true);
         }
 
         static void Title()

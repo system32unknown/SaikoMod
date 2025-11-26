@@ -11,7 +11,7 @@ namespace RapidGUI
         // dummy GUIStyle.none.
         // unity is optimized to GUIStyle.none.
         // it seems to occur indent mismatch for complex Vertical/Horizontal Scope.
-        static GUIStyle styleNone = new GUIStyle(GUIStyle.none);
+        static readonly GUIStyle styleNone = new GUIStyle(GUIStyle.none);
 
         public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field<T>(v, label, styleNone, options);
 
@@ -41,7 +41,7 @@ namespace RapidGUI
             return obj;
         }
 
-        static Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>()
+        static readonly Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>()
         {
             {typeof(bool), new FieldFunc((obj,t) => BoolField(obj)) }
         };
