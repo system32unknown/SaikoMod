@@ -18,7 +18,7 @@ namespace RapidGUI
 
             using (new ColorScope(color))
             {
-                var text = unparsedStr.Get() ?? ((v != null) ? String.Format("{0:0.00}", v) : "");
+                var text = unparsedStr.Get() ?? ((v != null) ? v.ToString() : "");
                 var displayStr = GUILayout.TextField(text, GUILayout.Height(21f), option ?? fieldWidthMin);
                 if (displayStr != text)
                 {
