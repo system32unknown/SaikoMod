@@ -99,7 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
-    <Compile Include="BasePlugin.cs" />
+    <Compile Include="Controller\BaseController.cs" />
+    <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
     <Compile Include="Core\Converter.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="Mods\PuzzleMod.cs" />
     <Compile Include="Mods\YandMod.cs" />
     <Compile Include="RapidGUI\Button.cs" />
+    <Compile Include="RapidGUI\Component\IDoGUI.cs" />
+    <Compile Include="RapidGUI\Fold.cs" />
     <Compile Include="RapidGUI\Field.cs" />
     <Compile Include="RapidGUI\Field\BoolField.cs" />
     <Compile Include="RapidGUI\Field\EnumField.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="RapidGUI\Utilities\RapidGUIBehaviour.cs" />
     <Compile Include="RapidGUI\Utilities\RGUIStyle.cs" />
     <Compile Include="RapidGUI\Utilities\RGUIUtility.cs" />
+    <Compile Include="RapidGUI\Utilities\TitleContent.cs" />
     <Compile Include="RapidGUI\Utilities\TypeUtility.cs" />
     <Compile Include="RapidGUI\Utilities\TypeUtilityMemberInfo.cs" />
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />

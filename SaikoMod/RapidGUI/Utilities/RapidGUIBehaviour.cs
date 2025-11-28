@@ -17,7 +17,7 @@ namespace RapidGUI
                     instance = FindObjectOfType<RapidGUIBehaviour>();
                     if (instance == null)
                     {
-                        var ga = new GameObject("RapidGUI");
+                        GameObject ga = new GameObject("RapidGUI");
                         instance = ga.AddComponent<RapidGUIBehaviour>();
                     }
 

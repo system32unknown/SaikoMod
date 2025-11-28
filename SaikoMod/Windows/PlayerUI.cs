@@ -22,12 +22,26 @@ namespace SaikoMod.Windows
         };
         static int selectedWayPos = 0;
 
+        static Fold doorfold;
+
+        static bool _inited = false;
+        static void Init()
+        {
+            if (_inited) return;
+            doorfold = new Fold("Doors:");
+            doorfold.Add(() => {
+                GUILayout.Label("door here.");
+            });
+            _inited = true;
+        }
+
         public static void Window(int _)
         {
             GUI.backgroundColor = Color.black;
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
             Title();
+            Init();
             PlayerFunctions pf = Object.FindObjectOfType<PlayerFunctions>();
             PlayerController player = Object.FindObjectOfType<PlayerController>();
             CameraMotionController cam = Object.FindObjectOfType<CameraMotionController>();
@@ -103,8 +117,11 @@ namespace SaikoMod.Windows
                             GUILayout.Label("Current Room: " + curRoom.roomName + " (" + curRoom.roomType + ")");
                             GUILayout.Label("- Saiko Visited: " + curRoom.isVisitedRoom);
                             GUILayout.Label("- Locked: " + curRoom.isLockedRoom);
+                            doorfold.DoGUI();
                             GUILayout.Label("- Lights: " + curRoom.AllowLights);
                             if (GUILayout.Button("Toggle Lights")) curRoom.AllowLights = !curRoom.AllowLights;
+                            if (GUILayout.Button("Hide Room")) curRoom.HiddenHere();
+
                             GUILayout.EndVertical();
                         }
                     }
