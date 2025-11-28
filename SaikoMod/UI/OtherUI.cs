@@ -1,15 +1,11 @@
 ﻿using RapidGUI;
 using UnityEngine;
-using SaikoMod.Controller;
 using SaikoMod.Utils;
 
-namespace SaikoMod.Windows
+namespace SaikoMod.UI
 {
-    public static class OtherUI
+    public class OtherUI : BaseWindowUI
     {
-        public static bool showMenu;
-        public static Rect rect = new Rect(1, 1, 100, 100);
-
         static MinMaxFloat vertRange = new MinMaxFloat() {
             min = .1f,
             max = .1f
@@ -21,12 +17,7 @@ namespace SaikoMod.Windows
 
         static int page = 0;
 
-        public static void Window(int _) {
-            GUI.backgroundColor = Color.black;
-            GUI.DragWindow(new Rect(0, 0, 10000, 20));
-
-            Title();
-
+        public override void Draw() {
             switch (page)
             {
                 case 0:
@@ -72,14 +63,6 @@ namespace SaikoMod.Windows
             page = RGUI.Page(page, 3, true);
         }
 
-        static void Title() {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("<b>Other Mods</b>", GUILayout.Height(21f));
-            if (GUILayout.Button("<b>X</b>", GUILayout.Height(19f), GUILayout.Width(32f)))
-            {
-                UIController.Instance.MenuTab = Core.Enums.MenuTab.Off;
-            }
-            GUILayout.EndHorizontal();
-        }
+        public override string Title => "Other";
     }
 }

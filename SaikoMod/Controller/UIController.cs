@@ -1,5 +1,5 @@
 ﻿using SaikoMod.Core.Enums;
-using SaikoMod.Windows;
+using SaikoMod.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,92 +9,96 @@ namespace SaikoMod.Controller
     {
         public static UIController Instance;
 
-        public Rect MainMenuRect = new Rect(20f, Screen.currentResolution.height / 2 - 370.5f, 130f, 200f);
+        public Rect MainMenuRect = new Rect(20f, (Screen.height / 2) - (200 / 2), 130f, 200f);
         public Rect TabMenuRect = new Rect(200f, Screen.currentResolution.height / 2 - 370.5f, 100f, 200f);
         public bool showMainMenu = false;
 
         public MenuTab MenuTab = MenuTab.Off;
-        
+        readonly Vector2 tabWindowSize = new Vector2(444f, 664f);
+
+        readonly SettingsUI settings = new SettingsUI();
+        readonly PlayerUI playermods = new PlayerUI();
+        readonly SaikoUI saikomods = new SaikoUI();
+        readonly GameUI gamemods = new GameUI();
+        readonly OtherUI othermods = new OtherUI();
+        readonly LightingUI lighting = new LightingUI();
+
         void Awake() => Instance = this;
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Tab)) {
-                if (!showMainMenu) {
-                    Open();
-                    return;
+        public override void onSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
+            if (loadSceneMode == LoadSceneMode.Single) {
+                if (scene.name == "LevelNew") {
+                    playermods.Reload();
+                    gamemods.Reload();
+                    saikomods.Reload();
                 }
-                Close();
-                return;
+                lighting.Reload();
             }
         }
 
-        void Open()
-        {
-            showMainMenu = true;
-            if (SceneManager.GetActiveScene().name != "MainMenu") {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+        void Update() {
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                showMainMenu = !showMainMenu;
+                SetCursorState(showMainMenu);
             }
         }
 
-        void Close()
-        {
-            showMainMenu = false;
-            if (SceneManager.GetActiveScene().name != "MainMenu") {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+        void SetCursorState(bool opened) {
+            if (SceneManager.GetActiveScene().name == "MainMenu") return;
+            Cursor.visible = opened;
+            Cursor.lockState = opened ? CursorLockMode.None : CursorLockMode.Locked;
         }
 
-        public override void DoGUI()
-        {
+        public override void DoGUI() {
             if (!showMainMenu) return;
+
             MainMenuRect = GUILayout.Window(9000, MainMenuRect, MainMenu, "<b>Saiko Mod Menu</b>");
 
-            switch (MenuTab)
-            {
-                case MenuTab.Player:
-                    TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), PlayerUI.Window, "<b>Player Mod</b>");
-                    break;
-                case MenuTab.Saiko:
-                    TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), SaikoUI.Window, "<b>Saiko Mod</b>");
-                    break;
-                case MenuTab.Game:
-                    TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), GameUI.Window, "<b>Game Mod</b>");
-                    break;
-                case MenuTab.Others:
-                    TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), OtherUI.Window, "<b>Other Mod</b>");
-                    break;
-                case MenuTab.Settings:
-                    TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, new Vector2(444f, 664f)), SettingsUI.Window, "<b>Settings</b>");
-                    break;
+            if (MenuTab == MenuTab.Off) return;
+            TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, tabWindowSize), GetTabWindowFunction(MenuTab), "<b>" + GetTabTitle(MenuTab) + "</b>");
+        }
+
+        GUI.WindowFunction GetTabWindowFunction(MenuTab tab) {
+            switch (tab) {
+                case MenuTab.Player: return playermods.WindowLayout;
+                case MenuTab.Saiko: return saikomods.WindowLayout;
+                case MenuTab.Game: return gamemods.WindowLayout;
+                case MenuTab.Others: return othermods.WindowLayout;
+                case MenuTab.Settings: return settings.WindowLayout;
+                case MenuTab.Lighting: return lighting.WindowLayout;
             }
+            return null;
+        }
+
+        /// <summary> Returns window title for selected tab. </summary>
+        string GetTabTitle(MenuTab tab)
+        {
+            switch (tab) {
+                case MenuTab.Player: return "Player Mod";
+                case MenuTab.Saiko: return "Saiko Mod";
+                case MenuTab.Game: return "Game Mod";
+                case MenuTab.Others: return "Other Mod";
+                case MenuTab.Settings: return "Settings";
+                case MenuTab.Lighting: return "Lighting";
+            }
+            return "";
         }
 
         void MainMenu(int windowID) {
             GUI.backgroundColor = Color.black;
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
-            if (GUILayout.Button("<b>Player Mod</b>", GUILayout.Height(21f)))
-            {
-                MenuTab = (MenuTab == MenuTab.Player) ? MenuTab.Off : MenuTab.Player;
-            }
-            if (GUILayout.Button("<b>Saiko Mod</b>", GUILayout.Height(21f)))
-            {
-                MenuTab = (MenuTab == MenuTab.Saiko) ? MenuTab.Off : MenuTab.Saiko;
-            }
-            if (GUILayout.Button("<b>Game Mod</b>", GUILayout.Height(21f)))
-            {
-                MenuTab = (MenuTab == MenuTab.Game) ? MenuTab.Off : MenuTab.Game;
-            }
-            if (GUILayout.Button("<b>Other Mod</b>", GUILayout.Height(21f)))
-            {
-                MenuTab = (MenuTab == MenuTab.Others) ? MenuTab.Off : MenuTab.Others;
-            }
-            if (GUILayout.Button("<b>Settings</b>", GUILayout.Height(21f)))
-            {
-                MenuTab = (MenuTab == MenuTab.Settings) ? MenuTab.Off : MenuTab.Settings;
+            // Condensed button list
+            CreateTabButton(MenuTab.Player, "Player Mod");
+            CreateTabButton(MenuTab.Saiko, "Saiko Mod");
+            CreateTabButton(MenuTab.Game, "Game Mod");
+            CreateTabButton(MenuTab.Others, "Other Mod");
+            CreateTabButton(MenuTab.Settings, "Settings");
+            CreateTabButton(MenuTab.Lighting, "Lighting");
+        }
+
+        void CreateTabButton(MenuTab tab, string label) {
+            if (GUILayout.Button("<b>" + label + "</b>", GUILayout.Height(21f))) {
+                MenuTab = (MenuTab == tab) ? MenuTab.Off : tab;
             }
         }
     }

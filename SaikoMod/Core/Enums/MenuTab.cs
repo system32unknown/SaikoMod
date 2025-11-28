@@ -7,6 +7,7 @@
         Saiko,
         Game,
         Others,
+        Lighting,
         Settings
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Linq;
 using HarmonyLib;
-using SaikoMod.Windows;
+using SaikoMod.UI;
 
 namespace SaikoMod.Mods
 {

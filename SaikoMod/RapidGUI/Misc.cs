@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace RapidGUI {
     public static partial class RGUI {
@@ -12,6 +13,7 @@ namespace RapidGUI {
         }
 
         public static int Page(int page, int maxPage, bool warped) {
+            GUI.backgroundColor = Color.black;
             GUILayout.FlexibleSpace(); // Push JUST this block to bottom
 
             GUILayout.BeginHorizontal();
@@ -33,6 +35,57 @@ namespace RapidGUI {
             GUILayout.EndHorizontal();
 
             return page;
+        }
+
+        public static T ArrayNavigator<T>(T[] items, ref int index, bool warped = true, Func<T, string> labelSelector = null, float buttonWidth = 40f)
+        {
+            GUI.backgroundColor = Color.black;
+            // Safety / normalize
+            if (items == null || items.Length == 0) {
+                index = 0;
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("Empty", GUILayout.ExpandWidth(false));
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+                return default;
+            }
+
+            // Clamp index to valid range in case array changed externally
+            if (index < 0) index = 0;
+            if (index >= items.Length) index = items.Length - 1;
+
+            // Buttons + center label layout
+            GUILayout.BeginHorizontal();
+
+            // Left button
+            if (GUILayout.Button("<", GUILayout.Width(buttonWidth))) {
+                if (index > 0) index--;
+                else if (warped) index = items.Length - 1;
+            }
+
+            // Center label (center by flexible spaces)
+            GUILayout.FlexibleSpace();
+
+            string labelText;
+            T current = items[index];
+            if (labelSelector != null) labelText = labelSelector(current);
+            else labelText = (current != null) ? current.ToString() : "null";
+
+            // show index/count and item label
+            GUILayout.Label(string.Format("{0}/{1}  {2}", index + 1, items.Length, labelText), GUILayout.ExpandWidth(false));
+
+            GUILayout.FlexibleSpace();
+
+            // Right button
+            if (GUILayout.Button(">", GUILayout.Width(buttonWidth))) {
+                if (index < items.Length - 1) index++;
+                else if (warped) index = 0;
+            }
+
+            GUILayout.EndHorizontal();
+
+            return items[index];
         }
     }
 }
