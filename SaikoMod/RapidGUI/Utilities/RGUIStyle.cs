@@ -4,6 +4,8 @@ namespace RapidGUI
 {
     public static class RGUIStyle
     {
+        public static GUIStyle centerLabel;
+
         public static GUIStyle button;
         public static GUIStyle flatButton;
         public static GUIStyle popupFlatButton;
@@ -37,6 +39,18 @@ namespace RapidGUI
             CreateAlignLeftBox();
             CreateWarningLabel();
             CreateWarningLabelNoStyle();
+            CreateCenterLabel();
+        }
+
+        static void CreateCenterLabel()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleCenter
+            };
+
+            style.fixedHeight = 21f;
+            centerLabel = style;
         }
 
         static void CreateButton()

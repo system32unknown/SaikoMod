@@ -24,7 +24,7 @@ namespace RapidGUI {
             }
 
             GUILayout.FlexibleSpace();
-            GUILayout.Label($"Page {page} / {maxPage}");
+            GUILayout.Label($"Page {page} / {maxPage}", RGUIStyle.centerLabel);
             GUILayout.FlexibleSpace();
 
             if ((page < maxPage || warped) && GUILayout.Button(">", GUILayout.Width(40))) {
@@ -73,7 +73,7 @@ namespace RapidGUI {
             else labelText = (current != null) ? current.ToString() : "null";
 
             // show index/count and item label
-            GUILayout.Label(string.Format("{0}/{1}  {2}", index + 1, items.Length, labelText), GUILayout.ExpandWidth(false));
+            GUILayout.Label(string.Format("{0}/{1}  {2}", index + 1, items.Length, labelText), RGUIStyle.centerLabel, GUILayout.ExpandWidth(false));
 
             GUILayout.FlexibleSpace();
 

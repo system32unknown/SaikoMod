@@ -38,29 +38,33 @@ namespace SaikoMod.UI
             if (GUILayout.Button("Fix CF2 Canvas")) HFPS_GameManager.instance.cf2rig.enabled = true;
             if (!CCTVManager.AddedMoreCam && GUILayout.Button("Add POV CCTV")) CCTVManager.AddMoreCam();
 
-            GUILayout.BeginVertical("Box");
-            GUILayout.Label("Messages");
-            messageType = RGUI.Field(messageType, "Message Type");
-            GUILayout.BeginHorizontal();
-            gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
-            if (GUILayout.Button("Send Message")) switch (messageType) {
-                case MessageType.Hint: HFPS_GameManager.instance.ShowHint(gameMessage); break;
-                case MessageType.Message: HFPS_GameManager.instance.AddMessage(gameMessage); break;
-                case MessageType.ItemName: HFPS_GameManager.instance.AddPickupMessage(gameMessage); break;
-                case MessageType.Warning: HFPS_GameManager.instance.WarningMessage(gameMessage); break;
-                default: break;
-            }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
+            if (HFPS_GameManager.instance)
+            {
+                GUILayout.BeginVertical("Box");
+                GUILayout.Label("Messages");
+                messageType = RGUI.Field(messageType, "Message Type");
+                GUILayout.BeginHorizontal();
+                gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
+                if (GUILayout.Button("Send Message")) switch (messageType)
+                    {
+                        case MessageType.Hint: HFPS_GameManager.instance.ShowHint(gameMessage); break;
+                        case MessageType.Message: HFPS_GameManager.instance.AddMessage(gameMessage); break;
+                        case MessageType.ItemName: HFPS_GameManager.instance.AddPickupMessage(gameMessage); break;
+                        case MessageType.Warning: HFPS_GameManager.instance.WarningMessage(gameMessage); break;
+                        default: break;
+                    }
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
 
-            GUILayout.BeginVertical("Box");
-            GUILayout.Label("Endings");
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Good Ending")) HFPS_GameManager.instance.GoodEnding();
-            if (GUILayout.Button("Bad Ending")) HFPS_GameManager.instance.BadEnding();
-            GUILayout.EndHorizontal();
-            if (RGUI.Button(YandModController.noBadEnding, "No Bad Ending")) YandModController.noBadEnding = !YandModController.noBadEnding;
-            GUILayout.EndVertical();
+                GUILayout.BeginVertical("Box");
+                GUILayout.Label("Endings");
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Good Ending")) HFPS_GameManager.instance.GoodEnding();
+                if (GUILayout.Button("Bad Ending")) HFPS_GameManager.instance.BadEnding();
+                GUILayout.EndHorizontal();
+                if (RGUI.Button(YandModController.noBadEnding, "No Bad Ending")) YandModController.noBadEnding = !YandModController.noBadEnding;
+                GUILayout.EndVertical();
+            }
 
             if (ep) {
                 GUILayout.BeginVertical("Box");
@@ -73,6 +77,18 @@ namespace SaikoMod.UI
                 GUILayout.EndVertical();
             }
             if (curRoom) curRoom = RGUI.ArrayNavigator(aiRooms, ref roomIdx);
+
+            if (HFPS_GameManager.instance)
+            {
+                GUILayout.BeginVertical("Box");
+                GUILayout.Label("Time: " + StringUtils.FormatTime(HFPS_GameManager.instance.seconds), RGUIStyle.centerLabel);
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Stop Timer")) HFPS_GameManager.instance.StopTimer();
+                if (GUILayout.Button("Reset Timer")) HFPS_GameManager.instance.seconds = 0;
+                if (GUILayout.Button("Start Timer")) HFPS_GameManager.instance.StartTimer();
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+            }
         }
 
         public override string Title => "Game";
