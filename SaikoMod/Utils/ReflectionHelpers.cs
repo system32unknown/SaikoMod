@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
@@ -36,9 +37,21 @@ namespace SaikoMod.Utils
         /// <param name="name"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static object ReflectionInvoke(this object me, string name, object[] parameters)
-        {
-            return AccessTools.Method(me.GetType(), name).Invoke(me, parameters);
+        public static object ReflectionInvoke(this object obj, string methodName, params object[] methodParams) {
+            Type[] array;
+            if (methodParams == null) array = null;
+            else array = methodParams.Select((object p) => p.GetType()).ToArray();
+
+            Type[] array2 = array ?? new Type[0];
+            BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+            MethodInfo methodInfo = null;
+            Type type = obj.GetType();
+            while (methodInfo == null && type != null) {
+                methodInfo = type.GetMethod(methodName, bindingFlags, Type.DefaultBinder, array2, null);
+                type = type.BaseType;
+            }
+            if (methodInfo == null) return null;
+            return methodInfo.Invoke(obj, methodParams);
         }
 
         /// <summary>

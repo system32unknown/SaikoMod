@@ -102,6 +102,7 @@
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Enums\MessageType.cs" />
+    <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="UI\LightingUI.cs" />
     <Compile Include="Utils\LipSyncUtils.cs" />
+    <Compile Include="Utils\MaterialUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MeshUtils.cs" />
     <Compile Include="Utils\RandomUtil.cs" />

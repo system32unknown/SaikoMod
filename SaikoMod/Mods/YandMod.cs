@@ -93,6 +93,13 @@ namespace SaikoMod.Mods {
     {
         public static bool notAttacted = false;
         public static bool noDistanceCheck = false;
+        public static bool customEye = false;
+
+        [HarmonyPatch("FixedUpdate"), HarmonyPrefix]
+        static bool FixedUpdatePatch()
+        {
+            return !customEye;
+        }
 
         [HarmonyPatch("PlayerCanDetectAI"), HarmonyPrefix]
         static bool PlayerCanDetectPatch()

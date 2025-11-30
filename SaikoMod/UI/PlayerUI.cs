@@ -39,7 +39,7 @@ namespace SaikoMod.UI
             {
                 case 0:
                     GUILayout.BeginVertical("Box");
-                    if (RGUI.Button(SaikoTracker.updateTracker, "Update Tracker")) SaikoTracker.updateTracker = !SaikoTracker.updateTracker;
+                    if (RGUI.Button(SaikoTracker.UpdateTracker, "Update Tracker")) SaikoTracker.UpdateTracker = !SaikoTracker.UpdateTracker;
                     SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
                     GUILayout.EndVertical();
 
@@ -86,8 +86,11 @@ namespace SaikoMod.UI
                     selectedWayPos = RGUI.SliderInt(selectedWayPos, 0, tempPlayerPos.Length - 1, 0, "Selected Waypoint");
                     GUILayout.Label("Saved Pos: " + tempPlayerPos[selectedWayPos].ToString());
                     GUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Save Position")) tempPlayerPos[selectedWayPos] = player.transform.position;
-                    if (GUILayout.Button("Set Position")) curPlayerPos = player.transform.position;
+                    if (GUILayout.Button("Save Position")) {
+                        curPlayerPos = player.transform.position;
+                        tempPlayerPos[selectedWayPos] = curPlayerPos;
+                    };
+                    if (GUILayout.Button("Reset Position")) tempPlayerPos[selectedWayPos] = Vector3.zero;
                     if (GUILayout.Button("Load Position")) player.transform.position = tempPlayerPos[selectedWayPos];
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();

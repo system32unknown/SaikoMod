@@ -28,6 +28,23 @@ namespace RapidGUI {
             return color;
         }
 
+        public static Color ColorPickerOne(Color color, string label = null)
+        {
+            GUI.backgroundColor = Color.white;
+            GUILayout.BeginVertical("box");
+            if (label != null) GUILayout.Label(label);
+
+            float v = GUILayout.HorizontalSlider(color.r, 0f, 1f);
+            color.r = v;
+            color.g = v;
+            color.b = v;
+            color.a = v;
+
+            GUILayout.EndVertical();
+
+            return color;
+        }
+
         static float Slider(string name, float value)
         {
             GUILayout.BeginHorizontal();

@@ -3,17 +3,27 @@ using UnityEngine.AI;
 
 namespace SaikoMod.Core.Components {
     public class SaikoTracker : MonoBehaviour {
-        LineRenderer lr;
+        static LineRenderer lr;
 
         public Transform from;
         public Transform to;
 
-        public static bool updateTracker = false;
+        static bool _UpdateTracker = false;
+        public static bool UpdateTracker {
+            get
+            {
+                return _UpdateTracker;
+            }
+            set {
+                lr.enabled = value;
+                _UpdateTracker = value;
+            }
+        }
         float updateTimer = 0.0f;
         public static float updateRate = 10f;
 
         void Start() {
-            lr = base.gameObject.AddComponent<LineRenderer>();
+            lr = gameObject.AddComponent<LineRenderer>();
 
             Material line_Material = new Material(Shader.Find("Sprites/Default"));
             line_Material.renderQueue = 3999;
@@ -26,8 +36,7 @@ namespace SaikoMod.Core.Components {
         }
 
         void Update() {
-            if (updateTracker)
-            {
+            if (UpdateTracker) {
                 updateTimer -= Time.deltaTime;
                 if (updateTimer <= 0.0f)
                 {
