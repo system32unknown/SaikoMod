@@ -152,6 +152,7 @@
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="UI\LightingUI.cs" />
+    <Compile Include="UI\AssetBundleUI.cs" />
     <Compile Include="Utils\LipSyncUtils.cs" />
     <Compile Include="Utils\MaterialUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />

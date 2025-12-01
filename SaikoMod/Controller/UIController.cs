@@ -9,19 +9,20 @@ namespace SaikoMod.Controller
     {
         public static UIController Instance;
 
-        public Rect MainMenuRect = new Rect(20f, (Screen.height / 2) - (200 / 2), 130f, 200f);
+        public Rect MainMenuRect = new Rect(20f, (Screen.height / 2) - (200 / 2), 130f, 240f);
         public Rect TabMenuRect = new Rect(200f, Screen.currentResolution.height / 2 - 370.5f, 100f, 200f);
         public bool showMainMenu = false;
 
         public MenuTab MenuTab = MenuTab.Off;
         readonly Vector2 tabWindowSize = new Vector2(444f, 664f);
 
-        readonly SettingsUI settings = new SettingsUI();
         readonly PlayerUI playermods = new PlayerUI();
         readonly SaikoUI saikomods = new SaikoUI();
         readonly GameUI gamemods = new GameUI();
         readonly OtherUI othermods = new OtherUI();
         readonly LightingUI lighting = new LightingUI();
+        readonly AssetBundleUI assetBundle = new AssetBundleUI();
+        readonly SettingsUI settings = new SettingsUI();
 
         void Awake() => Instance = this;
         public override void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
@@ -69,6 +70,7 @@ namespace SaikoMod.Controller
                 case MenuTab.Game: return gamemods.WindowLayout;
                 case MenuTab.Others: return othermods.WindowLayout;
                 case MenuTab.Lighting: return lighting.WindowLayout;
+                case MenuTab.AssetBundle: return assetBundle.WindowLayout;
                 case MenuTab.Settings: return settings.WindowLayout;
             }
             return null;
