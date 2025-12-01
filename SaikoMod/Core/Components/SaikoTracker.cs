@@ -10,8 +10,7 @@ namespace SaikoMod.Core.Components {
 
         static bool _UpdateTracker = false;
         public static bool UpdateTracker {
-            get
-            {
+            get {
                 return _UpdateTracker;
             }
             set {
@@ -28,6 +27,7 @@ namespace SaikoMod.Core.Components {
             Material line_Material = new Material(Shader.Find("Sprites/Default"));
             line_Material.renderQueue = 3999;
             lr.material = line_Material;
+            lr.useWorldSpace = true;
 
             lr.startColor = Color.red;
             lr.endColor = Color.green;

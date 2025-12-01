@@ -17,6 +17,8 @@ namespace SaikoMod.UI
         public static string patternCode = "";
 
         InteractManager interact;
+        DynamicObject dynamicObj;
+        bool otherWay = false;
 
         ElectricPuzzle ep;
         Electricity ele;
@@ -26,7 +28,7 @@ namespace SaikoMod.UI
         public static AIRoom curRoom;
         int roomIdx = 0;
 
-        public void Reload()
+        public void OnLoad()
         {
             ep = Object.FindObjectOfType<ElectricPuzzle>();
             ele = Object.FindObjectOfType<Electricity>();
@@ -35,6 +37,14 @@ namespace SaikoMod.UI
             curRoom = aiRooms[0];
 
             keypad = Object.FindObjectsOfType<Keypad>().Where(x => x.gameObject.name == "Keypad (1)").First();
+        }
+
+        public void OnUpdate() {
+            GameObject rayObj = interact.RaycastObject;
+            if (!rayObj) return;
+
+            if (rayObj.GetComponent<DynamicObject>()) dynamicObj = rayObj.GetComponent<DynamicObject>();
+            else if (rayObj.GetComponent<DynamicNode>()) dynamicObj = rayObj.GetComponent<DynamicNode>().door;
         }
 
         public override void Draw() {
@@ -104,6 +114,17 @@ namespace SaikoMod.UI
                     if (interact)
                     {
                         interact.RayLength = RGUI.SliderFloat(interact.RayLength, 0f, 50f, 2.5f, "Interact Distance");
+                        if (interact.RaycastObject && dynamicObj)
+                        {
+                            GUILayout.BeginVertical("Box");
+                            if (RGUI.Button(dynamicObj.isLocked, "Locked")) dynamicObj.isLocked = !dynamicObj.isLocked;
+                            if (RGUI.Button(otherWay, "Use Other Way")) otherWay = !otherWay;
+                            GUILayout.BeginHorizontal();
+                            if (GUILayout.Button("Use")) dynamicObj.UseObject(otherWay);
+                            if (GUILayout.Button("Saiko Use")) dynamicObj.YandereUseObject(otherWay);
+                            GUILayout.EndHorizontal();
+                            GUILayout.EndVertical();
+                        }
                     }
                     break;
             }

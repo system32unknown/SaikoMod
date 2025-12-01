@@ -62,6 +62,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
@@ -104,6 +108,7 @@
     <Compile Include="Core\Enums\MessageType.cs" />
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
+    <Compile Include="Helper\AssetBundleHelper.cs" />
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
@@ -151,6 +156,7 @@
     <Compile Include="Utils\MaterialUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MeshUtils.cs" />
+    <Compile Include="Utils\PathUtils.cs" />
     <Compile Include="Utils\RandomUtil.cs" />
     <Compile Include="Utils\ReflectionHelpers.cs" />
     <Compile Include="Utils\StringUtils.cs" />

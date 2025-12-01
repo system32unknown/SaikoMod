@@ -26,7 +26,7 @@ namespace SaikoMod.UI
         CameraMotionController cam;
         HealthManager hm;
 
-        public void Reload() {
+        public void OnLoad() {
             pf = Object.FindObjectOfType<PlayerFunctions>();
             player = Object.FindObjectOfType<PlayerController>();
             cam = Object.FindObjectOfType<CameraMotionController>();

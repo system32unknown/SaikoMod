@@ -24,18 +24,23 @@ namespace SaikoMod.Controller
         readonly LightingUI lighting = new LightingUI();
 
         void Awake() => Instance = this;
-        public override void onSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
+        public override void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
             if (loadSceneMode == LoadSceneMode.Single) {
                 if (scene.name == "LevelNew") {
-                    playermods.Reload();
-                    gamemods.Reload();
-                    saikomods.Reload();
+                    playermods.OnLoad();
+                    gamemods.OnLoad();
+                    saikomods.OnLoad();
                 }
                 lighting.Reload();
             }
         }
+        public override void OnSceneUnload(Scene scene) {}
 
         void Update() {
+            if (SceneManager.GetActiveScene().name == "LevelNew")
+            {
+                gamemods.OnUpdate();
+            }
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 showMainMenu = !showMainMenu;
                 SetCursorState(showMainMenu);
@@ -63,8 +68,8 @@ namespace SaikoMod.Controller
                 case MenuTab.Saiko: return saikomods.WindowLayout;
                 case MenuTab.Game: return gamemods.WindowLayout;
                 case MenuTab.Others: return othermods.WindowLayout;
-                case MenuTab.Settings: return settings.WindowLayout;
                 case MenuTab.Lighting: return lighting.WindowLayout;
+                case MenuTab.Settings: return settings.WindowLayout;
             }
             return null;
         }
@@ -77,8 +82,9 @@ namespace SaikoMod.Controller
                 case MenuTab.Saiko: return "Saiko Mod";
                 case MenuTab.Game: return "Game Mod";
                 case MenuTab.Others: return "Other Mod";
-                case MenuTab.Settings: return "Settings";
                 case MenuTab.Lighting: return "Lighting";
+                case MenuTab.AssetBundle: return "Assetbundle";
+                case MenuTab.Settings: return "Settings";
             }
             return "";
         }
@@ -92,8 +98,9 @@ namespace SaikoMod.Controller
             CreateTabButton(MenuTab.Saiko, "Saiko Mod");
             CreateTabButton(MenuTab.Game, "Game Mod");
             CreateTabButton(MenuTab.Others, "Other Mod");
-            CreateTabButton(MenuTab.Settings, "Settings");
             CreateTabButton(MenuTab.Lighting, "Lighting");
+            CreateTabButton(MenuTab.AssetBundle, "AssetBundle");
+            CreateTabButton(MenuTab.Settings, "Settings");
         }
 
         void CreateTabButton(MenuTab tab, string label) {

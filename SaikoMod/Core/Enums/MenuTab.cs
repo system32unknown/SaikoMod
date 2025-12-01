@@ -8,6 +8,7 @@
         Game,
         Others,
         Lighting,
+        AssetBundle,
         Settings
     }
 }

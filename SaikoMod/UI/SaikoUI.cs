@@ -19,7 +19,7 @@ namespace SaikoMod.UI
         YandereAI ai;
         YandereGraphicQualityManager graphic;
 
-        public void Reload()
+        public void OnLoad()
         {
             if (yand = Object.FindObjectOfType<YandereController>()) {
                 ai = yand.aI;
