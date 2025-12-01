@@ -1,5 +1,5 @@
 ﻿> [!IMPORTANT]
-> Set "Disable EventSystem override" to `false` In [UnityExplorer] (https://github.com/yukieiji/UnityExplorer) for avoid breaking EventSystem.
+> Set "Disable EventSystem override" to `false` In [UnityExplorer](https://github.com/yukieiji/UnityExplorer) for avoid breaking EventSystem.
 
 # Saiko No Sutoka Mod Menu
 A Mod Menu Utility for Saiko No Sutoka.
