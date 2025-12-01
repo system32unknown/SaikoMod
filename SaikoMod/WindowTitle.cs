@@ -14,7 +14,7 @@ namespace SaikoMod
 
         static IntPtr GetWindowHandle() {
             IntPtr returnHwnd = IntPtr.Zero;
-            var threadId = GetCurrentThreadId();
+            int threadId = GetCurrentThreadId();
             EnumThreadWindows(threadId,
                 (hWnd, lParam) => {
                     if (returnHwnd == IntPtr.Zero) returnHwnd = hWnd;
@@ -27,8 +27,7 @@ namespace SaikoMod
         static extern bool SetWindowText(IntPtr hwnd, string lpString);
 
         static void SetTextInternal(string text) {
-            System.IntPtr handle = GetWindowHandle();
-            SetWindowText(handle, text);
+            SetWindowText(GetWindowHandle(), text);
         }
 
         static bool osChecked = false;

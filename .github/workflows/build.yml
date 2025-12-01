@@ -1,0 +1,31 @@
+name: Build DLL
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest # Use a Windows runner for Visual Studio builds
+
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@main
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@main # Action to ensure MSBuild is available
+
+    - name: Build Solution
+      run: msbuild SaikoMod.sln /p:Configuration=Debug /p:Platform="Any CPU"
+
+    - name: Upload DLL artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: ${{ matrix.configuration }}-dll
+        path: |
+          **/bin/${{ matrix.configuration }}/*.dll
