@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 using RapidGUI;
 using UnityEngine;
 using SaikoMod.Core.Enums;
@@ -19,6 +21,33 @@ namespace SaikoMod.UI
         YandereAI ai;
         YandereGraphicQualityManager graphic;
 
+        string animName = "";
+        List<string> EmoteFilesNames = new List<string>();
+        Animation EmoteAnimation;
+        AnimationClip animationClip;
+        AssetBundle EmoteAsset;
+
+        public SaikoUI()
+        {
+            string text = "mods/emotes/";
+            if (Directory.Exists(text))
+            {
+                foreach (string text2 in Directory.GetFiles(text))
+                {
+                    if (text2.Length > 0 && text2.EndsWith(".emotes"))
+                    {
+                        try
+                        {
+                            animName = Path.GetFileName(text2).Substring(0, Path.GetFileName(text2).Length - 7);
+                            EmoteFilesNames.Add(Path.GetFileName(text2));
+                        }
+                        catch { }
+                    }
+                }
+            }
+            else Directory.CreateDirectory(text);
+        }
+
         public void OnLoad()
         {
             if (yand = Object.FindObjectOfType<YandereController>()) {
@@ -27,6 +56,17 @@ namespace SaikoMod.UI
 
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();
             }
+
+            for (int i = 0; i < EmoteFilesNames.Count; i++)
+            {
+                EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/" + EmoteFilesNames[i]);
+                Debug.Log(EmoteAsset);
+                animationClip = EmoteAsset.LoadAllAssets<AnimationClip>()[0];
+            }
+        }
+        public void OnUnload()
+        {
+            AssetBundle.UnloadAllAssetBundles(true);
         }
 
         public override void Draw()
@@ -44,8 +84,10 @@ namespace SaikoMod.UI
                     if (yand) {
                         if (GUILayout.Button("Attempt Kidnap Player")) yand.AtemptKidnapPlayer();
                         if (GUILayout.Button("Fake Attack")) yand.FakeAttack();
+                        GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Increase Anger")) yand.mood.IncreaseAnger();
                         if (GUILayout.Button("Give Gift")) yand.GiveGiftToSenpai();
+                        GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("TP Saiko To Player")) {
                             yand.playerAgent.enabled = false;
@@ -70,6 +112,12 @@ namespace SaikoMod.UI
                         {
                             foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.Shufflevoices(voices);
                             foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.Shufflevoice(voices);
+                        }
+                        if (GUILayout.Button("TEST ANIM"))
+                        {
+                            EmoteAnimation = yand.gameObject.AddComponent<Animation>();
+                            EmoteAnimation.AddClip(animationClip, animName);
+                            EmoteAnimation.Play(animName);
                         }
 
                         GUILayout.BeginVertical("Box");

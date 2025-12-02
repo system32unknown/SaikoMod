@@ -4,6 +4,7 @@ using UnityEngine.AI;
 namespace SaikoMod.Core.Components {
     public class SaikoTracker : MonoBehaviour {
         static LineRenderer lr;
+        NavMeshPath path;
 
         public Transform from;
         public Transform to;
@@ -23,6 +24,7 @@ namespace SaikoMod.Core.Components {
 
         void Start() {
             lr = gameObject.AddComponent<LineRenderer>();
+            path = new NavMeshPath();
 
             Material line_Material = new Material(Shader.Find("Sprites/Default"));
             line_Material.renderQueue = 3999;
@@ -47,7 +49,6 @@ namespace SaikoMod.Core.Components {
         }
 
         void GeneratePath(Vector3 from, Vector3 to) {
-            NavMeshPath path = new NavMeshPath();
             NavMesh.CalculatePath(from, to, NavMesh.AllAreas, path);
             Vector3[] corners = path.corners;
             lr.positionCount = corners.Length;

@@ -35,11 +35,15 @@ namespace SaikoMod.Controller
                 lighting.Reload();
             }
         }
-        public override void OnSceneUnload(Scene scene) {}
+        public override void OnSceneUnload(Scene scene) {
+            if (scene.name == "LevelNew")
+            {
+                saikomods.OnUnload();
+            }
+        }
 
         void Update() {
-            if (SceneManager.GetActiveScene().name == "LevelNew")
-            {
+            if (SceneManager.GetActiveScene().name == "LevelNew") {
                 gamemods.OnUpdate();
             }
             if (Input.GetKeyDown(KeyCode.Tab)) {

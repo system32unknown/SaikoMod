@@ -23,6 +23,7 @@ namespace SaikoMod.UI
         ElectricPuzzle ep;
         Electricity ele;
         Keypad keypad;
+        HFPS_GameManager gm;
 
         public static AIRoom[] aiRooms;
         public static AIRoom curRoom;
@@ -34,6 +35,7 @@ namespace SaikoMod.UI
             ele = Object.FindObjectOfType<Electricity>();
             aiRooms = Object.FindObjectsOfType<AIRoom>();
             interact = Object.FindObjectOfType<InteractManager>();
+            gm = HFPS_GameManager.instance;
             curRoom = aiRooms[0];
 
             keypad = Object.FindObjectsOfType<Keypad>().Where(x => x.gameObject.name == "Keypad (1)").First();
@@ -52,10 +54,10 @@ namespace SaikoMod.UI
             {
                 case 0:
                     GameData.instance.difficultyChosen = RGUI.Field(GameData.instance.difficultyChosen, "Game Difficulty");
-                    if (GUILayout.Button("Fix CF2 Canvas")) HFPS_GameManager.instance.cf2rig.enabled = true;
+                    if (GUILayout.Button("Fix CF2 Canvas")) gm.cf2rig.enabled = true;
                     if (!CCTVManager.AddedMoreCam && GUILayout.Button("Add POV CCTV")) CCTVManager.AddMoreCam();
 
-                    if (HFPS_GameManager.instance)
+                    if (gm)
                     {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Messages");
@@ -66,10 +68,10 @@ namespace SaikoMod.UI
                         {
                             switch (messageType)
                             {
-                                case MessageType.Hint: HFPS_GameManager.instance.ShowHint(gameMessage); break;
-                                case MessageType.Message: HFPS_GameManager.instance.AddMessage(gameMessage); break;
-                                case MessageType.ItemName: HFPS_GameManager.instance.AddPickupMessage(gameMessage); break;
-                                case MessageType.Warning: HFPS_GameManager.instance.WarningMessage(gameMessage); break;
+                                case MessageType.Hint: gm.ShowHint(gameMessage); break;
+                                case MessageType.Message: gm.AddMessage(gameMessage); break;
+                                case MessageType.ItemName: gm.AddPickupMessage(gameMessage); break;
+                                case MessageType.Warning: gm.WarningMessage(gameMessage); break;
                                 default: break;
                             }
                         }
@@ -79,8 +81,8 @@ namespace SaikoMod.UI
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Endings");
                         GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Good Ending")) HFPS_GameManager.instance.GoodEnding();
-                        if (GUILayout.Button("Bad Ending")) HFPS_GameManager.instance.BadEnding();
+                        if (GUILayout.Button("Good Ending")) gm.GoodEnding();
+                        if (GUILayout.Button("Bad Ending")) gm.BadEnding();
                         GUILayout.EndHorizontal();
                         if (RGUI.Button(YandModController.noBadEnding, "No Bad Ending")) YandModController.noBadEnding = !YandModController.noBadEnding;
                         GUILayout.EndVertical();
@@ -99,14 +101,14 @@ namespace SaikoMod.UI
                     }
                     if (curRoom) curRoom = RGUI.ArrayNavigator(aiRooms, ref roomIdx);
 
-                    if (HFPS_GameManager.instance)
+                    if (gm)
                     {
                         GUILayout.BeginVertical("Box");
-                        GUILayout.Label("Time: " + StringUtils.FormatTime(HFPS_GameManager.instance.seconds), RGUIStyle.centerLabel);
+                        GUILayout.Label("Time: " + StringUtils.FormatTime(gm.seconds), RGUIStyle.centerLabel);
                         GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Stop")) HFPS_GameManager.instance.StopTimer();
-                        if (GUILayout.Button("Reset")) HFPS_GameManager.instance.seconds = 0;
-                        if (GUILayout.Button("Start")) HFPS_GameManager.instance.StartTimer();
+                        if (GUILayout.Button("Stop")) gm.StopTimer();
+                        if (GUILayout.Button("Reset")) gm.seconds = 0;
+                        if (GUILayout.Button("Start")) gm.StartTimer();
                         GUILayout.EndHorizontal();
                         GUILayout.EndVertical();
                     }

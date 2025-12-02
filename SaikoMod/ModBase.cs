@@ -9,6 +9,7 @@ using SaikoMod.Mods;
 #endregion
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
+using SaikoMod.Win32;
 
 namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]
@@ -30,6 +31,10 @@ namespace SaikoMod {
         readonly Harmony harmony = new Harmony(modGUID);
 
         void Awake() {
+            if (!IsGameValid() && WinMessageBox.Show("This version of the Modmenu is intended to be used with \"Saiko No Sutoka\".", WinMessageBox.MBIcon.Error))
+            {
+                Application.Quit();
+            }
             instance = this;
 
             manager = new GameObject("SaikoModMenu");
@@ -58,6 +63,11 @@ namespace SaikoMod {
         void OnDestroy()
         {
             harmony.UnpatchSelf();
+        }
+
+        static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka")
+        {
+            return Application.temporaryCachePath.Contains(gameName);
         }
     }
 }
