@@ -21,12 +21,13 @@ namespace SaikoMod.UI
         YandereAI ai;
         YandereGraphicQualityManager graphic;
 
-        string animName = "";
+        List<string> EmoteNames = new List<string>();
         List<string> EmoteFilesNames = new List<string>();
 
         Animation EmoteAnimation;
         List<AnimationClip> animationClips = new List<AnimationClip>();
         AssetBundle EmoteAsset;
+        int animIdx = 0;
 
         public SaikoUI()
         {
@@ -39,7 +40,7 @@ namespace SaikoMod.UI
                     {
                         try
                         {
-                            animName = Path.GetFileName(text2).Substring(0, Path.GetFileName(text2).Length - 7);
+                            EmoteNames.Add(Path.GetFileName(text2).Substring(0, Path.GetFileName(text2).Length - 7));
                             EmoteFilesNames.Add(Path.GetFileName(text2));
                         }
                         catch { }
@@ -108,11 +109,11 @@ namespace SaikoMod.UI
                         yand.mood.angerLevel = RGUI.SliderInt(yand.mood.angerLevel, 0, 10, 0, "Anger Level");
                         if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
 
-                        if (GUILayout.Button(""))
+                        if (RGUI.ArrayNavigator<AnimationClip>(ref animIdx, animationClips, "Animation"))
                         {
                             if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                            if (EmoteAnimation.GetClip(animName) == null) EmoteAnimation.AddClip(animationClips[0], animName);
-                            EmoteAnimation.Play(animName);
+                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
+                            EmoteAnimation.Play(EmoteNames[animIdx]);
                         }
 
                         GUILayout.BeginVertical("Box");

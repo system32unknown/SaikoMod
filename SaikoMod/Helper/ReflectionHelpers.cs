@@ -71,5 +71,28 @@ namespace SaikoMod.Helper
 
             return list.ToArray();
         }
+
+        public static string GetNameIfExists(object obj)
+        {
+            if (obj == null) return null;
+
+            Type type = obj.GetType();
+
+            // Try to get property "name" (case-insensitive)
+            PropertyInfo prop = type.GetProperty("name", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+            if (prop != null && prop.PropertyType == typeof(string))
+            {
+                return prop.GetValue(obj) as string;
+            }
+
+            // Try field "name"
+            FieldInfo field = type.GetField("name", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+            if (field != null && field.FieldType == typeof(string))
+            {
+                return field.GetValue(obj) as string;
+            }
+
+            return null;
+        }
     }
 }
