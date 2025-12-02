@@ -9,7 +9,7 @@ using SaikoMod.Mods;
 #endregion
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
-using SaikoMod.Win32;
+using SaikoMod.WinAPI;
 
 namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]

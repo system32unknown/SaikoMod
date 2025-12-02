@@ -31,6 +31,8 @@ namespace SaikoMod.Controller
                     playermods.OnLoad();
                     gamemods.OnLoad();
                     saikomods.OnLoad();
+
+                    othermods.yand = saikomods.yand;
                 }
                 lighting.Reload();
             }

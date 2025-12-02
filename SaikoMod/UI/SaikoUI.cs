@@ -17,19 +17,20 @@ namespace SaikoMod.UI
         Material[] toonShaders;
         float litIntensity = 0f;
 
-        YandereController yand;
+        public YandereController yand;
         YandereAI ai;
         YandereGraphicQualityManager graphic;
 
         string animName = "";
         List<string> EmoteFilesNames = new List<string>();
+
         Animation EmoteAnimation;
-        AnimationClip animationClip;
+        List<AnimationClip> animationClips = new List<AnimationClip>();
         AssetBundle EmoteAsset;
 
         public SaikoUI()
         {
-            string text = "mods/emotes/";
+            string text = "mods/emotes/saiko/";
             if (Directory.Exists(text))
             {
                 foreach (string text2 in Directory.GetFiles(text))
@@ -59,9 +60,8 @@ namespace SaikoMod.UI
 
             for (int i = 0; i < EmoteFilesNames.Count; i++)
             {
-                EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/" + EmoteFilesNames[i]);
-                Debug.Log(EmoteAsset);
-                animationClip = EmoteAsset.LoadAllAssets<AnimationClip>()[0];
+                EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/saiko/" + EmoteFilesNames[i]);
+                animationClips.Add(EmoteAsset.LoadAllAssets<AnimationClip>()[0]);
             }
         }
         public void OnUnload()
@@ -108,15 +108,10 @@ namespace SaikoMod.UI
                         yand.mood.angerLevel = RGUI.SliderInt(yand.mood.angerLevel, 0, 10, 0, "Anger Level");
                         if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
 
-                        if (GUILayout.Button("RNG Voice"))
+                        if (GUILayout.Button(""))
                         {
-                            foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.Shufflevoices(voices);
-                            foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.Shufflevoice(voices);
-                        }
-                        if (GUILayout.Button("TEST ANIM"))
-                        {
-                            EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                            EmoteAnimation.AddClip(animationClip, animName);
+                            if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
+                            if (EmoteAnimation.GetClip(animName) == null) EmoteAnimation.AddClip(animationClips[0], animName);
                             EmoteAnimation.Play(animName);
                         }
 

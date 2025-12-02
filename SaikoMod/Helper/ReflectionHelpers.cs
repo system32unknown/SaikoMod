@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace SaikoMod.Utils
+namespace SaikoMod.Helper
 {
     public static class ReflectionHelpers
     {

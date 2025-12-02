@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using SaikoMod.Core.Components;
 using SaikoMod.Mods;
-using SaikoMod.Utils;
+using SaikoMod.Helper;
 
 namespace SaikoMod.UI
 {

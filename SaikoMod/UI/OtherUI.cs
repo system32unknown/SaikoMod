@@ -1,21 +1,24 @@
 ﻿using RapidGUI;
 using UnityEngine;
 using SaikoMod.Utils;
+using SaikoMod.Helper;
 
 namespace SaikoMod.UI
 {
     public class OtherUI : BaseWindowUI
     {
-        static MinMaxFloat vertRange = new MinMaxFloat() {
+        MinMaxFloat vertRange = new MinMaxFloat() {
             min = .1f,
             max = .1f
         };
-        static MinMaxFloat normRange = new MinMaxFloat() {
+        MinMaxFloat normRange = new MinMaxFloat() {
             min = .1f,
             max = .1f
         };
 
-        static int page = 0;
+        int page = 0;
+
+        public YandereController yand;
 
         public override void Draw() {
             switch (page)
@@ -44,6 +47,7 @@ namespace SaikoMod.UI
                         }
                     }
 
+                    GUILayout.BeginHorizontal();
                     if (GUILayout.Button("Corrupt Audios"))
                     {
                         AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
@@ -54,6 +58,13 @@ namespace SaikoMod.UI
                             source.loop = RandomUtil.GetBool();
                         }
                     }
+
+                    if (GUILayout.Button("Corrupt Voices"))
+                    {
+                        foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.Shufflevoices(voices);
+                        foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.Shufflevoice(voices);
+                    }
+                    GUILayout.EndHorizontal();
                     GUILayout.EndVertical();
                     break;
 
