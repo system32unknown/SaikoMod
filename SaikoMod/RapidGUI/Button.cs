@@ -23,8 +23,7 @@ namespace RapidGUI
         }
 
         public static bool ArrayNavigator<T>(ref int index, object collection, string label = null, params GUILayoutOption[] options) {
-            T[] array = null;
-
+            T[] array;
             if (collection is T[] arr) {
                 array = arr;
             } else if (collection is List<T> list) {
@@ -51,7 +50,7 @@ namespace RapidGUI
                     GUILayout.Label("<b>" + label + "</b>", GUILayout.Width(120f));
 
                 // Left Button
-                if (GUILayout.Button("<b><=</b>", GUILayout.Width(30f)))
+                if (GUILayout.Button("<b><=</b>", RGUIStyle.button, GUILayout.Width(30f)))
                 {
                     index--;
                     if (index < 0) index = array.Length - 1;
@@ -61,13 +60,13 @@ namespace RapidGUI
                 string text = "Null";
                 if (array[index] != null) text = ReflectionHelpers.GetNameIfExists(array[index]);
 
-                if (GUILayout.Button("<b>" + text + "</b>", GUILayout.Width(200f)))
+                if (GUILayout.Button("<b>" + text + "</b>", RGUIStyle.button, GUILayout.Width(200f)))
                 {
                     clickedCenter = true;
                 }
 
                 // Right Button
-                if (GUILayout.Button("<b>=></b>", GUILayout.Width(30f)))
+                if (GUILayout.Button("<b>=></b>", RGUIStyle.button, GUILayout.Width(30f)))
                 {
                     index++;
                     if (index >= array.Length) index = 0;
