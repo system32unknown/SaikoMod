@@ -124,7 +124,6 @@
     <Compile Include="Mods\HealthMod.cs" />
     <Compile Include="Mods\MainMenuMod.cs" />
     <Compile Include="Mods\PlayerMod.cs" />
-    <Compile Include="Mods\PointTexturePatch.cs" />
     <Compile Include="Mods\PuzzleMod.cs" />
     <Compile Include="Mods\YandMod.cs" />
     <Compile Include="RapidGUI\Button.cs" />

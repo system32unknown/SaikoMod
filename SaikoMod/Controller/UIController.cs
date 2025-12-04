@@ -34,7 +34,8 @@ namespace SaikoMod.Controller
 
                     othermods.yand = saikomods.yand;
                 }
-                lighting.Reload();
+                settings.OnLoad();
+                lighting.OnLoad();
             }
         }
         public override void OnSceneUnload(Scene scene) {

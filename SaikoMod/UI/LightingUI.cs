@@ -8,7 +8,7 @@ namespace SaikoMod.UI
         int page = 0;
 
         Light directionLight;
-        public void Reload()
+        public void OnLoad()
         {
             directionLight = Object.FindObjectsOfType<Light>().Where(x => x.type == LightType.Directional).First();
         }

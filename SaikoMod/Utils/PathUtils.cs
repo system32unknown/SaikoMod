@@ -30,7 +30,7 @@ namespace SaikoMod.Utils
 
 		public static bool FileInUse(string filePath)
 		{
-			createDir(filePath);
+			CreateDir(filePath);
 			if (File.Exists(filePath))
 			{
 				try
@@ -48,7 +48,7 @@ namespace SaikoMod.Utils
 			return false;
 		}
 
-		public static bool createDir(string path)
+		public static bool CreateDir(string path)
 		{
 			try
 			{
