@@ -9,12 +9,16 @@ namespace SaikoMod.UI {
         bool allPoint = false;
         public void OnLoad()
         {
-            if (allPoint) foreach (Texture2D tex in Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.filterMode != FilterMode.Point).ToArray()) tex.filterMode = FilterMode.Point;
+            if (allPoint)
+            {
+                foreach (Texture2D tex in Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.filterMode != FilterMode.Point).ToArray()) tex.filterMode = FilterMode.Point;
+                foreach (RenderTexture tex in Resources.FindObjectsOfTypeAll<RenderTexture>().Where(x => x.filterMode != FilterMode.Point).ToArray()) tex.filterMode = FilterMode.Point;
+            }
         }
 
         public override void Draw()
         {
-            allPoint = RGUI.Button(allPoint, "All Points");
+            if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;
         }
     }
 }

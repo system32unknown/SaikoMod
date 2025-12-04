@@ -133,8 +133,7 @@ namespace SaikoMod.UI
                         skins = RGUI.Field(skins, "Saiko Skins");
                         if (GUILayout.Button("Change"))
                         {
-                            if (skins == SaikoSkins.Normal)
-                            {
+                            if (skins == SaikoSkins.Normal) {
                                 for (int i = 0; i < graphic.meshToChangeMat.Length; i++)
                                 {
                                     graphic.meshToChangeMat[i].materials = originalMat[i];
@@ -143,8 +142,7 @@ namespace SaikoMod.UI
                             }
 
                             Material[] mats = new Material[3];
-                            switch (skins)
-                            {
+                            switch (skins) {
                                 case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
                                 case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
                                 case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;

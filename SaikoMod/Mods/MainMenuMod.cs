@@ -14,7 +14,10 @@ namespace SaikoMod.Mods
             text.alignment = TextAnchor.LowerRight;
             text.text += $"\n<size=16>Mod Version {ModBase.modVer}</size>";
             text.color = Color.white;
-            text.transform.position = new Vector2(Screen.width - 280, Screen.height - 750);
+            text.transform.position = new Vector2(-127f, 70f);
+            RectTransform rect = text.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(1f, 0f);
+            rect.pivot = new Vector2(.5f, .5f);
         }
     }
 }
