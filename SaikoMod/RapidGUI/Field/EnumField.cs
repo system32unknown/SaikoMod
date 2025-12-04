@@ -14,15 +14,14 @@ namespace RapidGUI
             var isFlag = type.GetCustomAttributes(typeof(FlagsAttribute), true).Any();
             if (isFlag)
             {
-                var flagV = Convert.ToUInt64(Convert.ChangeType(v, type));
+                ulong flagV = Convert.ToUInt64(Convert.ChangeType(v, type));
                 enumValues.ForEach(value =>
                 {
-                    var flag = Convert.ToUInt64(value);
+                    ulong flag = Convert.ToUInt64(value);
                     if (flag > 0)
                     {
-                        var has = (flag & flagV) == flag;
-                    has = GUILayout.Toggle(has, value.ToString());
-
+                        bool has = (flag & flagV) == flag;
+                        has = GUILayout.Toggle(has, value.ToString());
                         flagV = has ? (flagV | flag) : (flagV & ~flag);
                     }
                 });
@@ -33,7 +32,6 @@ namespace RapidGUI
             {
                 var idx = enumValues.IndexOf(v);
                 var valueNames = enumValues.Select(value => value.ToString()).ToArray();
-
                 {
                     idx = SelectionPopup(idx, valueNames);
                 }

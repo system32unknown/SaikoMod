@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,26 @@ namespace SaikoMod.Helper
 {
     public static class AssetBundleHelper
     {
+        public static void InitBundle(string path, string ext, Action<string, string> func)
+        {
+            if (!Directory.Exists(path)) {
+                Directory.CreateDirectory(path);
+                return;
+            }
+
+            foreach (string text in Directory.GetFiles(path))
+            {
+                if (text.Length > 0 && text.EndsWith(ext))
+                {
+                    try
+                    {
+                        string fileName = Path.GetFileName(text);
+                        func(fileName.Substring(0, fileName.Length - 7), fileName);
+                    } catch {}
+                }
+            }
+        }
+
         /// <summary>
         /// Cached bundles so repeated loads do NOT reload from disk.
         /// Key = full filepath
@@ -29,7 +50,7 @@ namespace SaikoMod.Helper
                 bundleCache.Remove(path);
             }
 
-            if (!System.IO.File.Exists(path))
+            if (!File.Exists(path))
             {
                 Debug.LogError("[AssetBundleHelper] File not found: " + path);
                 return null;

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using RapidGUI;
 using UnityEngine;
 using SaikoMod.Core.Enums;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
+using SaikoMod.Helper;
 
 namespace SaikoMod.UI
 {
@@ -13,8 +13,9 @@ namespace SaikoMod.UI
     {
         int page = 0;
 
-        SaikoSkins skins = SaikoSkins.Black;
+        SaikoSkins skins = SaikoSkins.Normal;
         Material[] toonShaders;
+        Material[][] originalMat = new Material[3][];
         float litIntensity = 0f;
 
         public YandereController yand;
@@ -31,23 +32,11 @@ namespace SaikoMod.UI
 
         public SaikoUI()
         {
-            string text = "mods/emotes/saiko/";
-            if (Directory.Exists(text))
+            AssetBundleHelper.InitBundle("mods/emotes/saiko/", ".emotes", (string ename, string filename) =>
             {
-                foreach (string text2 in Directory.GetFiles(text))
-                {
-                    if (text2.Length > 0 && text2.EndsWith(".emotes"))
-                    {
-                        try
-                        {
-                            EmoteNames.Add(Path.GetFileName(text2).Substring(0, Path.GetFileName(text2).Length - 7));
-                            EmoteFilesNames.Add(Path.GetFileName(text2));
-                        }
-                        catch { }
-                    }
-                }
-            }
-            else Directory.CreateDirectory(text);
+                EmoteNames.Add(ename);
+                EmoteFilesNames.Add(filename);
+            });
         }
 
         public void OnLoad()
@@ -57,11 +46,13 @@ namespace SaikoMod.UI
                 toonShaders = ai.toonShader;
 
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();
+                for (int i = 0; i < graphic.meshToChangeMat.Length; i++) {
+                    originalMat[i] = graphic.meshToChangeMat[i].materials;
+                }
             }
 
-            for (int i = 0; i < EmoteFilesNames.Count; i++)
-            {
-                EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/saiko/" + EmoteFilesNames[i]);
+            foreach (string animName in EmoteFilesNames) {
+                EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/saiko/" + animName);
                 animationClips.Add(EmoteAsset.LoadAllAssets<AnimationClip>()[0]);
             }
         }
@@ -103,18 +94,9 @@ namespace SaikoMod.UI
                     if (yand)
                     {
                         ai.currentState = RGUI.Field(ai.currentState, "AI State");
-                        yand.mood.mood = RGUI.Field(yand.mood.mood, "AI Mood");
                         yand.mood.saikoState = RGUI.Field(yand.mood.saikoState, "Saiko State");
-                        yand.slowDownType = RGUI.Field(yand.slowDownType, "Slowdown Type");
                         yand.mood.angerLevel = RGUI.SliderInt(yand.mood.angerLevel, 0, 10, 0, "Anger Level");
                         if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
-
-                        if (RGUI.ArrayNavigator<AnimationClip>(ref animIdx, animationClips, "Animation"))
-                        {
-                            if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
-                            EmoteAnimation.Play(EmoteNames[animIdx]);
-                        }
 
                         GUILayout.BeginVertical("Box");
                         yand.runSpeed = RGUI.SliderFloat(yand.runSpeed, 0f, 999f, 9f, "Run Speed");
@@ -151,6 +133,15 @@ namespace SaikoMod.UI
                         skins = RGUI.Field(skins, "Saiko Skins");
                         if (GUILayout.Button("Change"))
                         {
+                            if (skins == SaikoSkins.Normal)
+                            {
+                                for (int i = 0; i < graphic.meshToChangeMat.Length; i++)
+                                {
+                                    graphic.meshToChangeMat[i].materials = originalMat[i];
+                                }
+                                return;
+                            }
+
                             Material[] mats = new Material[3];
                             switch (skins)
                             {
@@ -176,6 +167,14 @@ namespace SaikoMod.UI
                             }
                         }
                         GUILayout.EndVertical();
+                    }
+                    break;
+                case 2:
+                    if (RGUI.ArrayNavigator<AnimationClip>(ref animIdx, animationClips, "Animation"))
+                    {
+                        if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
+                        if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
+                        EmoteAnimation.Play(EmoteNames[animIdx]);
                     }
                     break;
             }

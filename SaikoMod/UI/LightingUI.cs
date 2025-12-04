@@ -4,7 +4,7 @@ using RapidGUI;
 
 namespace SaikoMod.UI
 {
-    class LightingUI : BaseWindowUI {
+    public class LightingUI : BaseWindowUI {
         int page = 0;
 
         Light directionLight;

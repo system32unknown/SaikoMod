@@ -13,7 +13,7 @@ namespace RapidGUI
         // it seems to occur indent mismatch for complex Vertical/Horizontal Scope.
         static readonly GUIStyle styleNone = new GUIStyle(GUIStyle.none);
 
-        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field<T>(v, label, styleNone, options);
+        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field(v, label, styleNone, options);
 
         public static T Field<T>(T v, string label, GUIStyle style, params GUILayoutOption[] options)
         {

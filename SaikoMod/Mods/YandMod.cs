@@ -58,7 +58,7 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("KillPlayerFromFront"), HarmonyPrefix]
         static bool KillPlayerFromFrontPatch()
         {
-            return !HealthMod.noKill;
+            return !HealthMod.noKill || !HealthMod.noDamage;
         }
 
         [HarmonyPatch("PushPlayerDown"), HarmonyPrefix]
