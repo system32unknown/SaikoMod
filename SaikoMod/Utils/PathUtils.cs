@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using UnityEngine;
 
 namespace SaikoMod.Utils
 {
@@ -8,42 +9,32 @@ namespace SaikoMod.Utils
     {
 		public static string GetFileHash(string filePath)
 		{
-			string text;
-			if (!File.Exists(filePath))
+			if (!File.Exists(filePath)) return null;
+
+			string text2;
+			using (MD5 md = MD5.Create())
 			{
-				text = null;
-			}
-			else
-			{
-				string text2;
-				using (MD5 md = MD5.Create())
+				using (FileStream fileStream = File.OpenRead(filePath))
 				{
-					using (FileStream fileStream = File.OpenRead(filePath))
-					{
-						text2 = BitConverter.ToString(md.ComputeHash(fileStream)).Replace("-", "").ToLowerInvariant();
-					}
+					text2 = BitConverter.ToString(md.ComputeHash(fileStream)).Replace("-", "").ToLowerInvariant();
 				}
-				text = text2;
 			}
-			return text;
+			return text2;
 		}
 
 		public static bool FileInUse(string filePath)
 		{
 			CreateDir(filePath);
-			if (File.Exists(filePath))
+			if (!File.Exists(filePath)) return false;
+			try
 			{
-				try
+				using (File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
 				{
-					using (File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-					{
-					}
 				}
-				catch (IOException)
-				{
-					return true;
-				}
-				return false;
+			}
+			catch (IOException)
+			{
+				return true;
 			}
 			return false;
 		}
@@ -63,6 +54,16 @@ namespace SaikoMod.Utils
 				return false;
 			}
 			return true;
+		}
+
+		public static Texture2D TextureFromFile(string path, TextureFormat format)
+		{
+			byte[] array = File.ReadAllBytes(path);
+			Texture2D texture2D = new Texture2D(2, 2, format, false);
+			texture2D.LoadImage(array);
+			texture2D.filterMode = FilterMode.Point;
+			texture2D.name = Path.GetFileNameWithoutExtension(path);
+			return texture2D;
 		}
 	}
 }

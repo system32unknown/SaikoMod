@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using UnityEngine;
+using SaikoMod.Helper;
 
 namespace SaikoMod.Mods
 {

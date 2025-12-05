@@ -18,5 +18,10 @@ namespace SaikoMod.Utils {
         {
             return Random.Range(0, 100) < chance;
         }
+        public static T RandomEnum<T>() where T : System.Enum
+        {
+            System.Array values = System.Enum.GetValues(typeof(T));
+            return (T)values.GetValue(Random.Range(0, values.Length));
+        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SaikoMod.Core
+namespace SaikoMod.Utils
 {
-	public class Converter
+	public class ConverterUtils
 	{
 		public class Texture : IDisposable
 		{

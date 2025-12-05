@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -116,7 +116,7 @@
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
-    <Compile Include="Core\Converter.cs" />
+    <Compile Include="Utils\ConverterUtils.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />
     <Compile Include="Core\Components\CCTVManager.cs" />

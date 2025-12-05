@@ -21,7 +21,7 @@ namespace SaikoMod.Helper
                     try
                     {
                         string fileName = Path.GetFileName(text);
-                        func(fileName.Substring(0, fileName.Length - 7), fileName);
+                        func(Path.GetFileNameWithoutExtension(fileName), fileName);
                     } catch {}
                 }
             }

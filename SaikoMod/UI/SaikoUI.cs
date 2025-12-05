@@ -15,31 +15,35 @@ namespace SaikoMod.UI
 
         SaikoSkins skins = SaikoSkins.Normal;
 
-        Shader toonShader;
-        Shader diffuseShader;
-        bool shaderToggled = false;
+        AssetBundle EmoteAsset;
 
         Material[][] originalMat = new Material[3][];
-        Color eyeColor = Color.white;
+        bool eyeMatColor = false;
+        Material eyeMat;
+        Shader eyeShader;
+        Shader originalShader;
+
+        Texture2D custom_eye;
+        Texture original_eye;
 
         public YandereController yand;
         YandereAI ai;
         YandereGraphicQualityManager graphic;
 
         List<string> EmoteNames = new List<string>();
-        List<string> EmoteFilesNames = new List<string>();
+        List<string> EmoteFilenames = new List<string>();
+        const string emotefilePath = "mods/emotes/saiko/";
 
         Animation EmoteAnimation;
         List<AnimationClip> animationClips = new List<AnimationClip>();
-        AssetBundle EmoteAsset;
         int animIdx = 0;
 
         public SaikoUI()
         {
-            AssetBundleHelper.InitBundle("mods/emotes/saiko/", ".emotes", (string ename, string filename) =>
+            AssetBundleHelper.InitBundle(emotefilePath, ".emotes", (string ename, string filename) =>
             {
                 EmoteNames.Add(ename);
-                EmoteFilesNames.Add(filename);
+                EmoteFilenames.Add(filename);
             });
         }
 
@@ -49,17 +53,21 @@ namespace SaikoMod.UI
                 ai = yand.aI;
 
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();
-                toonShader = ai.eyeMat.shader;
-                diffuseShader = Shader.Find("Legacy Shaders/Transparent/Diffuse");
 
                 for (int i = 0; i < graphic.meshToChangeMat.Length; i++) {
                     originalMat[i] = graphic.meshToChangeMat[i].materials;
                 }
             }
 
-            foreach (string animName in EmoteFilesNames)
-            {
-                EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/saiko/" + animName);
+            custom_eye = PathUtils.TextureFromFile("mods/textures/saiko/custom_eye.png", TextureFormat.RGBA32);
+            original_eye = Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.name == "eye").First();
+
+            eyeMat = graphic.meshToChangeMat[0].materials[1];
+            originalShader = eyeMat.shader;
+            eyeShader = Shader.Find("Legacy Shaders/Transparent/Diffuse");
+
+            foreach (string animName in EmoteFilenames) {
+                EmoteAsset = AssetBundle.LoadFromFile(emotefilePath + animName);
                 animationClips.Add(EmoteAsset.LoadAllAssets<AnimationClip>()[0]);
             }
         }
@@ -111,6 +119,7 @@ namespace SaikoMod.UI
                         yand.walkSpeed = RGUI.SliderFloat(yand.walkSpeed, 0f, 999f, 5f, "Walk Speed");
                         yand.patrolSpeed = RGUI.SliderFloat(yand.patrolSpeed, 0f, 999f, 3f, "Patrol Speed");
                         yand.chaseSpeed = RGUI.SliderFloat(yand.chaseSpeed, 0f, 999f, 5f, "Chase Speed");
+                        yand.seeDistance = RGUI.SliderFloat(yand.seeDistance, 0f, 999f, 5f, "See Distance");
                         GUILayout.EndVertical();
                     }
                     break;
@@ -158,23 +167,17 @@ namespace SaikoMod.UI
                             }
                             foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
                         }
-                        if (RGUI.Button(YandModAI.customEye, "Custom Eye")) YandModAI.customEye = !YandModAI.customEye;
-                        if (YandModAI.customEye)
-                        {
-                            if (RGUI.Button(shaderToggled, "Diffuse Toggle"))
-                            {
-                                if (shaderToggled = !shaderToggled)
-                                {
-                                    ai.eyeShader.shader = diffuseShader;
-                                    ai.eyeShader.color = eyeColor;
-                                } else {
-                                    ai.eyeShader.shader = toonShader;
-                                    ai.eyeShader.color = eyeColor;
-                                }
-                            }
-                            eyeColor = RGUI.ColorPicker(eyeColor, "Eye Shader Color");
-                            ai.eyeMat.color = RGUI.ColorPicker(ai.eyeMat.color, "Eye Material Color");
+
+                        if (RGUI.Button(YandModAI.customEye, "Custom Eye")) {
+                            YandModAI.customEye = !YandModAI.customEye;
+                            ai.eyeShader.SetTexture("_MainTex", YandModAI.customEye ? custom_eye : original_eye);
                         }
+                        if (YandModAI.customEye) ai.eyeShader.color = RGUI.ColorPicker(ai.eyeShader.color, "Glow Eye Color");
+                        if (RGUI.Button(eyeMatColor, "Eye Color")) {
+                            eyeMatColor = !eyeMatColor;
+                            eyeMat.shader = eyeMatColor ? eyeShader : originalShader;
+                        }
+                        if (eyeMatColor) eyeMat.color = RGUI.ColorPicker(eyeMat.color, "Eye Color");
                         GUILayout.EndVertical();
                     }
                     break;

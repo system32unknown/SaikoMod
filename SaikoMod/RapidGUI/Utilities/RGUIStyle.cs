@@ -201,6 +201,6 @@ namespace RapidGUI
             warningLabelNoStyle = style;
         }
 
-        public static readonly Texture2D white = new SaikoMod.Core.Converter.Texture(Color.white).tex;
+        public static readonly Texture2D white = new SaikoMod.Utils.ConverterUtils.Texture(Color.white).tex;
     }
 }
