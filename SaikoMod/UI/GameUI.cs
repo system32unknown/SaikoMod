@@ -39,6 +39,7 @@ namespace SaikoMod.UI
             curRoom = aiRooms[0];
 
             keypad = Object.FindObjectsOfType<Keypad>().Where(x => x.gameObject.name == "Keypad (1)").First();
+            CCTVManager.AddedMoreCam = false;
         }
 
         public void OnUpdate() {
@@ -99,7 +100,7 @@ namespace SaikoMod.UI
                         keypad.AccessCode = RGUI.Field(keypad.AccessCode, "Keycode Access");
                         GUILayout.EndVertical();
                     }
-                    if (curRoom) curRoom = RGUI.ArrayNavigator(aiRooms, ref roomIdx);
+                    if (curRoom) curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
 
                     if (gm)
                     {

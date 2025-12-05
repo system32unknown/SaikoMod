@@ -117,6 +117,7 @@ namespace SaikoMod.UI
                             GUILayout.Label("FOV");
                             pf.NormalFOV = RGUI.SliderFloat(pf.NormalFOV, 0f, 999f, 60f, "Normal FOV");
                             pf.ZoomFOV = RGUI.SliderFloat(pf.ZoomFOV, 0f, 999f, 35f, "Zoom FOV");
+                            pf.ZoomSpeed = RGUI.SliderFloat(pf.ZoomSpeed, 0f, 999f, 5f, "Zoom Speed");
                             GUILayout.EndVertical();
                         }
 

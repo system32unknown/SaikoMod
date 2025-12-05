@@ -14,9 +14,13 @@ namespace SaikoMod.UI
         int page = 0;
 
         SaikoSkins skins = SaikoSkins.Normal;
-        Material[] toonShaders;
+
+        Shader toonShader;
+        Shader diffuseShader;
+        bool shaderToggled = false;
+
         Material[][] originalMat = new Material[3][];
-        float litIntensity = 0f;
+        Color eyeColor = Color.white;
 
         public YandereController yand;
         YandereAI ai;
@@ -43,21 +47,25 @@ namespace SaikoMod.UI
         {
             if (yand = Object.FindObjectOfType<YandereController>()) {
                 ai = yand.aI;
-                toonShaders = ai.toonShader;
 
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();
+                toonShader = ai.eyeMat.shader;
+                diffuseShader = Shader.Find("Legacy Shaders/Transparent/Diffuse");
+
                 for (int i = 0; i < graphic.meshToChangeMat.Length; i++) {
                     originalMat[i] = graphic.meshToChangeMat[i].materials;
                 }
             }
 
-            foreach (string animName in EmoteFilesNames) {
+            foreach (string animName in EmoteFilesNames)
+            {
                 EmoteAsset = AssetBundle.LoadFromFile("mods/emotes/saiko/" + animName);
                 animationClips.Add(EmoteAsset.LoadAllAssets<AnimationClip>()[0]);
             }
         }
         public void OnUnload()
         {
+            animationClips.Clear();
             AssetBundle.UnloadAllAssetBundles(true);
         }
 
@@ -153,22 +161,25 @@ namespace SaikoMod.UI
                         if (RGUI.Button(YandModAI.customEye, "Custom Eye")) YandModAI.customEye = !YandModAI.customEye;
                         if (YandModAI.customEye)
                         {
-                            ai.eyeShader.color = RGUI.ColorPickerOne(ai.eyeShader.color, "Eye Shader Color");
-                            ai.eyeMat.color = RGUI.ColorPicker(ai.eyeMat.color, "Eye Material Color");
-                            litIntensity = RGUI.SliderFloat(litIntensity, 0f, 1f, 0f, "Lit Intensity");
-                            if (GUILayout.Button("Set Intensity"))
+                            if (RGUI.Button(shaderToggled, "Diffuse Toggle"))
                             {
-                                foreach (Material toon in toonShaders)
+                                if (shaderToggled = !shaderToggled)
                                 {
-                                    toon.SetFloat("_SelfLitIntensity", litIntensity);
+                                    ai.eyeShader.shader = diffuseShader;
+                                    ai.eyeShader.color = eyeColor;
+                                } else {
+                                    ai.eyeShader.shader = toonShader;
+                                    ai.eyeShader.color = eyeColor;
                                 }
                             }
+                            eyeColor = RGUI.ColorPicker(eyeColor, "Eye Shader Color");
+                            ai.eyeMat.color = RGUI.ColorPicker(ai.eyeMat.color, "Eye Material Color");
                         }
                         GUILayout.EndVertical();
                     }
                     break;
                 case 2:
-                    if (RGUI.ArrayNavigator<AnimationClip>(ref animIdx, animationClips, "Animation"))
+                    if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation"))
                     {
                         if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
                         if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
