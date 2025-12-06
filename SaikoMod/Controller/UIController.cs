@@ -31,6 +31,7 @@ namespace SaikoMod.Controller
                     playermods.OnLoad();
                     gamemods.OnLoad();
                     saikomods.OnLoad();
+                    assetBundle.OnLoad();
 
                     othermods.yand = saikomods.yand;
                 }
@@ -42,6 +43,7 @@ namespace SaikoMod.Controller
             if (scene.name == "LevelNew")
             {
                 saikomods.OnUnload();
+                assetBundle.OnUnload();
             }
         }
 

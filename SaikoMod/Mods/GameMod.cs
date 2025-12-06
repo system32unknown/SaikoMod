@@ -20,6 +20,9 @@ namespace SaikoMod.Mods
             Image img = Resources.FindObjectsOfTypeAll<Image>().Where(x => x.name == "PausePanel").First();
             img.enabled = false;
 
+            DynamicObject powerbox = Resources.FindObjectsOfTypeAll<DynamicObject>().Where((DynamicObject x) => x.name == "locker" && x.transform.parent.name == "Dynamic_ElectricBox").First();
+            powerbox.backUseAnim2 = "PowerBox_Close";
+
             __instance.healthManager.Health = 200f;
             eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
         }

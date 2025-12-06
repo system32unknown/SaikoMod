@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using System.Collections.Generic;
 using SaikoMod.Helper;
+using SaikoMod.Core.Components;
+using RapidGUI;
 
 namespace SaikoMod.UI {
     public class AssetBundleUI : BaseWindowUI {
@@ -11,6 +14,9 @@ namespace SaikoMod.UI {
         List<GameObject> gameObjects = new List<GameObject>();
         const string filePath = "mods/objects/";
 
+        int objIdx = 0;
+        Transform playerTransform;
+
         public AssetBundleUI()
         {
             AssetBundleHelper.InitBundle(filePath, ".unityobj", (string ename, string filename) => {
@@ -20,6 +26,7 @@ namespace SaikoMod.UI {
         }
         public void OnLoad()
         {
+            playerTransform = GameObject.Find("FPSPLAYER").transform;
             foreach (string objName in ObjFilenames)
             {
                 ObjAsset = AssetBundle.LoadFromFile(filePath + objName);
@@ -35,7 +42,23 @@ namespace SaikoMod.UI {
 
         public override void Draw()
         {
-            GUILayout.Label("WIP");
+            if (RGUI.ArrayNavigatorButton<GameObject>(ref objIdx, gameObjects, "objs"))
+            {
+                GameObject curObj = gameObjects[objIdx];
+                if (curObj == null) return;
+                GameObject cloned = Object.Instantiate(curObj, playerTransform.position, playerTransform.rotation);
+                CustomDynamicObj cdo = cloned.AddComponent<CustomDynamicObj>();
+                cdo.action += () => {
+                    GameObject yand = GameObject.Find("yandere");
+                    Vector3 originPlayer = playerTransform.position;
+                    Vector3 originYand = yand.transform.position;
+                    yand.GetComponent<NavMeshAgent>().enabled = false;
+                    yand.transform.position = originPlayer;
+                    yand.GetComponent<NavMeshAgent>().enabled = true;
+                    playerTransform.position = originYand;
+                };
+                cloned.name = curObj.name;
+            }
         }
         public override string Title => "AssetBundle / Prefabs";
     }
