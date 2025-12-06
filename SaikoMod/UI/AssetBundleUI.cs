@@ -56,6 +56,7 @@ namespace SaikoMod.UI {
                     yand.transform.position = originPlayer;
                     yand.GetComponent<NavMeshAgent>().enabled = true;
                     playerTransform.position = originYand;
+                    Object.Destroy(cloned);
                 };
                 cloned.name = curObj.name;
             }

@@ -50,6 +50,7 @@ namespace SaikoMod.Controller
         void Update() {
             if (SceneManager.GetActiveScene().name == "LevelNew") {
                 gamemods.OnUpdate();
+                lighting.OnUpdate();
             }
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 showMainMenu = !showMainMenu;

@@ -25,8 +25,13 @@ namespace SaikoMod.UI
         PlayerController player;
         CameraMotionController cam;
         HealthManager hm;
+        DoorAndKeyManager dkm;
+
+        int keyid = 0;
+        string keyname = "";
 
         public void OnLoad() {
+            dkm = Object.FindObjectOfType<DoorAndKeyManager>();
             pf = Object.FindObjectOfType<PlayerFunctions>();
             player = Object.FindObjectOfType<PlayerController>();
             cam = Object.FindObjectOfType<CameraMotionController>();
@@ -61,23 +66,15 @@ namespace SaikoMod.UI
                         GUILayout.EndVertical();
                     }
 
-                    if (cam && GUILayout.Button("Escape Chair"))
-                    {
-                        player.playerAnimModel.SetBool("Sitting", false);
-                        player.boundedInChair = false;
-                        cam.ReflectionSetVariable("isFollowingIntroCam", false);
-                        cam.chairWithRope.SetActive(false);
-                        cam.enabled = false;
-                        pf.enabled = true;
-                        GameObject.Find("yandere").GetComponent<NavMeshAgent>().enabled = true;
-                        HFPS_GameManager.instance.cf2rig.enabled = true;
-                        HFPS_GameManager.instance.uiInteractive = true;
-                    }
-
                     if (hm) {
                         GUILayout.BeginVertical("Box");
                         hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
                         hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
+                        if (RGUI.Button(hm.regeneration, "Regeneration")) hm.regeneration = !hm.regeneration;
+                        if (hm.regeneration) {
+                            hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
+                            hm.maxRegenerateHealth = RGUI.SliderFloat(hm.maxRegenerateHealth, 0f, 9999f, 100f, "Max Regeneration");
+                        }
                         GUILayout.EndVertical();
                     }
 
@@ -126,6 +123,38 @@ namespace SaikoMod.UI
                         Camera.main.farClipPlane = RGUI.SliderFloat(Camera.main.farClipPlane, 0f, 5555f, 30f, "Far Clip");
                         Camera.main.nearClipPlane = RGUI.SliderFloat(Camera.main.nearClipPlane, 0f, 5555f, 1000f, "Near Clip");
                         GUILayout.EndVertical();
+                        GUILayout.EndVertical();
+
+                        GUILayout.BeginVertical("Box");
+                        if (cam && GUILayout.Button("Escape Chair")) {
+                            player.playerAnimModel.SetBool("Sitting", false);
+                            player.boundedInChair = false;
+                            cam.ReflectionSetVariable("isFollowingIntroCam", false);
+                            cam.chairWithRope.SetActive(false);
+                            cam.enabled = false;
+                            pf.enabled = true;
+                            GameObject.Find("yandere").GetComponent<NavMeshAgent>().enabled = true;
+                            HFPS_GameManager.instance.cf2rig.enabled = true;
+                            HFPS_GameManager.instance.uiInteractive = true;
+                        }
+                        GUILayout.BeginHorizontal();
+                        if (GUILayout.Button("Drugged")) player.GetsDrugged();
+                        if (GUILayout.Button("Poisoned")) player.GetsPoisoned();
+                        GUILayout.EndHorizontal();
+                        GUILayout.EndVertical();
+                    }
+
+                    if (dkm)
+                    {
+                        GUILayout.BeginVertical("Box");
+                        GUILayout.Label("Keys");
+                        keyid = RGUI.Field(keyid, "Key Id");
+                        keyname = RGUI.Field(keyname, "Key Name");
+                        if (GUILayout.Button("Create Key")) dkm.SpawnKey(keyid, keyname, player.gameObject.transform.position);
+                        GUILayout.BeginHorizontal();
+                        if (GUILayout.Button("Hold Key")) player.HoldKey(keyid, keyname);
+                        if (player.hasKeyInHand && GUILayout.Button("Drop Key")) player.DropKey(player.currentKeyIdInHand);
+                        GUILayout.EndHorizontal();
                         GUILayout.EndVertical();
                     }
                     break;

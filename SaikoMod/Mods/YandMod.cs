@@ -125,4 +125,14 @@ namespace SaikoMod.Mods {
             return !noDistanceCheck;
         }
     }
+
+    [HarmonyPatch(typeof(YandereMoodController))]
+    internal class YandModMood
+    {
+        [HarmonyPatch("CanExitAtemptKidnap"), HarmonyPrefix]
+        static bool CanExitAtemptKidnapPatch()
+        {
+            return !YandModController.noBadEnding;
+        }
+    }
 }
