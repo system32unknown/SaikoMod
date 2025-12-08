@@ -5,6 +5,13 @@ namespace SaikoMod.Utils
 {
     class LipSyncUtils
     {
+        public static LipSyncData Createdata(AudioClip clip)
+        {
+            LipSyncData syncData = ScriptableObject.CreateInstance<LipSyncData>();
+            syncData.clip = clip;
+            return syncData;
+        }
+
         public static void Shufflevoices(LipSyncVoice[] voices)
         {
             AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
