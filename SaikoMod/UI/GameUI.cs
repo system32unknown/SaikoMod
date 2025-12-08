@@ -43,6 +43,11 @@ namespace SaikoMod.UI
             CCTVManager.AddedMoreCam = false;
         }
 
+        public void OnUnload()
+        {
+            timerStarted = true;
+        }
+
         public void OnUpdate() {
             GameObject rayObj = interact.RaycastObject;
             if (!rayObj) return;
