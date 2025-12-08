@@ -12,6 +12,7 @@ namespace SaikoMod.UI
     {
         int page = 0;
         string gameMessage = "";
+        bool timerStarted = true;
         MessageType messageType = MessageType.Hint;
 
         public static string patternCode = "";
@@ -107,9 +108,15 @@ namespace SaikoMod.UI
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Time: " + StringUtils.FormatTime(gm.seconds), RGUIStyle.centerLabel);
                         GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Stop")) gm.StopTimer();
+                        if (timerStarted && GUILayout.Button("Stop")) {
+                            timerStarted = false;
+                            gm.StopTimer();
+                        }
+                        if (!timerStarted && GUILayout.Button("Start")) {
+                            timerStarted = true;
+                            gm.StartTimer();
+                        }
                         if (GUILayout.Button("Reset")) gm.seconds = 0;
-                        if (GUILayout.Button("Start")) gm.StartTimer();
                         GUILayout.EndHorizontal();
                         GUILayout.EndVertical();
                     }

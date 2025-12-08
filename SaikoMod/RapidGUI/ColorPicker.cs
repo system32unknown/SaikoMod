@@ -8,10 +8,10 @@ namespace RapidGUI {
             if (label != null) GUILayout.Label(label);
 
             // SLIDERS
-            color.r = Slider("R", color.r);
-            color.g = Slider("G", color.g);
-            color.b = Slider("B", color.b);
-            color.a = Slider("A", color.a);
+            color.r = _Slider("R", color.r);
+            color.g = _Slider("G", color.g);
+            color.b = _Slider("B", color.b);
+            color.a = _Slider("A", color.a);
 
             // HEX INPUT
             if (hasHex) {
@@ -45,7 +45,7 @@ namespace RapidGUI {
             return color;
         }
 
-        static float Slider(string name, float value)
+        static float _Slider(string name, float value)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label(name, GUILayout.Width(15));

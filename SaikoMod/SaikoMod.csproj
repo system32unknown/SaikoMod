@@ -117,6 +117,12 @@
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
+    <Compile Include="RapidGUI\Field\RecursiveField.cs" />
+    <Compile Include="RapidGUI\PrefixLabel.cs" />
+    <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
+    <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
+    <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
+    <Compile Include="RapidGUI\Utilities\Recursive.cs" />
     <Compile Include="Utils\ConverterUtils.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />

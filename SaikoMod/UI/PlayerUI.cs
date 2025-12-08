@@ -30,6 +30,8 @@ namespace SaikoMod.UI
         int keyid = 0;
         string keyname = "";
 
+        bool _regeneration = false;
+
         public void OnLoad() {
             dkm = Object.FindObjectOfType<DoorAndKeyManager>();
             pf = Object.FindObjectOfType<PlayerFunctions>();
@@ -68,13 +70,17 @@ namespace SaikoMod.UI
 
                     if (hm) {
                         GUILayout.BeginVertical("Box");
-                        hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
+                        hm.maxRegenerateHealth = hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
                         hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
-                        if (RGUI.Button(hm.regeneration, "Regeneration")) hm.regeneration = !hm.regeneration;
-                        if (hm.regeneration) {
-                            hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
-                            hm.maxRegenerateHealth = RGUI.SliderFloat(hm.maxRegenerateHealth, 0f, 9999f, 100f, "Max Regeneration");
+                        if (!_regeneration && GUILayout.Button("Start Regeneration")) {
+                            hm.StartCoroutine("Regenerate");
+                            _regeneration = true;
                         }
+                        if (_regeneration && GUILayout.Button("Stop Regeneration")) {
+                            hm.StopCoroutine("Regenerate");
+                            _regeneration = false;
+                        }
+                        hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
                         GUILayout.EndVertical();
                     }
 
@@ -126,7 +132,7 @@ namespace SaikoMod.UI
                         GUILayout.EndVertical();
 
                         GUILayout.BeginVertical("Box");
-                        if (cam && GUILayout.Button("Escape Chair")) {
+                        if (cam && cam.chairWithRope.activeSelf && GUILayout.Button("Escape Chair")) {
                             player.playerAnimModel.SetBool("Sitting", false);
                             player.boundedInChair = false;
                             cam.ReflectionSetVariable("isFollowingIntroCam", false);
