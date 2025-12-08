@@ -41,7 +41,6 @@ namespace SaikoMod.UI
         }
 
         public override void Draw() {
-            
             switch (page)
             {
                 case 0:
@@ -72,15 +71,6 @@ namespace SaikoMod.UI
                         GUILayout.BeginVertical("Box");
                         hm.maxRegenerateHealth = hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
                         hm.Health = RGUI.SliderFloat(hm.Health, 0.5f, hm.maximumHealth, hm.maximumHealth, "Health");
-                        if (!_regeneration && GUILayout.Button("Start Regeneration")) {
-                            hm.StartCoroutine("Regenerate");
-                            _regeneration = true;
-                        }
-                        if (_regeneration && GUILayout.Button("Stop Regeneration")) {
-                            hm.StopCoroutine("Regenerate");
-                            _regeneration = false;
-                        }
-                        hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
                         GUILayout.EndVertical();
                     }
 
@@ -147,6 +137,20 @@ namespace SaikoMod.UI
                         if (GUILayout.Button("Drugged")) player.GetsDrugged();
                         if (GUILayout.Button("Poisoned")) player.GetsPoisoned();
                         GUILayout.EndHorizontal();
+                        if (hm)
+                        {
+                            if (!_regeneration && GUILayout.Button("Start Regeneration"))
+                            {
+                                hm.StartCoroutine("Regenerate");
+                                _regeneration = true;
+                            }
+                            if (_regeneration && GUILayout.Button("Stop Regeneration"))
+                            {
+                                hm.StopCoroutine("Regenerate");
+                                _regeneration = false;
+                            }
+                            hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
+                        }
                         GUILayout.EndVertical();
                     }
 

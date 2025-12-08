@@ -90,7 +90,6 @@ namespace SaikoMod.UI
                     if (RGUI.Button(YandModController.noPushing, "No Push")) YandModController.noPushing = !YandModController.noPushing;
                     YandModController.lookMode = RGUI.Field(YandModController.lookMode, "Look Mode");
                     if (yand) {
-                        if (GUILayout.Button("Attempt Kidnap Player")) yand.AtemptKidnapPlayer();
                         if (GUILayout.Button("Fake Attack")) yand.FakeAttack();
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Increase Anger")) yand.mood.IncreaseAnger();
@@ -182,12 +181,15 @@ namespace SaikoMod.UI
                     }
                     break;
                 case 2:
-                    if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation"))
-                    {
-                        if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                        if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
-                        EmoteAnimation.Play(EmoteNames[animIdx]);
+                    if (EmoteFilenames.Count > 0) {
+                        if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation"))
+                        {
+                            if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
+                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
+                            EmoteAnimation.Play(EmoteNames[animIdx]);
+                        }
                     }
+
                     break;
             }
             page = RGUI.Page(page, 3, true);
