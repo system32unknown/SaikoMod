@@ -1,4 +1,5 @@
-﻿using SaikoMod.Core.Enums;
+﻿using System.Collections.Generic;
+using SaikoMod.Core.Enums;
 using SaikoMod.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,11 +11,10 @@ namespace SaikoMod.Controller
         public static UIController Instance;
 
         public Rect MainMenuRect = new Rect(20f, (Screen.height / 2) - (200 / 2), 130f, 240f);
-        public Rect TabMenuRect = new Rect(200f, Screen.currentResolution.height / 2 - 370.5f, 100f, 200f);
+        public Rect TabMenuRect = new Rect(200f, (Screen.height / 2) - 370.5f, 100f, 200f);
         public bool showMainMenu = false;
 
         public MenuTab MenuTab = MenuTab.Off;
-        readonly Vector2 tabWindowSize = new Vector2(444f, 664f);
 
         readonly PlayerUI playermods = new PlayerUI();
         readonly SaikoUI saikomods = new SaikoUI();
@@ -71,10 +71,10 @@ namespace SaikoMod.Controller
             MainMenuRect = GUILayout.Window(9000, MainMenuRect, MainMenu, "<b>Saiko Mod Menu</b>");
 
             if (MenuTab == MenuTab.Off) return;
-            TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, tabWindowSize), GetTabWindowFunction(MenuTab), "<b>" + GetTabTitle(MenuTab) + "</b>");
+            TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, GetTabSize(MenuTab)), GetTabWinFunc(MenuTab), "<b>" + GetTabTitle(MenuTab) + "</b>");
         }
 
-        GUI.WindowFunction GetTabWindowFunction(MenuTab tab) {
+        GUI.WindowFunction GetTabWinFunc(MenuTab tab) {
             switch (tab) {
                 case MenuTab.Player: return playermods.WindowLayout;
                 case MenuTab.Saiko: return saikomods.WindowLayout;
@@ -86,8 +86,6 @@ namespace SaikoMod.Controller
             }
             return null;
         }
-
-        /// <summary> Returns window title for selected tab. </summary>
         string GetTabTitle(MenuTab tab)
         {
             switch (tab) {
@@ -100,6 +98,14 @@ namespace SaikoMod.Controller
                 case MenuTab.Settings: return "Settings";
             }
             return "";
+        }
+        Vector3 GetTabSize(MenuTab tab)
+        {
+            switch (tab)
+            {
+
+            }
+            return new Vector2(444f, 664f);
         }
 
         void MainMenu(int windowID) {

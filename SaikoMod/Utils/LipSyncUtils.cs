@@ -5,10 +5,14 @@ namespace SaikoMod.Utils
 {
     class LipSyncUtils
     {
-        public static LipSyncData Createdata(AudioClip clip)
+        public static LipSyncData CreateData(AudioClip clip, string transcript, PhonemeMarker[] phonemeData, int phCount, int emCount)
         {
             LipSyncData syncData = ScriptableObject.CreateInstance<LipSyncData>();
             syncData.clip = clip;
+            syncData.transcript = transcript;
+            syncData.phonemeData = phonemeData;
+            syncData.version = 1.501f;
+            syncData.GenerateCurves(phCount, emCount);
             return syncData;
         }
 

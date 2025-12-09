@@ -34,8 +34,10 @@ namespace SaikoMod.UI
         List<string> EmoteFilenames = new List<string>();
         const string emotefilePath = "mods/emotes/saiko/";
 
+        bool animAdded = false;
         Animation EmoteAnimation;
         List<AnimationClip> animationClips = new List<AnimationClip>();
+        AnimationClip curClip;
         int animIdx = 0;
 
         public SaikoUI()
@@ -73,6 +75,7 @@ namespace SaikoMod.UI
         }
         public void OnUnload()
         {
+            animAdded = false;
             animationClips.Clear();
             AssetBundle.UnloadAllAssetBundles(true);
         }
@@ -181,15 +184,30 @@ namespace SaikoMod.UI
                     }
                     break;
                 case 2:
-                    if (EmoteFilenames.Count > 0) {
-                        if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation"))
-                        {
-                            if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(animationClips[animIdx], EmoteNames[animIdx]);
+                    if (EmoteFilenames.Count < 0) return;
+
+                    GUILayout.BeginVertical("Box");
+                    if (!animAdded && GUILayout.Button("Add Custom Anim")) {
+                        animAdded = true;
+                        yand.gameObject.GetComponent<Animator>().enabled = false;
+                        if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
+                    }
+                    if (animAdded && GUILayout.Button("Remove Custom Anim")) {
+                        animAdded = false;
+                        yand.gameObject.GetComponent<Animator>().enabled = true;
+                        if (EmoteAnimation) Object.Destroy(EmoteAnimation);
+                    }
+                    if (animAdded && EmoteAnimation)
+                    {
+                        if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation")) {
+                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
                             EmoteAnimation.Play(EmoteNames[animIdx]);
                         }
+                        if (EmoteAnimation.isPlaying && GUILayout.Button("Stop")) EmoteAnimation.Stop();
+                        curClip = animationClips[animIdx];
+                        curClip.wrapMode = RGUI.Field(curClip.wrapMode, "Wrap Mode");
                     }
-
+                    GUILayout.EndVertical();
                     break;
             }
             page = RGUI.Page(page, 3, true);
