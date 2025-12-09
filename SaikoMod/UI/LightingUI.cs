@@ -23,9 +23,12 @@ namespace SaikoMod.UI
 
         public void OnUpdate()
         {
-            if (directionLight.type == LightType.Point || directionLight.type == LightType.Spot) {
+            if (directionLight.type == LightType.Point) {
                 directionLight.transform.position = playerTransform.position;
                 directionLight.transform.rotation = playerTransform.rotation;
+            } else if (directionLight.type == LightType.Spot) {
+                directionLight.transform.position = Camera.main.transform.position;
+                directionLight.transform.rotation = Camera.main.transform.rotation;
             }
         }
 
@@ -58,13 +61,16 @@ namespace SaikoMod.UI
                         switch (directionLight.type)
                         {
                             case LightType.Directional:
+                                if (directionLight.transform.parent != null) directionLight.transform.parent = null;
                                 directionLight.transform.position = originalLightPos;
                                 directionLight.transform.rotation = originalLightRot;
                                 break;
                             case LightType.Point:
+                                if (directionLight.transform.parent != null) directionLight.transform.parent = null;
                                 directionLight.range = RGUI.SliderFloat(directionLight.range, 0f, 999f, 0f, "Range");
                                 break;
                             case LightType.Spot:
+                                if (directionLight.transform.parent == null) directionLight.transform.parent = Camera.main.transform;
                                 directionLight.range = RGUI.SliderFloat(directionLight.range, 0f, 999f, 0f, "Range");
                                 directionLight.spotAngle = RGUI.SliderFloat(directionLight.spotAngle, 1f, 179f, 30f, "Spot Range");
                                 break;
