@@ -4,20 +4,20 @@ namespace SaikoMod.Core.Components {
     public class FPSDisplay : MonoBehaviour {
         void OnGUI() {
             if (!ModBase.instance.showFPSDisplay.Value) return;
-            this.Framerate();
-            GUI.Label(new Rect(2f, 2f, 100f, 20f), this.fps_lastFramerate.ToString("#") + "fps");
+            Framerate();
+            GUI.Label(new Rect(2f, 2f, 100f, 20f), fps_lastFramerate.ToString("#") + "fps");
         }
 
         void Framerate() {
-            if (this.fps_timeCounter < this.fps_refreshTime)
+            if (fps_timeCounter < fps_refreshTime)
             {
-                this.fps_timeCounter += Time.deltaTime;
-                this.fps_frameCounter++;
+                fps_timeCounter += Time.deltaTime;
+                fps_frameCounter++;
                 return;
             }
-            this.fps_lastFramerate = (float)this.fps_frameCounter / this.fps_timeCounter;
-            this.fps_frameCounter = 0;
-            this.fps_timeCounter = 0f;
+            fps_lastFramerate = fps_frameCounter / fps_timeCounter;
+            fps_frameCounter = 0;
+            fps_timeCounter = 0f;
         }
 
         public float fps_timeCounter;

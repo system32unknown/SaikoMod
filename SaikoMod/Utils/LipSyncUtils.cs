@@ -5,6 +5,11 @@ namespace SaikoMod.Utils
 {
     class LipSyncUtils
     {
+        public static LipSyncData GetSampleData(float dur, PhonemeMarker[] p, int ph, int em)
+        {
+            return CreateData(CreateAudioClip("TMP_AUD", dur), "*Unintelligible*", p, ph, em);
+        }
+
         public static LipSyncData CreateData(AudioClip clip, string transcript, PhonemeMarker[] phonemeData, int phCount, int emCount)
         {
             LipSyncData syncData = ScriptableObject.CreateInstance<LipSyncData>();
@@ -91,6 +96,20 @@ namespace SaikoMod.Utils
                     curve.MoveKey(i, k);
                 }
             }
+        }
+
+        public static AudioClip CreateAudioClip(string name, float dur)
+        {
+            const int sampleR = 44100;
+
+            int totalSamples = (int)(sampleR * dur);
+            AudioClip clip = AudioClip.Create(name, totalSamples, 1, sampleR, false);
+
+            float[] samples = new float[totalSamples];
+            for (int i = 0; i < totalSamples; i++) samples[i] = Random.Range(-1f, 1f);
+
+            clip.SetData(samples, 0);
+            return clip;
         }
     }
 }
