@@ -21,6 +21,17 @@ namespace SaikoMod.Utils
             }
         }
 
+        public static Material CorruptMaterial()
+        {
+            Shader[] shaders = Resources.FindObjectsOfTypeAll<Shader>();
+            Texture[] texs = Resources.FindObjectsOfTypeAll<Texture>();
+
+            Material m = new Material(shaders[Random.Range(0, shaders.Length)]);
+            if (m.HasProperty("_Color")) m.SetColor("_Color", RandomUtil.GetColor(true));
+            m.mainTexture = texs[Random.Range(0, texs.Length)];
+            return m;
+        }
+
         /// <summary>
         /// Creates a transparent material and returns it.
         /// Tries to use the Built-in Standard shader first, falls back to common URP shader names if necessary.

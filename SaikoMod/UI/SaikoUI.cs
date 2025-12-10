@@ -166,6 +166,11 @@ namespace SaikoMod.UI
                                 case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
                                 case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
                                 case SaikoSkins.Invisible: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, 0f)), 3).ToArray(); break;
+                                case SaikoSkins.What:
+                                    mats[0] = MaterialUtils.CorruptMaterial();
+                                    mats[1] = MaterialUtils.CorruptMaterial();
+                                    mats[2] = MaterialUtils.CorruptMaterial();
+                                    break;
                             }
                             foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
                         }

@@ -6,6 +6,7 @@
         Black,
         Shadow,
         Ghost,
-        Invisible
+        Invisible,
+        What
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RapidGUI;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using SaikoMod.Core.Components;
@@ -11,13 +12,7 @@ namespace SaikoMod.UI
     {
         int page = 0;
 
-        Vector3[] tempPlayerPos = {
-            Vector3.zero,
-            Vector3.zero,
-            Vector3.zero,
-            Vector3.zero,
-            Vector3.zero
-        };
+        List<Vector3> tempPlayerPos = new List<Vector3>() { Vector3.zero };
         public static Vector3 curPlayerPos = Vector3.zero;
         int selectedWayPos = 0;
 
@@ -76,15 +71,31 @@ namespace SaikoMod.UI
 
                     GUILayout.BeginVertical("Box");
                     GUILayout.Label("Waypoints");
-                    selectedWayPos = RGUI.SliderInt(selectedWayPos, 0, tempPlayerPos.Length - 1, 0, "Selected Waypoint");
-                    GUILayout.Label("Saved Pos: " + tempPlayerPos[selectedWayPos].ToString());
+                    if (tempPlayerPos.Count > 0)
+                    {
+                        selectedWayPos = RGUI.SliderInt(selectedWayPos, 0, tempPlayerPos.Count - 1, 0, "Selected Waypoint");
+                        GUILayout.Label("Saved Pos: " + tempPlayerPos[selectedWayPos].ToString());
+                        GUILayout.BeginHorizontal();
+                        if (GUILayout.Button("Save Position"))
+                        {
+                            curPlayerPos = player.transform.position;
+                            tempPlayerPos[selectedWayPos] = curPlayerPos;
+                        };
+                        if (GUILayout.Button("Reset Position")) tempPlayerPos[selectedWayPos] = Vector3.zero;
+                        if (GUILayout.Button("Load Position")) player.transform.position = tempPlayerPos[selectedWayPos];
+                        GUILayout.EndHorizontal();
+                    }
                     GUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Save Position")) {
-                        curPlayerPos = player.transform.position;
-                        tempPlayerPos[selectedWayPos] = curPlayerPos;
-                    };
-                    if (GUILayout.Button("Reset Position")) tempPlayerPos[selectedWayPos] = Vector3.zero;
-                    if (GUILayout.Button("Load Position")) player.transform.position = tempPlayerPos[selectedWayPos];
+                    if (GUILayout.Button("Add"))
+                    {
+                        tempPlayerPos.Add(Vector3.zero);
+                        selectedWayPos = tempPlayerPos.Count - 1;
+                    }
+                    if (tempPlayerPos.Count > 0 && GUILayout.Button("Remove"))
+                    {
+                        tempPlayerPos.RemoveAt(tempPlayerPos.Count - 1);
+                        selectedWayPos = tempPlayerPos.Count - 1;
+                    }
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();
                     break;
