@@ -73,6 +73,13 @@ namespace SaikoMod.Mods {
             return !noDetect;
         }
 
+
+        [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
+        static bool StabPatch()
+        {
+            return !HealthMod.noDamage;
+        }
+
         [HarmonyPatch("Update"), HarmonyPostfix]
         static void PostUpdate(YandereController __instance)
         {

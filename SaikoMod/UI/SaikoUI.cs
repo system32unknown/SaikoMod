@@ -13,7 +13,7 @@ namespace SaikoMod.UI
     {
         int page = 0;
 
-        SaikoSkins skins = SaikoSkins.Normal;
+        SaikoSkins skins = SaikoSkins.Black;
 
         AssetBundle EmoteAsset;
 
@@ -152,18 +152,12 @@ namespace SaikoMod.UI
                     {
                         GUILayout.BeginVertical("Box");
                         skins = RGUI.Field(skins, "Saiko Skins");
+                        GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Change"))
                         {
-                            if (skins == SaikoSkins.Normal) {
-                                for (int i = 0; i < graphic.meshToChangeMat.Length; i++)
-                                {
-                                    graphic.meshToChangeMat[i].materials = originalMat[i];
-                                }
-                                return;
-                            }
-
                             Material[] mats = new Material[3];
-                            switch (skins) {
+                            switch (skins)
+                            {
                                 case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
                                 case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
                                 case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
@@ -176,6 +170,14 @@ namespace SaikoMod.UI
                             }
                             foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
                         }
+                        if (GUILayout.Button("Change to Default"))
+                        {
+                            for (int i = 0; i < graphic.meshToChangeMat.Length; i++)
+                            {
+                                graphic.meshToChangeMat[i].materials = originalMat[i];
+                            }
+                        }
+                        GUILayout.EndHorizontal();
 
                         if (RGUI.Button(YandModAI.customEye, "Custom Eye")) {
                             YandModAI.customEye = !YandModAI.customEye;
