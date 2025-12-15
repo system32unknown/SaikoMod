@@ -1,4 +1,5 @@
 ﻿using RapidGUI;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -175,6 +176,13 @@ namespace SaikoMod.UI
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Hold Key")) player.HoldKey(keyid, keyname);
                         if (player.hasKeyInHand && GUILayout.Button("Drop Key")) player.DropKey(player.currentKeyIdInHand);
+                        if (GUILayout.Button("TP Key to Player"))
+                        {
+                            foreach (InventoryItem keyItem in Resources.FindObjectsOfTypeAll<InventoryItem>().Where(x => x.gameObject.activeSelf).ToArray())
+                            {
+                                keyItem.transform.position = player.transform.position + new Vector3(2f, 0f, 0f);
+                            }
+                        }
                         GUILayout.EndHorizontal();
                         GUILayout.EndVertical();
                     }

@@ -101,10 +101,6 @@ namespace SaikoMod.Controller
         }
         Vector3 GetTabSize(MenuTab tab)
         {
-            switch (tab)
-            {
-
-            }
             return new Vector2(444f, 664f);
         }
 

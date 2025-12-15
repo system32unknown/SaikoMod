@@ -23,10 +23,10 @@ namespace SaikoMod.UI
 
         public void OnUpdate()
         {
-            if (directionLight.type == LightType.Point) {
+            if (playerTransform && directionLight.type == LightType.Point) {
                 directionLight.transform.position = playerTransform.position;
                 directionLight.transform.rotation = playerTransform.rotation;
-            } else if (directionLight.type == LightType.Spot) {
+            } else if (Camera.main && directionLight.type == LightType.Spot) {
                 directionLight.transform.position = Camera.main.transform.position;
                 directionLight.transform.rotation = Camera.main.transform.rotation;
             }

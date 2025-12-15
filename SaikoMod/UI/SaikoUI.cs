@@ -29,6 +29,7 @@ namespace SaikoMod.UI
         public YandereController yand;
         YandereAI ai;
         YandereGraphicQualityManager graphic;
+        YandereMoodController mood;
 
         List<string> EmoteNames = new List<string>();
         List<string> EmoteFilenames = new List<string>();
@@ -53,7 +54,7 @@ namespace SaikoMod.UI
         {
             if (yand = Object.FindObjectOfType<YandereController>()) {
                 ai = yand.aI;
-
+                mood = yand.mood;
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();
 
                 for (int i = 0; i < graphic.meshToChangeMat.Length; i++) {
@@ -112,8 +113,9 @@ namespace SaikoMod.UI
                     if (yand)
                     {
                         ai.currentState = RGUI.Field(ai.currentState, "AI State");
-                        yand.mood.saikoState = RGUI.Field(yand.mood.saikoState, "Saiko State");
-                        yand.mood.angerLevel = RGUI.SliderInt(yand.mood.angerLevel, 0, 10, 0, "Anger Level");
+                        mood.saikoState = RGUI.Field(mood.saikoState, "Saiko State");
+                        mood.angerLevel = RGUI.SliderInt(mood.angerLevel, 0, 10, 0, "Anger Level");
+                        mood.damagePerSwing = RGUI.SliderFloat(mood.damagePerSwing, 0f, 999f, 10f, "Damage Per Swing");
                         if (RGUI.Button(yand.isActive, "Is Active")) yand.isActive = !yand.isActive;
 
                         GUILayout.BeginVertical("Box");

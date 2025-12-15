@@ -129,7 +129,7 @@ namespace SaikoMod.UI
                     if (interact)
                     {
                         interact.RayLength = RGUI.SliderFloat(interact.RayLength, 0f, 50f, 2.5f, "Interact Distance");
-                        if (interact.RaycastObject && dynamicObj)
+                        if (interact.RaycastObject && dynamicObj && dynamicObj.dynamicType == Type_Dynamic.Door)
                         {
                             GUILayout.BeginVertical("Box");
                             if (RGUI.Button(dynamicObj.isLocked, "Locked")) dynamicObj.isLocked = !dynamicObj.isLocked;
