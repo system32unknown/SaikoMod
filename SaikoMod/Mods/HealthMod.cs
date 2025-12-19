@@ -1,29 +1,29 @@
 ﻿using HarmonyLib;
+using SaikoMod.Core.Enums;
 
 namespace SaikoMod.Mods
 {
     [HarmonyPatch(typeof(HealthManager))]
     internal class HealthMod
     {
-        public static bool noDamage = false;
-        public static bool noKill = false;
+        public static GodModeType godModeType = GodModeType.None;
 
         [HarmonyPatch("ApplyBleedDamage"), HarmonyPrefix]
         static bool ApplyBleedDamagePatch()
         {
-            return !noDamage;
+            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.DamageNoQuick || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
         }
 
         [HarmonyPatch("ApplyDamage"), HarmonyPrefix]
         static bool ApplyDamagePatch()
         {
-            return !noDamage;
+            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.DamageNoQuick || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
         }
 
         [HarmonyPatch("Kill"), HarmonyPrefix]
         static bool KillPatch()
         {
-            return !noKill;
+            return !(godModeType == GodModeType.Kill || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("KillPlayerFromFront"), HarmonyPrefix]
         static bool KillPlayerFromFrontPatch()
         {
-            return !HealthMod.noKill || !HealthMod.noDamage;
+            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
         [HarmonyPatch("PushPlayerDown"), HarmonyPrefix]
@@ -77,7 +77,7 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
         static bool StabPatch()
         {
-            return !HealthMod.noDamage;
+            return !(HealthMod.godModeType == GodModeType.DamageNoQuick || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]

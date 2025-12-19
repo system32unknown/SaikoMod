@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using System.Collections.Generic;
+using SaikoMod.Core.Enums;
 
 namespace SaikoMod.Mods
 {
@@ -9,7 +9,7 @@ namespace SaikoMod.Mods
         [HarmonyPatch("GetsNeckBroken"), HarmonyPrefix]
         static bool KillPatch()
         {
-            return !HealthMod.noKill;
+            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
     }
 
@@ -19,7 +19,7 @@ namespace SaikoMod.Mods
         [HarmonyPatch("PlayNeckStabAnimation"), HarmonyPrefix]
         static bool KillPatch()
         {
-            return !HealthMod.noKill;
+            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
     }
 }

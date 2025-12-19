@@ -46,8 +46,7 @@ namespace SaikoMod.UI
                     GUILayout.EndVertical();
 
                     if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
-                    if (RGUI.Button(HealthMod.noKill, "No Kill")) HealthMod.noKill = !HealthMod.noKill;
-                    if (RGUI.Button(HealthMod.noDamage, "No Damage")) HealthMod.noDamage = !HealthMod.noDamage;
+                    HealthMod.godModeType = RGUI.Field(HealthMod.godModeType, "Godmode Type");
                     if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
                     if (player)

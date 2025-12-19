@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SaikoMod.Mods
 {
-    [HarmonyPatch(typeof(MainMenuManager)), HarmonyPatch("Start")]
+    [HarmonyPatch(typeof(MainMenuManager), "Start")]
     internal class MainMenuMod {
         static void Postfix(MainMenuManager __instance) {
             Transform t = __instance.transform.GetChild(0).Find("Text (2)");

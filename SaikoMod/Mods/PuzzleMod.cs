@@ -8,6 +8,7 @@ namespace SaikoMod.Mods
     [HarmonyPatch(typeof(ElectricPuzzle))]
     class PuzzleMod {
         static ElectricPuzzle i;
+
         [HarmonyPatch("Start")]
         static void Postfix(ElectricPuzzle __instance) {
             if (__instance != null) i = __instance;

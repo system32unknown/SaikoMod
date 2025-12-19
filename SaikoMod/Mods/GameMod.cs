@@ -46,21 +46,16 @@ namespace SaikoMod.Mods
         static GameObject eyeObject;
     }
 
-    [HarmonyPatch(typeof(Tutorial))]
-    internal class TutorialMod
-    {
-        [HarmonyPatch("Start")]
+    [HarmonyPatch(typeof(Tutorial), "Start")]
+    class TutorialMod {
         static void Postfix(Tutorial __instance) {
             __instance.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 
-    [HarmonyPatch(typeof(StairDrop))]
-    class StairPatch
-    {
-        [HarmonyPatch("OnTriggerEnter")]
-        static bool Prefix()
-        {
+    [HarmonyPatch(typeof(StairDrop), nameof(StairDrop.OnTriggerEnter))]
+    class StairPatch {
+        static bool Prefix() {
             return !YandModController.noPushing;
         }
     }

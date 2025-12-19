@@ -110,6 +110,7 @@
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
+    <Compile Include="Core\Enums\GodModeType.cs" />
     <Compile Include="Core\Enums\MessageType.cs" />
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
