@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using SaikoMod.Core.Enums;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace SaikoMod.Mods {
             return !noDetect;
         }
 
-        [HarmonyPatch("AlertToPlayerPosition"), HarmonyPrefix]
+        [HarmonyPatch("AlertToPlayerPosition", new Type[] { typeof(bool), typeof(bool) }), HarmonyPrefix]
         static bool AlertToPlayerPositionPatch()
         {
             return !noAlert;
@@ -61,13 +62,13 @@ namespace SaikoMod.Mods {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
-        [HarmonyPatch("PushPlayerDown"), HarmonyPrefix]
+        [HarmonyPatch("PushPlayerDown", new Type[] {typeof(bool)}), HarmonyPrefix]
         static bool PushPlayerDownPatch()
         {
             return !noPushing;
         }
 
-        [HarmonyPatch("LookThroughWindow"), HarmonyPrefix]
+        [HarmonyPatch("LookThroughWindow", new Type[] {typeof(AIRoom)}), HarmonyPrefix]
         static bool LookThroughWindowPatch()
         {
             return !noDetect;
@@ -126,7 +127,7 @@ namespace SaikoMod.Mods {
             return !notAttacted;
         }
 
-        [HarmonyPatch("DistanceReachedPlayerAndAI"), HarmonyPrefix]
+        [HarmonyPatch("DistanceReachedPlayerAndAI", new Type[] { typeof(float) }), HarmonyPrefix]
         static bool DistanceReachedPlayerAndAIPatch()
         {
             return !noDistanceCheck;

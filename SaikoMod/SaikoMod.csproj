@@ -124,6 +124,7 @@
     <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
     <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
     <Compile Include="RapidGUI\Utilities\Recursive.cs" />
+    <Compile Include="UI\UIHelpers.cs" />
     <Compile Include="Utils\ConverterUtils.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />

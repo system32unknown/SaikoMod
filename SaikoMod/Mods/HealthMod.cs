@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SaikoMod.Core.Enums;
+using System;
 
 namespace SaikoMod.Mods
 {
@@ -8,13 +9,13 @@ namespace SaikoMod.Mods
     {
         public static GodModeType godModeType = GodModeType.None;
 
-        [HarmonyPatch("ApplyBleedDamage"), HarmonyPrefix]
+        [HarmonyPatch("ApplyBleedDamage", new Type[] {typeof(float)}), HarmonyPrefix]
         static bool ApplyBleedDamagePatch()
         {
             return !(godModeType == GodModeType.Damage || godModeType == GodModeType.DamageNoQuick || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
         }
 
-        [HarmonyPatch("ApplyDamage"), HarmonyPrefix]
+        [HarmonyPatch("ApplyDamage", new Type[] { typeof(float) }), HarmonyPrefix]
         static bool ApplyDamagePatch()
         {
             return !(godModeType == GodModeType.Damage || godModeType == GodModeType.DamageNoQuick || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);

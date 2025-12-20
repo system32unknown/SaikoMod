@@ -8,11 +8,23 @@ namespace SaikoMod.Mods
     [HarmonyPatch(typeof(ElectricPuzzle))]
     class PuzzleMod {
         static ElectricPuzzle i;
+        public static bool PuzzleHack = false;
 
-        [HarmonyPatch("Start")]
-        static void Postfix(ElectricPuzzle __instance) {
+        [HarmonyPatch("Start"), HarmonyPostfix]
+        static void PuzzleModInit(ElectricPuzzle __instance) {
             if (__instance != null) i = __instance;
             GameUI.patternCode = GetPatterns;
+        }
+
+        [HarmonyPatch("CheckCanContinue"), HarmonyPrefix]
+        static bool CheckCanContinuePatch(ref bool __result)
+        {
+            if (PuzzleHack)
+            {
+                __result = true;
+                return false;
+            }
+            return true;
         }
 
         public static void SetPuzzle(string digits) {
@@ -29,10 +41,8 @@ namespace SaikoMod.Mods
         {
             get
             {
-                if (i == null)
-                    return string.Empty;
-                else
-                    return string.Join(",", i.puzzlePair);
+                if (i == null) return string.Empty;
+                else return string.Join(",", i.puzzlePair);
             }
         }
     }

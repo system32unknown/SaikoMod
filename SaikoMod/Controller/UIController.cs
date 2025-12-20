@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SaikoMod.Core.Enums;
+﻿using SaikoMod.Core.Enums;
 using SaikoMod.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,7 +23,11 @@ namespace SaikoMod.Controller
         readonly AssetBundleUI assetBundle = new AssetBundleUI();
         readonly SettingsUI settings = new SettingsUI();
 
-        void Awake() => Instance = this;
+        void Awake()
+        {
+            Instance = this;
+            settings.OnLoad();
+        }
         public override void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
             if (loadSceneMode == LoadSceneMode.Single) {
                 if (scene.name == "LevelNew") {

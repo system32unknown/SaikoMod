@@ -91,7 +91,7 @@ namespace SaikoMod.UI
                         tempPlayerPos.Add(Vector3.zero);
                         selectedWayPos = tempPlayerPos.Count - 1;
                     }
-                    if (tempPlayerPos.Count > 0 && GUILayout.Button("Remove"))
+                    if (tempPlayerPos.Count > 1 && GUILayout.Button("Remove"))
                     {
                         tempPlayerPos.RemoveAt(tempPlayerPos.Count - 1);
                         selectedWayPos = tempPlayerPos.Count - 1;

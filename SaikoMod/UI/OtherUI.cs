@@ -1,4 +1,5 @@
 ﻿using RapidGUI;
+using RogoDigital.Lipsync;
 using UnityEngine;
 using SaikoMod.Utils;
 using SaikoMod.Helper;
@@ -63,6 +64,11 @@ namespace SaikoMod.UI
                     {
                         foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.Shufflevoices(voices);
                         foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.Shufflevoice(voices);
+                    }
+                    if (GUILayout.Button("Empty Voices"))
+                    {
+                        foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.SetEmptyDatas(voices);
+                        foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.SetEmptyData(voices);
                     }
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();

@@ -128,18 +128,21 @@ namespace SaikoMod.UI
                     }
                     break;
                 case 1:
+                    GUILayout.BeginVertical("Box");
                     if (GameUI.curRoom) {
-                        GUILayout.BeginVertical("Box");
                         if (GUILayout.Button("Look Window")) yand.LookThroughWindow(GameUI.curRoom);
                         if (GUILayout.Button("Hide Behind Desk")) yand.HideBehindDesk(GameUI.curRoom);
                         if (GUILayout.Button("Harrass Player")) yand.HarrassPlayer(GameUI.curRoom);
                         if (GUILayout.Button("Come Here")) yand.GoToComeHerePosition(GameUI.curRoom);
                         if (GUILayout.Button("Drag Player To Room")) yand.DragPlayerToTheRoom(GameUI.curRoom);
-                        GUILayout.EndVertical();
                     }
+                    GUILayout.EndVertical();
                     if (yand) {
                         GUILayout.BeginVertical("Box");
+                        GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Move To Certain")) yand.MoveToCertainLocation(PlayerUI.curPlayerPos);
+                        if (GUILayout.Button("Alert To Position")) AlertToPos(PlayerUI.curPlayerPos);
+                        GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Walk To Destination")) yand.WalkToDestination(PlayerUI.curPlayerPos);
                         if (GUILayout.Button("Run To Destination")) yand.RunToDestination(PlayerUI.curPlayerPos);
@@ -196,30 +199,44 @@ namespace SaikoMod.UI
                     if (EmoteFilenames.Count < 0) return;
 
                     GUILayout.BeginVertical("Box");
-                    if (!animAdded && GUILayout.Button("Add Custom Anim")) {
-                        animAdded = true;
-                        yand.gameObject.GetComponent<Animator>().enabled = false;
-                        if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                    }
-                    if (animAdded && GUILayout.Button("Remove Custom Anim")) {
-                        animAdded = false;
-                        yand.gameObject.GetComponent<Animator>().enabled = true;
-                        if (EmoteAnimation) Object.Destroy(EmoteAnimation);
-                    }
-                    if (animAdded && EmoteAnimation)
-                    {
-                        if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation")) {
-                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
-                            EmoteAnimation.Play(EmoteNames[animIdx]);
+                    if (yand) {
+                        if (!animAdded && GUILayout.Button("Add Custom Anim"))
+                        {
+                            animAdded = true;
+                            yand.gameObject.GetComponent<Animator>().enabled = false;
+                            if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
                         }
-                        if (EmoteAnimation.isPlaying && GUILayout.Button("Stop")) EmoteAnimation.Stop();
-                        curClip = animationClips[animIdx];
-                        curClip.wrapMode = RGUI.Field(curClip.wrapMode, "Wrap Mode");
+                        if (animAdded && GUILayout.Button("Remove Custom Anim"))
+                        {
+                            animAdded = false;
+                            yand.gameObject.GetComponent<Animator>().enabled = true;
+                            if (EmoteAnimation) Object.Destroy(EmoteAnimation);
+                        }
+                        if (animAdded && EmoteAnimation)
+                        {
+                            if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation"))
+                            {
+                                if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
+                                EmoteAnimation.Play(EmoteNames[animIdx]);
+                            }
+                            if (EmoteAnimation.isPlaying && GUILayout.Button("Stop")) EmoteAnimation.Stop();
+                            curClip = animationClips[animIdx];
+                            curClip.wrapMode = RGUI.Field(curClip.wrapMode, "Wrap Mode");
+                        }
                     }
                     GUILayout.EndVertical();
                     break;
             }
             page = RGUI.Page(page, 3, true);
+        }
+
+        void AlertToPos(Vector3 pos)
+        {
+            mood.waitingExpireTimer = 0f;
+            yand.playerAgent.stoppingDistance = 0f;
+            ai.currentState = AIState.Investigating;
+            yand.wayPointChosenLocation = pos;
+            yand.playerAgent.SetDestination(pos);
         }
 
         public override string Title => "Saiko";

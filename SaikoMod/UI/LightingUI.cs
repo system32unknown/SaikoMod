@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using System.Linq;
 using RapidGUI;
@@ -8,27 +9,41 @@ namespace SaikoMod.UI
     public class LightingUI : BaseWindowUI {
         int page = 0;
 
+        GameObject[] windowLights;
+        bool windowLightEnabled = true;
+
         Light directionLight;
         Transform playerTransform;
+        Camera mainCam;
 
         Vector3 originalLightPos;
         Quaternion originalLightRot;
         public void OnLoad()
         {
+            if (SceneManager.GetActiveScene().name == "LevelNew")
+            {
+                windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r")).ToArray();
+                windowLightEnabled = true;
+            }
             directionLight = Object.FindObjectsOfType<Light>().Where(x => x.type == LightType.Directional).First();
-            playerTransform = GameObject.Find("FPSPLAYER").transform;
+            GameObject plrObj = GameObject.Find("FPSPLAYER");
+            if (plrObj) playerTransform = plrObj.transform;
             originalLightPos = directionLight.transform.position;
             originalLightRot = directionLight.transform.rotation;
+            mainCam = Camera.main;
         }
 
         public void OnUpdate()
         {
-            if (playerTransform && directionLight.type == LightType.Point) {
+            if (playerTransform && directionLight.type == LightType.Point)
+            {
                 directionLight.transform.position = playerTransform.position;
                 directionLight.transform.rotation = playerTransform.rotation;
-            } else if (Camera.main && directionLight.type == LightType.Spot) {
-                directionLight.transform.position = Camera.main.transform.position;
-                directionLight.transform.rotation = Camera.main.transform.rotation;
+            }
+            else if (mainCam && directionLight.type == LightType.Spot)
+            {
+                directionLight.transform.position = mainCam.transform.position;
+                directionLight.transform.rotation = mainCam.transform.rotation;
             }
         }
 
@@ -79,6 +94,11 @@ namespace SaikoMod.UI
                         directionLight.intensity = RGUI.SliderFloat(directionLight.intensity, 0f, 100f, 2f, "Intensity");
                         directionLight.shadows = RGUI.Field(directionLight.shadows, "Light Shadows");
                         GUILayout.EndVertical();
+                    }
+                    if (windowLights.Length > 0 && RGUI.Button(windowLightEnabled, "Window Light Enabled"))
+                    {
+                        windowLightEnabled = !windowLightEnabled;
+                        foreach (GameObject window in windowLights) window.SetActive(windowLightEnabled);
                     }
                     break;
                 case 1:

@@ -101,6 +101,7 @@ namespace SaikoMod.UI
                         GUILayout.Label("Electric Puzzle & KeyPad");
                         patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
                         if (GUILayout.Button("Set Pattern")) PuzzleMod.SetPuzzle(patternCode);
+                        if (RGUI.Button(PuzzleMod.PuzzleHack, "Puzzle Hack")) PuzzleMod.PuzzleHack = !PuzzleMod.PuzzleHack;
                         if (!ep.puzzleSolved && GUILayout.Button("Solve Puzzle")) ep.PuzzleSolved();
                         if (ep.puzzleSolved && !ele.isPoweredOn && GUILayout.Button("Switch On")) ele.SwitcherUp();
                         keypad.AccessCode = RGUI.Field(keypad.AccessCode, "Keycode Access");
