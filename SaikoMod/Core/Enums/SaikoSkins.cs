@@ -2,6 +2,7 @@
 {
     public enum SaikoSkins
     {
+        Default,
         Black,
         Shadow,
         Ghost,

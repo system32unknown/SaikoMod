@@ -16,7 +16,7 @@ namespace SaikoMod.Utils
 
 			public Texture(Color32 color)
 			{
-				Color[] array = new Color[] { color, color, color, color };
+				Color[] array = new Color[] {color, color, color, color };
 				tex = new Texture2D(2, 2);
 				tex.SetPixels(array);
 				tex.Apply();
@@ -24,10 +24,7 @@ namespace SaikoMod.Utils
 
 			public Texture(Color color) : this((Color32)color) {}
 
-			public void Dispose()
-			{
-				UnityEngine.Object.Destroy(tex);
-			}
+			public void Dispose() => UnityEngine.Object.Destroy(tex);
 
 			public Texture2D tex;
 		}

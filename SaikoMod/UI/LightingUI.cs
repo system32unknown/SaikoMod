@@ -25,7 +25,7 @@ namespace SaikoMod.UI
                 windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r")).ToArray();
                 windowLightEnabled = true;
             }
-            directionLight = Object.FindObjectsOfType<Light>().Where(x => x.type == LightType.Directional).First();
+            directionLight = Object.FindObjectsOfType<Light>().First(x => x.type == LightType.Directional);
             GameObject plrObj = GameObject.Find("FPSPLAYER");
             if (plrObj) playerTransform = plrObj.transform;
             originalLightPos = directionLight.transform.position;
@@ -54,48 +54,54 @@ namespace SaikoMod.UI
                 case 0:
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(RenderSettings.fog, "Fog")) RenderSettings.fog = !RenderSettings.fog;
-                    RenderSettings.fogColor = RGUI.ColorPicker(RenderSettings.fogColor);
-                    RenderSettings.fogMode = RGUI.Field(RenderSettings.fogMode, "Fog Mode");
-                    switch (RenderSettings.fogMode)
+                    if (RenderSettings.fog)
                     {
-                        case FogMode.Linear:
-                            RenderSettings.fogStartDistance = RGUI.SliderFloat(RenderSettings.fogStartDistance, 0f, 9999f, 0f, "Fog Start Distance");
-                            RenderSettings.fogEndDistance = RGUI.SliderFloat(RenderSettings.fogEndDistance, 0f, 9999f, 30f, "Fog Start Distance");
-                            break;
-                        case FogMode.Exponential:
-                        case FogMode.ExponentialSquared:
-                            RenderSettings.fogDensity = RGUI.SliderFloat(RenderSettings.fogDensity, 0f, 2f, 0.05f, "Fog Density");
-                            break;
+                        RenderSettings.fogColor = RGUI.ColorPicker(RenderSettings.fogColor);
+                        RenderSettings.fogMode = RGUI.Field(RenderSettings.fogMode, "Fog Mode");
+                        switch (RenderSettings.fogMode)
+                        {
+                            case FogMode.Linear:
+                                RenderSettings.fogStartDistance = RGUI.SliderFloat(RenderSettings.fogStartDistance, 0f, 9999f, 0f, "Fog Start Distance");
+                                RenderSettings.fogEndDistance = RGUI.SliderFloat(RenderSettings.fogEndDistance, 0f, 9999f, 30f, "Fog Start Distance");
+                                break;
+                            case FogMode.Exponential:
+                            case FogMode.ExponentialSquared:
+                                RenderSettings.fogDensity = RGUI.SliderFloat(RenderSettings.fogDensity, 0f, 2f, 0.05f, "Fog Density");
+                                break;
+                        }
                     }
                     GUILayout.EndVertical();
                     if (directionLight)
                     {
                         GUILayout.BeginVertical("Box");
                         if (RGUI.Button(directionLight.enabled, "Light")) directionLight.enabled = !directionLight.enabled;
-                        directionLight.type = RGUI.Field(directionLight.type, "Light Type");
-                        switch (directionLight.type)
+                        if (directionLight.enabled)
                         {
-                            case LightType.Directional:
-                                if (directionLight.transform.parent != null) directionLight.transform.parent = null;
-                                directionLight.transform.position = originalLightPos;
-                                directionLight.transform.rotation = originalLightRot;
-                                break;
-                            case LightType.Point:
-                                if (directionLight.transform.parent != null) directionLight.transform.parent = null;
-                                directionLight.range = RGUI.SliderFloat(directionLight.range, 0f, 999f, 0f, "Range");
-                                break;
-                            case LightType.Spot:
-                                if (directionLight.transform.parent == null) directionLight.transform.parent = Camera.main.transform;
-                                directionLight.range = RGUI.SliderFloat(directionLight.range, 0f, 999f, 0f, "Range");
-                                directionLight.spotAngle = RGUI.SliderFloat(directionLight.spotAngle, 1f, 179f, 30f, "Spot Range");
-                                break;
+                            directionLight.type = RGUI.Field(directionLight.type, "Light Type");
+                            switch (directionLight.type)
+                            {
+                                case LightType.Directional:
+                                    if (directionLight.transform.parent != null) directionLight.transform.parent = null;
+                                    directionLight.transform.position = originalLightPos;
+                                    directionLight.transform.rotation = originalLightRot;
+                                    break;
+                                case LightType.Point:
+                                    if (directionLight.transform.parent != null) directionLight.transform.parent = null;
+                                    directionLight.range = RGUI.SliderFloat(directionLight.range, 0f, 999f, 0f, "Range");
+                                    break;
+                                case LightType.Spot:
+                                    if (directionLight.transform.parent == null) directionLight.transform.parent = Camera.main.transform;
+                                    directionLight.range = RGUI.SliderFloat(directionLight.range, 0f, 999f, 0f, "Range");
+                                    directionLight.spotAngle = RGUI.SliderFloat(directionLight.spotAngle, 1f, 179f, 30f, "Spot Range");
+                                    break;
+                            }
+                            directionLight.color = RGUI.ColorPicker(directionLight.color);
+                            directionLight.intensity = RGUI.SliderFloat(directionLight.intensity, 0f, 100f, 2f, "Intensity");
+                            directionLight.shadows = RGUI.Field(directionLight.shadows, "Light Shadows");
                         }
-                        directionLight.color = RGUI.ColorPicker(directionLight.color);
-                        directionLight.intensity = RGUI.SliderFloat(directionLight.intensity, 0f, 100f, 2f, "Intensity");
-                        directionLight.shadows = RGUI.Field(directionLight.shadows, "Light Shadows");
                         GUILayout.EndVertical();
                     }
-                    if (windowLights.Length > 0 && RGUI.Button(windowLightEnabled, "Window Light Enabled"))
+                    if (windowLights != null && RGUI.Button(windowLightEnabled, "Window Light Enabled"))
                     {
                         windowLightEnabled = !windowLightEnabled;
                         foreach (GameObject window in windowLights) window.SetActive(windowLightEnabled);

@@ -177,7 +177,7 @@ namespace SaikoMod.UI
                         if (player.hasKeyInHand && GUILayout.Button("Drop Key")) player.DropKey(player.currentKeyIdInHand);
                         if (GUILayout.Button("TP Key to Player"))
                         {
-                            foreach (InventoryItem keyItem in Resources.FindObjectsOfTypeAll<InventoryItem>().Where(x => x.gameObject.activeSelf).ToArray())
+                            foreach (InventoryItem keyItem in Resources.FindObjectsOfTypeAll<InventoryItem>().Where(x => x.gameObject.activeSelf))
                             {
                                 keyItem.transform.position = player.transform.position + new Vector3(2f, 0f, 0f);
                             }

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
+using SaikoMod.Core.Components.UI;
 
 namespace SaikoMod.Mods
 {
@@ -20,9 +21,9 @@ namespace SaikoMod.Mods
             rect.anchoredPosition = Vector2.zero;
             text.text += $"\n<size=16>Mod Version {ModBase.modVer}</size>";
 
-            Button quick = UI.UIHelpers.CreateButton("QuickPlay", main_UI, UI.AnchorUtils.AnchorPreset.Left, new Vector2(40f, 50f));
-            quick.onClick.RemoveAllListeners();
-            quick.onClick.AddListener(() => {
+            CustomButton quick = UI.UIHelpers.CreateButton("Quick Start", main_UI, UI.AnchorUtils.AnchorPreset.Left, new Vector2(40f, 50f));
+            quick.button.name = "Quick Start";
+            quick.button.onClick.AddListener(() => {
                 GameData.instance.difficultyChosen = DifficultyChosen.Hard;
                 __instance.PlayGame();
             });

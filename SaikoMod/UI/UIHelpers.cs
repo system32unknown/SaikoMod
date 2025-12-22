@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
+using SaikoMod.Core.Components.UI;
 
 namespace SaikoMod.UI
 {
@@ -84,17 +85,16 @@ namespace SaikoMod.UI
             }
         }
     }
-    public static class UIHelpers
-    {
-        public static Button CreateButton(string label, Transform parent, AnchorUtils.AnchorPreset anchor, Vector2 position)
-        {
-            Button _but = Object.FindObjectsOfType<Button>().Where(x => x.name == "Start").First();
-            Button but = Object.Instantiate(_but, parent);
-            RectTransform rectT = but.GetComponent<RectTransform>();
-            but.transform.GetChild(0).GetComponent<Text>().text = label;
-            AnchorUtils.SetAnchor(rectT, anchor);
-            rectT.anchoredPosition = position;
-            return but;
+
+    public static class UIHelpers {
+        public static CustomButton CreateButton(string label, Transform parent, AnchorUtils.AnchorPreset anchor, Vector2 position) {
+            Button but = Object.Instantiate(Object.FindObjectsOfType<Button>().First(x => x.name == "Start"), parent);
+            CustomButton button = new CustomButton(but);
+            button.Label.text = label;
+            AnchorUtils.SetAnchor(button.Rect, anchor);
+            button.Label.fontSize = 22;
+            button.position = position;
+            return button;
         }
     }
 }

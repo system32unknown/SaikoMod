@@ -104,11 +104,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
+    <Compile Include="Core\Components\CamRenderer.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
     <Compile Include="Core\Enums\GodModeType.cs" />
     <Compile Include="Core\Enums\MessageType.cs" />
@@ -118,12 +127,14 @@
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
+    <Compile Include="Mods\LipPatches.cs" />
     <Compile Include="RapidGUI\Field\RecursiveField.cs" />
     <Compile Include="RapidGUI\PrefixLabel.cs" />
     <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
     <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
     <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
     <Compile Include="RapidGUI\Utilities\Recursive.cs" />
+    <Compile Include="Core\Components\UI\CustomButton.cs" />
     <Compile Include="UI\UIHelpers.cs" />
     <Compile Include="Utils\ConverterUtils.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />

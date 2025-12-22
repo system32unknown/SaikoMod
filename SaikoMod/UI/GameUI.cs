@@ -39,7 +39,7 @@ namespace SaikoMod.UI
             gm = HFPS_GameManager.instance;
             curRoom = aiRooms[0];
 
-            keypad = Object.FindObjectsOfType<Keypad>().Where(x => x.gameObject.name == "Keypad (1)").First();
+            keypad = Object.FindObjectsOfType<Keypad>().First(x => x.gameObject.name == "Keypad (1)");
             CCTVManager.AddedMoreCam = false;
         }
 

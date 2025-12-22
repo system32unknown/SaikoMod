@@ -38,6 +38,7 @@ namespace SaikoMod.UI
         bool animAdded = false;
         Animation EmoteAnimation;
         List<AnimationClip> animationClips = new List<AnimationClip>();
+        List<Texture2D> customTex = new List<Texture2D>();
         AnimationClip curClip;
         int animIdx = 0;
 
@@ -63,7 +64,7 @@ namespace SaikoMod.UI
             }
 
             custom_eye = PathUtils.TextureFromFile("mods/textures/saiko/custom_eye.png", TextureFormat.RGBA32);
-            original_eye = Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.name == "eye").First();
+            original_eye = Resources.FindObjectsOfTypeAll<Texture2D>().First(x => x.name == "eye");
 
             eyeMat = graphic.meshToChangeMat[0].materials[1];
             originalShader = eyeMat.shader;
@@ -156,11 +157,12 @@ namespace SaikoMod.UI
                         GUILayout.BeginVertical("Box");
                         skins = RGUI.Field(skins, "Saiko Skins");
                         GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Change"))
+                        if (GUILayout.Button("Change Material"))
                         {
                             Material[] mats = new Material[3];
                             switch (skins)
                             {
+                                case SaikoSkins.Default: for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i]; break;
                                 case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
                                 case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
                                 case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
@@ -173,13 +175,7 @@ namespace SaikoMod.UI
                             }
                             foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
                         }
-                        if (GUILayout.Button("Change to Default"))
-                        {
-                            for (int i = 0; i < graphic.meshToChangeMat.Length; i++)
-                            {
-                                graphic.meshToChangeMat[i].materials = originalMat[i];
-                            }
-                        }
+                        if (GUILayout.Button("Change to Default")) for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i];
                         GUILayout.EndHorizontal();
 
                         if (RGUI.Button(YandModAI.customEye, "Custom Eye")) {
@@ -237,6 +233,13 @@ namespace SaikoMod.UI
             ai.currentState = AIState.Investigating;
             yand.wayPointChosenLocation = pos;
             yand.playerAgent.SetDestination(pos);
+        }
+
+        Texture2D GetTex(string name)
+        {
+            Texture2D tex = Resources.FindObjectsOfTypeAll<Texture2D>().FirstOrDefault(t => t.name == name);
+            if (tex != null) return tex;
+            return customTex.FirstOrDefault(t => t.name == name);
         }
 
         public override string Title => "Saiko";

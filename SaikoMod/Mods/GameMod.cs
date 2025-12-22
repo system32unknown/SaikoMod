@@ -17,10 +17,10 @@ namespace SaikoMod.Mods
             tracker.from = pc.yandereController.transform;
             tracker.to = pc.transform;
 
-            Image img = Resources.FindObjectsOfTypeAll<Image>().Where(x => x.name == "PausePanel").First();
+            Image img = Resources.FindObjectsOfTypeAll<Image>().First(x => x.name == "PausePanel");
             img.enabled = false;
 
-            DynamicObject powerbox = Resources.FindObjectsOfTypeAll<DynamicObject>().Where((DynamicObject x) => x.name == "locker" && x.transform.parent.name == "Dynamic_ElectricBox").First();
+            DynamicObject powerbox = Resources.FindObjectsOfTypeAll<DynamicObject>().First(x => x.name == "locker" && x.transform.parent.name == "Dynamic_ElectricBox");
             powerbox.backUseAnim2 = "PowerBox_Close";
 
             __instance.healthManager.Health = 200f;

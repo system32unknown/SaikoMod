@@ -1,5 +1,4 @@
 ﻿using RapidGUI;
-using RogoDigital.Lipsync;
 using UnityEngine;
 using SaikoMod.Utils;
 using SaikoMod.Helper;
@@ -20,6 +19,14 @@ namespace SaikoMod.UI
         int page = 0;
 
         public YandereController yand;
+
+        LipSyncVoice[][] voices1;
+        LipSyncVoice[] voices2;
+
+        public void OnLoad() {
+            voices1 = ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial);
+            voices2 = ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial);
+        }
 
         public override void Draw() {
             switch (page)
@@ -60,15 +67,13 @@ namespace SaikoMod.UI
                         }
                     }
 
-                    if (GUILayout.Button("Corrupt Voices"))
-                    {
-                        foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.Shufflevoices(voices);
-                        foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.Shufflevoice(voices);
+                    if (GUILayout.Button("Corrupt Voices")) {
+                        foreach (LipSyncVoice[] voices in voices1) LipSyncUtils.Shufflevoices(voices);
+                        foreach (LipSyncVoice voices in voices2) LipSyncUtils.Shufflevoice(voices);
                     }
-                    if (GUILayout.Button("Empty Voices"))
-                    {
-                        foreach (LipSyncVoice[] voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice[]>(yand.facial)) LipSyncUtils.SetEmptyDatas(voices);
-                        foreach (LipSyncVoice voices in ReflectionHelpers.GetPublicFieldsOfType<LipSyncVoice>(yand.facial)) LipSyncUtils.SetEmptyData(voices);
+                    if (GUILayout.Button("Empty Voices")) {
+                        foreach (LipSyncVoice[] voices in voices1) LipSyncUtils.SetEmptyDatas(voices);
+                        foreach (LipSyncVoice voices in voices2) LipSyncUtils.SetEmptyData(voices);
                     }
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();

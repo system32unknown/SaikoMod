@@ -11,7 +11,7 @@ namespace SaikoMod.Utils
         }
         public static LipSyncData GetEmptyData()
         {
-            return CreateData(CreateEmptyClip(0.5f), "", new PhonemeMarker[0], 0, 0);
+            return CreateData(CreateAudioClip("Quiet", 0.5f, true), "", new PhonemeMarker[0], 0, 0);
         }
 
         public static LipSyncData CreateData(AudioClip clip, string transcript, PhonemeMarker[] phonemeData, int phCount, int emCount, bool generate = false)
@@ -36,7 +36,7 @@ namespace SaikoMod.Utils
         public static void Shufflevoice(LipSyncVoice voice)
         {
             AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
-            voice.voiceline = RandomUtil.GetString(100, true);
+            voice.voiceline = RandomUtil.GetString(100, true, 10);
             LipSyncData data = voice.clip;
             data.clip = clips[Random.Range(0, clips.Length - 1)];
             foreach (PhonemeMarker phoneme in data.phonemeData) {
@@ -45,8 +45,8 @@ namespace SaikoMod.Utils
                 phoneme.phonemeNumber = Random.Range(0, 10);
             }
 
-            RandomUtil.ShuffleCurve(data.phonemePoseCurves);
-            RandomUtil.ShuffleCurve(data.emotionPoseCurves);
+            RandomUtil.ShuffleCurve(data.phonemePoseCurves, 10f, 100f, 100f);
+            RandomUtil.ShuffleCurve(data.emotionPoseCurves, 10f, 100f, 100f);
         }
 
         public static void SetEmptyDatas(LipSyncVoice[] voices)
@@ -56,7 +56,7 @@ namespace SaikoMod.Utils
         public static void SetEmptyData(LipSyncVoice voice)
         {
             LipSyncData data = voice.clip;
-            data.clip = CreateEmptyClip(.5f);
+            data.clip = CreateAudioClip("Quiet", .5f, true);
             data.transcript = voice.voiceline = "";
 
             foreach (AnimationCurve curve in data.phonemePoseCurves) {
@@ -75,23 +75,13 @@ namespace SaikoMod.Utils
             }
         }
 
-        public static AudioClip CreateAudioClip(string name, float dur) {
+        public static AudioClip CreateAudioClip(string name, float dur, bool isEmpty = false) {
             const int sampleR = 44100;
             int totalSamples = (int)(sampleR * dur);
             AudioClip clip = AudioClip.Create(name, totalSamples, 1, sampleR, false);
 
             float[] samples = new float[totalSamples];
-            for (int i = 0; i < totalSamples; i++) samples[i] = Random.Range(-1f, 1f);
-            clip.SetData(samples, 0);
-            return clip;
-        }
-        public static AudioClip CreateEmptyClip(float duration) {
-            const int sampleR = 44100;
-            int samplesCount = (int)(duration * sampleR);
-            AudioClip clip = AudioClip.Create("SilentClip", samplesCount, 1, sampleR, false);
-
-            float[] samples = new float[samplesCount];
-            for (int i = 0; i < samplesCount; i++) samples[i] = 0f; // Fill with silence
+            for (int i = 0; i < totalSamples; i++) samples[i] = (isEmpty ? 0f : Random.Range(-1f, 1f));
             clip.SetData(samples, 0);
             return clip;
         }

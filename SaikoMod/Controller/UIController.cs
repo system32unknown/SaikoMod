@@ -37,6 +37,7 @@ namespace SaikoMod.Controller
                     assetBundle.OnLoad();
 
                     othermods.yand = saikomods.yand;
+                    othermods.OnLoad();
                 }
                 settings.OnLoad();
                 lighting.OnLoad();
