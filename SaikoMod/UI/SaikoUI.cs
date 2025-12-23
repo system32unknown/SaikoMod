@@ -42,6 +42,8 @@ namespace SaikoMod.UI
         AnimationClip curClip;
         int animIdx = 0;
 
+        Core.Components.CamRenderer camRenderer;
+
         public SaikoUI()
         {
             AssetBundleHelper.InitBundle(emotefilePath, ".emotes", (string ename, string filename) =>
@@ -49,6 +51,7 @@ namespace SaikoMod.UI
                 EmoteNames.Add(ename);
                 EmoteFilenames.Add(filename);
             });
+            camRenderer = new Core.Components.CamRenderer();
         }
 
         public void OnLoad()
