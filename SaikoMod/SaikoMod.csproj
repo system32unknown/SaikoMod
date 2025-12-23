@@ -117,7 +117,6 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
-    <Compile Include="Core\Components\CamRenderer.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
     <Compile Include="Core\Enums\GodModeType.cs" />
     <Compile Include="Core\Enums\MessageType.cs" />
