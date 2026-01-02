@@ -5,7 +5,7 @@ using RogoDigital.Lipsync;
 namespace SaikoMod.Mods
 {
     [HarmonyPatch(typeof(LipSync))]
-    internal class LipPatches
+    public class LipPatches
     {
         public static Action<LipSyncData> onPlay;
 
