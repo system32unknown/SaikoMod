@@ -7,10 +7,8 @@ using SaikoMod.Core.Components;
 using SaikoMod.Mods;
 using SaikoMod.Helper;
 
-namespace SaikoMod.UI
-{
-    public class PlayerUI : BaseWindowUI
-    {
+namespace SaikoMod.UI {
+    public class PlayerUI : BaseWindowUI {
         int page = 0;
 
         List<Vector3> tempPlayerPos = new List<Vector3>() { Vector3.zero };
@@ -28,17 +26,20 @@ namespace SaikoMod.UI
 
         bool _regeneration = false;
 
+        FlyController flyController;
+
         public void OnLoad() {
             dkm = Object.FindObjectOfType<DoorAndKeyManager>();
             pf = Object.FindObjectOfType<PlayerFunctions>();
             player = Object.FindObjectOfType<PlayerController>();
             cam = Object.FindObjectOfType<CameraMotionController>();
             hm = Object.FindObjectOfType<HealthManager>();
+
+            if (player) flyController = player.gameObject.AddComponent<FlyController>();
         }
 
         public override void Draw() {
-            switch (page)
-            {
+            switch (page) {
                 case 0:
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(SaikoTracker.UpdateTracker, "Update Tracker")) SaikoTracker.UpdateTracker = !SaikoTracker.UpdateTracker;
@@ -49,8 +50,7 @@ namespace SaikoMod.UI
                     HealthMod.godModeType = RGUI.Field(HealthMod.godModeType, "Godmode Type");
                     if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
-                    if (player)
-                    {
+                    if (player) {
                         if (RGUI.Button(player.beingRide, "Being Ride")) player.beingRide = !player.beingRide;
                         if (RGUI.Button(player.hasShoes, "Has Shoes")) player.hasShoes = !player.hasShoes;
                         GUILayout.BeginVertical("Box");
@@ -71,13 +71,11 @@ namespace SaikoMod.UI
 
                     GUILayout.BeginVertical("Box");
                     GUILayout.Label("Waypoints");
-                    if (tempPlayerPos.Count > 0)
-                    {
+                    if (tempPlayerPos.Count > 0) {
                         selectedWayPos = RGUI.SliderInt(selectedWayPos, 0, tempPlayerPos.Count - 1, 0, "Selected Waypoint");
                         GUILayout.Label("Saved Pos: " + tempPlayerPos[selectedWayPos].ToString());
                         GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Save Position"))
-                        {
+                        if (GUILayout.Button("Save Position")) {
                             curPlayerPos = player.transform.position;
                             tempPlayerPos[selectedWayPos] = curPlayerPos;
                         };
@@ -86,13 +84,11 @@ namespace SaikoMod.UI
                         GUILayout.EndHorizontal();
                     }
                     GUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Add"))
-                    {
+                    if (GUILayout.Button("Add")) {
                         tempPlayerPos.Add(Vector3.zero);
                         selectedWayPos = tempPlayerPos.Count - 1;
                     }
-                    if (tempPlayerPos.Count > 1 && GUILayout.Button("Remove"))
-                    {
+                    if (tempPlayerPos.Count > 1 && GUILayout.Button("Remove")) {
                         tempPlayerPos.RemoveAt(tempPlayerPos.Count - 1);
                         selectedWayPos = tempPlayerPos.Count - 1;
                     }
@@ -148,15 +144,12 @@ namespace SaikoMod.UI
                         if (GUILayout.Button("Drugged")) player.GetsDrugged();
                         if (GUILayout.Button("Poisoned")) player.GetsPoisoned();
                         GUILayout.EndHorizontal();
-                        if (hm)
-                        {
-                            if (!_regeneration && GUILayout.Button("Start Regeneration"))
-                            {
+                        if (hm) {
+                            if (!_regeneration && GUILayout.Button("Start Regeneration")) {
                                 hm.StartCoroutine("Regenerate");
                                 _regeneration = true;
                             }
-                            if (_regeneration && GUILayout.Button("Stop Regeneration"))
-                            {
+                            if (_regeneration && GUILayout.Button("Stop Regeneration")) {
                                 hm.StopCoroutine("Regenerate");
                                 _regeneration = false;
                             }
@@ -165,8 +158,7 @@ namespace SaikoMod.UI
                         GUILayout.EndVertical();
                     }
 
-                    if (dkm)
-                    {
+                    if (dkm) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Keys");
                         keyid = RGUI.Field(keyid, "Key Id");
@@ -175,14 +167,24 @@ namespace SaikoMod.UI
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Hold Key")) player.HoldKey(keyid, keyname);
                         if (player.hasKeyInHand && GUILayout.Button("Drop Key")) player.DropKey(player.currentKeyIdInHand);
-                        if (GUILayout.Button("TP Key to Player"))
-                        {
-                            foreach (InventoryItem keyItem in Resources.FindObjectsOfTypeAll<InventoryItem>().Where(x => x.gameObject.activeSelf))
-                            {
+                        if (GUILayout.Button("TP Key to Player")) {
+                            foreach (InventoryItem keyItem in Resources.FindObjectsOfTypeAll<InventoryItem>().Where(x => x.gameObject.activeSelf)) {
                                 keyItem.transform.position = player.transform.position + new Vector3(2f, 0f, 0f);
                             }
                         }
                         GUILayout.EndHorizontal();
+                        GUILayout.EndVertical();
+                    }
+                    break;
+                case 2:
+                    if (flyController) {
+                        GUILayout.BeginVertical("Box");
+                        if (RGUI.Button(flyController.isFlying, "Noclip")) {
+                            flyController.isFlying = !flyController.isFlying;
+                            player.enabled = !flyController.isFlying;
+                        }
+                        flyController.speed = RGUI.SliderFloat(flyController.speed, 0f, 99f, 50f, "Noclip Speed");
+                        flyController.acc = RGUI.SliderFloat(flyController.acc, 0f, 99f, 12f, "Noclip Acceleration");
                         GUILayout.EndVertical();
                     }
                     break;

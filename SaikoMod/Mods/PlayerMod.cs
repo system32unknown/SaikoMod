@@ -14,8 +14,7 @@ namespace SaikoMod.Mods
     }
 
     [HarmonyPatch(typeof(CameraMotionController))]
-    class PlayerCamMod
-    {
+    class PlayerCamMod {
         [HarmonyPatch("PlayNeckStabAnimation"), HarmonyPrefix]
         static bool KillPatch()
         {
