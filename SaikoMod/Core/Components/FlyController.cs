@@ -7,8 +7,6 @@ namespace SaikoMod.Core.Components {
         public float speed = 50f;
         public float acc = 12f;
 
-        public bool isFlying = false;
-
         Rigidbody rb;
         Transform cam;
 
@@ -18,17 +16,15 @@ namespace SaikoMod.Core.Components {
             rb = GetComponent<Rigidbody>();
             if (!rb) return;
 
-            if (rb.isKinematic) rb.interpolation = RigidbodyInterpolation.Interpolate;
             cam = Camera.main?.transform;
         }
 
         void Update() {
-            if (isFlying) curVel = Vector3.Lerp(curVel, GetInputDirection() * speed, acc * Time.deltaTime);
-            else curVel = Vector3.zero;
+            curVel = Vector3.Lerp(curVel, GetInputDirection() * speed, acc * Time.deltaTime);
         }
 
         void FixedUpdate() {
-            if (!isFlying || !cam) return;
+            if (!cam) return;
 
             rb.MovePosition(rb.position + curVel * Time.fixedDeltaTime);
             RotateTowardsCamera();

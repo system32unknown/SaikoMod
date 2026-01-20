@@ -35,7 +35,10 @@ namespace SaikoMod.UI {
             cam = Object.FindObjectOfType<CameraMotionController>();
             hm = Object.FindObjectOfType<HealthManager>();
 
-            if (player) flyController = player.gameObject.AddComponent<FlyController>();
+            if (player) {
+                flyController = player.gameObject.AddComponent<FlyController>();
+                flyController.enabled = false;
+            }
         }
 
         public override void Draw() {
@@ -179,9 +182,9 @@ namespace SaikoMod.UI {
                 case 2:
                     if (flyController) {
                         GUILayout.BeginVertical("Box");
-                        if (RGUI.Button(flyController.isFlying, "Noclip")) {
-                            flyController.isFlying = !flyController.isFlying;
-                            player.enabled = !flyController.isFlying;
+                        if (RGUI.Button(flyController.enabled, "Noclip")) {
+                            flyController.enabled = !flyController.enabled;
+                            player.enabled = !flyController.enabled;
                         }
                         flyController.speed = RGUI.SliderFloat(flyController.speed, 0f, 99f, 50f, "Noclip Speed");
                         flyController.acc = RGUI.SliderFloat(flyController.acc, 0f, 99f, 12f, "Noclip Acceleration");
