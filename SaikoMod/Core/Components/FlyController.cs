@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 
 namespace SaikoMod.Core.Components {
+    public enum NoclipMode {
+        Rigidbody,
+        Transform
+    }
+
     [RequireComponent(typeof(Rigidbody))]
     public class FlyController : MonoBehaviour {
+        public NoclipMode noclipMode = NoclipMode.Rigidbody;
+
         [Header("Fly Settings")]
         public float speed = 50f;
         public float acc = 12f;
@@ -19,15 +26,18 @@ namespace SaikoMod.Core.Components {
             cam = Camera.main?.transform;
         }
 
+        void OnDisable() {
+            curVel = Vector3.zero;
+        }
+
         void Update() {
             curVel = Vector3.Lerp(curVel, GetInputDirection() * speed, acc * Time.deltaTime);
+            if (!cam || noclipMode == NoclipMode.Transform) MoveTransform();
         }
 
         void FixedUpdate() {
-            if (!cam) return;
-
-            rb.MovePosition(rb.position + curVel * Time.fixedDeltaTime);
-            RotateTowardsCamera();
+            if (!cam || noclipMode != NoclipMode.Rigidbody) return;
+            MoveRigidbody();
         }
 
         Vector3 GetInputDirection() {
@@ -45,11 +55,24 @@ namespace SaikoMod.Core.Components {
             return dir.sqrMagnitude > 0f ? dir.normalized : Vector3.zero;
         }
 
-        void RotateTowardsCamera() {
+        void MoveRigidbody() {
+            rb.MovePosition(rb.position + curVel * Time.fixedDeltaTime);
+            RotateTowardsCamera(rb.rotation, rb.MoveRotation);
+        }
+
+        void MoveTransform() {
+            transform.position += curVel * Time.deltaTime;
+            RotateTowardsCamera(transform.rotation, r => transform.rotation = r);
+        }
+
+        void RotateTowardsCamera(Quaternion current, System.Action<Quaternion> applyRotation) {
             Vector3 forward = cam.forward;
             forward.y = 0f;
-            if (forward.sqrMagnitude < 0.001f) return;
-            rb.MoveRotation(Quaternion.LookRotation(forward));
+
+            if (forward.sqrMagnitude < 0.001f)
+                return;
+
+            applyRotation(Quaternion.LookRotation(forward));
         }
     }
 }

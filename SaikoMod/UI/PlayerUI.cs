@@ -186,6 +186,7 @@ namespace SaikoMod.UI {
                             flyController.enabled = !flyController.enabled;
                             player.enabled = !flyController.enabled;
                         }
+                        flyController.noclipMode = RGUI.Field(flyController.noclipMode, "Noclip Mode");
                         flyController.speed = RGUI.SliderFloat(flyController.speed, 0f, 99f, 50f, "Noclip Speed");
                         flyController.acc = RGUI.SliderFloat(flyController.acc, 0f, 99f, 12f, "Noclip Acceleration");
                         GUILayout.EndVertical();
