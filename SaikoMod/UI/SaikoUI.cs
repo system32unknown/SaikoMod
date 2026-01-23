@@ -7,10 +7,8 @@ using SaikoMod.Mods;
 using SaikoMod.Utils;
 using SaikoMod.Helper;
 
-namespace SaikoMod.UI
-{
-    public class SaikoUI : BaseWindowUI
-    {
+namespace SaikoMod.UI {
+    public class SaikoUI : BaseWindowUI {
         int page = 0;
 
         SaikoSkins skins = SaikoSkins.Black;
@@ -42,17 +40,14 @@ namespace SaikoMod.UI
         AnimationClip curClip;
         int animIdx = 0;
 
-        public SaikoUI()
-        {
-            AssetBundleHelper.InitBundle(emotefilePath, ".emotes", (string ename, string filename) =>
-            {
+        public SaikoUI() {
+            AssetBundleHelper.InitBundle(emotefilePath, ".emotes", (string ename, string filename) => {
                 EmoteNames.Add(ename);
                 EmoteFilenames.Add(filename);
             });
         }
 
-        public void OnLoad()
-        {
+        public void OnLoad() {
             if (yand = Object.FindObjectOfType<YandereController>()) {
                 ai = yand.aI;
                 mood = yand.mood;
@@ -75,17 +70,15 @@ namespace SaikoMod.UI
                 animationClips.Add(EmoteAsset.LoadAllAssets<AnimationClip>()[0]);
             }
         }
-        public void OnUnload()
-        {
+
+        public void OnUnload() {
             animAdded = false;
             animationClips.Clear();
             AssetBundle.UnloadAllAssetBundles(true);
         }
 
-        public override void Draw()
-        {
-            switch (page)
-            {
+        public override void Draw() {
+            switch (page) {
                 case 0:
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(YandModController.noDetect, "No Detect")) YandModController.noDetect = !YandModController.noDetect;
@@ -111,8 +104,7 @@ namespace SaikoMod.UI
                     }
                     GUILayout.EndVertical();
 
-                    if (yand)
-                    {
+                    if (yand) {
                         ai.currentState = RGUI.Field(ai.currentState, "AI State");
                         mood.saikoState = RGUI.Field(mood.saikoState, "Saiko State");
                         mood.angerLevel = RGUI.SliderInt(mood.angerLevel, 0, 10, 0, "Anger Level");
@@ -152,16 +144,13 @@ namespace SaikoMod.UI
                         if (GUILayout.Button("Rotate Towards Object")) yand.RotateTowardsObject(PlayerUI.curPlayerPos);
                         GUILayout.EndVertical();
                     }
-                    if (graphic && yand)
-                    {
+                    if (graphic && yand) {
                         GUILayout.BeginVertical("Box");
                         skins = RGUI.Field(skins, "Saiko Skins");
                         GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Change Material"))
-                        {
+                        if (GUILayout.Button("Change Material")) {
                             Material[] mats = new Material[3];
-                            switch (skins)
-                            {
+                            switch (skins) {
                                 case SaikoSkins.Default: for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i]; break;
                                 case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
                                 case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
@@ -196,22 +185,18 @@ namespace SaikoMod.UI
 
                     GUILayout.BeginVertical("Box");
                     if (yand) {
-                        if (!animAdded && GUILayout.Button("Add Custom Anim"))
-                        {
+                        if (!animAdded && GUILayout.Button("Add Custom Anim")) {
                             animAdded = true;
                             yand.gameObject.GetComponent<Animator>().enabled = false;
                             if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
                         }
-                        if (animAdded && GUILayout.Button("Remove Custom Anim"))
-                        {
+                        if (animAdded && GUILayout.Button("Remove Custom Anim")) {
                             animAdded = false;
                             yand.gameObject.GetComponent<Animator>().enabled = true;
                             if (EmoteAnimation) Object.Destroy(EmoteAnimation);
                         }
-                        if (animAdded && EmoteAnimation)
-                        {
-                            if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation"))
-                            {
+                        if (animAdded && EmoteAnimation) {
+                            if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation")) {
                                 if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
                                 EmoteAnimation.Play(EmoteNames[animIdx]);
                             }
@@ -226,8 +211,7 @@ namespace SaikoMod.UI
             page = RGUI.Page(page, 3, true);
         }
 
-        void AlertToPos(Vector3 pos)
-        {
+        void AlertToPos(Vector3 pos) {
             mood.waitingExpireTimer = 0f;
             yand.playerAgent.stoppingDistance = 0f;
             ai.currentState = AIState.Investigating;
@@ -235,8 +219,7 @@ namespace SaikoMod.UI
             yand.playerAgent.SetDestination(pos);
         }
 
-        Texture2D GetTex(string name)
-        {
+        public Texture2D GetTex(string name) {
             Texture2D tex = Resources.FindObjectsOfTypeAll<Texture2D>().FirstOrDefault(t => t.name == name);
             if (tex != null) return tex;
             return customTex.FirstOrDefault(t => t.name == name);

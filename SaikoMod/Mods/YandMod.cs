@@ -16,76 +16,63 @@ namespace SaikoMod.Mods {
         static Transform[] transforms;
 
         [HarmonyPatch("Start"), HarmonyPostfix]
-        static void InitYandController()
-        {
+        static void InitYandController() {
             transforms = Resources.FindObjectsOfTypeAll<Transform>();
         }
 
         [HarmonyPatch("isInNpcFOV"), HarmonyPrefix]
-        static bool FOVPatch()
-        {
-            return !noDetect;    
+        static bool FOVPatch() {
+            return !noDetect;
         }
 
         [HarmonyPatch("PlayerFoundDetection"), HarmonyPrefix]
-        static bool PlayerFoundDetectionPatch()
-        {
+        static bool PlayerFoundDetectionPatch() {
             return !noDetect;
         }
 
         [HarmonyPatch("AlertToPlayerPosition", new Type[] { typeof(bool), typeof(bool) }), HarmonyPrefix]
-        static bool AlertToPlayerPositionPatch()
-        {
+        static bool AlertToPlayerPositionPatch() {
             return !noAlert;
         }
 
         [HarmonyPatch("AtemptKidnapPlayer"), HarmonyPrefix]
-        static bool AtemptKidnapPlayerPatch()
-        {
+        static bool AtemptKidnapPlayerPatch() {
             return !noChoke;
         }
 
         [HarmonyPatch("ChokePlayer"), HarmonyPrefix]
-        static bool ChokePlayerPatch()
-        {
+        static bool ChokePlayerPatch() {
             return !noChoke;
         }
 
         [HarmonyPatch("SpawnAtGameIntroPos"), HarmonyPrefix]
-        static bool SpawnAtGameIntroPosPatch()
-        {
+        static bool SpawnAtGameIntroPosPatch() {
             return !noBadEnding;
         }
         [HarmonyPatch("KillPlayerFromFront"), HarmonyPrefix]
-        static bool KillPlayerFromFrontPatch()
-        {
+        static bool KillPlayerFromFrontPatch() {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
-        [HarmonyPatch("PushPlayerDown", new Type[] {typeof(bool)}), HarmonyPrefix]
-        static bool PushPlayerDownPatch()
-        {
+        [HarmonyPatch("PushPlayerDown", new Type[] { typeof(bool) }), HarmonyPrefix]
+        static bool PushPlayerDownPatch() {
             return !noPushing;
         }
 
-        [HarmonyPatch("LookThroughWindow", new Type[] {typeof(AIRoom)}), HarmonyPrefix]
-        static bool LookThroughWindowPatch()
-        {
+        [HarmonyPatch("LookThroughWindow", new Type[] { typeof(AIRoom) }), HarmonyPrefix]
+        static bool LookThroughWindowPatch() {
             return !noDetect;
         }
 
 
         [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
-        static bool StabPatch()
-        {
+        static bool StabPatch() {
             return !(HealthMod.godModeType == GodModeType.DamageNoQuick || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]
-        static void PostUpdate(YandereController __instance)
-        {
-            switch (lookMode)
-            {
+        static void PostUpdate(YandereController __instance) {
+            switch (lookMode) {
                 case SaikoLookMode.Player:
                     __instance.lookAtIK.solver.target = __instance.playerHead;
                     break;
@@ -97,49 +84,41 @@ namespace SaikoMod.Mods {
     }
 
     [HarmonyPatch(typeof(YandereAI))]
-    public class YandModAI
-    {
+    public class YandModAI {
         public static bool notAttacted = false;
         public static bool noDistanceCheck = false;
         public static bool customEye = false;
 
         [HarmonyPatch("FixedUpdate"), HarmonyPrefix]
-        static bool FixedUpdatePatch()
-        {
+        static bool FixedUpdatePatch() {
             return !customEye;
         }
 
         [HarmonyPatch("PlayerCanDetectAI"), HarmonyPrefix]
-        static bool PlayerCanDetectPatch()
-        {
+        static bool PlayerCanDetectPatch() {
             return !YandModController.noDetect;
         }
 
         [HarmonyPatch("DetectPlayerLookingDown"), HarmonyPrefix]
-        static bool DetectPlayerLookingDownPatch()
-        {
+        static bool DetectPlayerLookingDownPatch() {
             return !YandModController.noDetect;
         }
 
         [HarmonyPatch("PlayerAttactAI"), HarmonyPrefix]
-        static bool PlayerAttactAIPatch()
-        {
+        static bool PlayerAttactAIPatch() {
             return !notAttacted;
         }
 
         [HarmonyPatch("DistanceReachedPlayerAndAI", new Type[] { typeof(float) }), HarmonyPrefix]
-        static bool DistanceReachedPlayerAndAIPatch()
-        {
+        static bool DistanceReachedPlayerAndAIPatch() {
             return !noDistanceCheck;
         }
     }
 
     [HarmonyPatch(typeof(YandereMoodController))]
-    internal class YandModMood
-    {
+    internal class YandModMood {
         [HarmonyPatch("CanExitAtemptKidnap"), HarmonyPrefix]
-        static bool CanExitAtemptKidnapPatch()
-        {
+        static bool CanExitAtemptKidnapPatch() {
             return !YandModController.noBadEnding;
         }
     }

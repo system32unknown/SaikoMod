@@ -3,10 +3,8 @@ using SaikoMod.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SaikoMod.Controller
-{
-    public class UIController : BaseController
-    {
+namespace SaikoMod.Controller {
+    public class UIController : BaseController {
         public static UIController Instance;
 
         public Rect MainMenuRect = new Rect(20f, (Screen.height / 2) - (200 / 2), 130f, 240f);
@@ -23,11 +21,11 @@ namespace SaikoMod.Controller
         readonly AssetBundleUI assetBundle = new AssetBundleUI();
         readonly SettingsUI settings = new SettingsUI();
 
-        void Awake()
-        {
+        void Awake() {
             Instance = this;
             settings.OnLoad();
         }
+
         public override void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
             if (loadSceneMode == LoadSceneMode.Single) {
                 if (scene.name == "LevelNew") {
@@ -44,8 +42,7 @@ namespace SaikoMod.Controller
             }
         }
         public override void OnSceneUnload(Scene scene) {
-            if (scene.name == "LevelNew")
-            {
+            if (scene.name == "LevelNew") {
                 saikomods.OnUnload();
                 assetBundle.OnUnload();
                 gamemods.OnUnload();
@@ -57,6 +54,7 @@ namespace SaikoMod.Controller
                 gamemods.OnUpdate();
                 lighting.OnUpdate();
             }
+
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 showMainMenu = !showMainMenu;
                 SetCursorState(showMainMenu);
@@ -90,8 +88,7 @@ namespace SaikoMod.Controller
             }
             return null;
         }
-        string GetTabTitle(MenuTab tab)
-        {
+        string GetTabTitle(MenuTab tab) {
             switch (tab) {
                 case MenuTab.Player: return "Player Mod";
                 case MenuTab.Saiko: return "Saiko Mod";
@@ -103,8 +100,7 @@ namespace SaikoMod.Controller
             }
             return "";
         }
-        Vector3 GetTabSize(MenuTab tab)
-        {
+        Vector3 GetTabSize(MenuTab tab) {
             return new Vector2(444f, 664f);
         }
 

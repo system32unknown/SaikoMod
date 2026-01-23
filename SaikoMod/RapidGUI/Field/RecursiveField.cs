@@ -66,24 +66,15 @@ namespace RapidGUI
                 if (CheckIgnoreField(info.Name)) continue;
 
                 var v = info.GetValue(obj);
-                var range = info.range;
                 var memberType = info.MemberType;
                 var elemName = CheckCustomLabel(info.Name) ?? info.label;
 
+                // for the bug that short label will be strange word wrap at unity2019
+                tmpStringBuilder.Clear();
+                tmpStringBuilder.Append(elemName);
+                tmpStringBuilder.Append(" ");
 
-                if (range != null)
-                {
-                    // v = Slider(v, range.min, range.max, memberType, elemName);
-                }
-                else
-                {
-                    // for the bug that short label will be strange word wrap at unity2019
-                    tmpStringBuilder.Clear();
-                    tmpStringBuilder.Append(elemName);
-                    tmpStringBuilder.Append(" ");
-
-                    v = Field(v, memberType, tmpStringBuilder.ToString());
-                }
+                v = Field(v, memberType, tmpStringBuilder.ToString());
                 info.SetValue(obj, v);
             };
         }

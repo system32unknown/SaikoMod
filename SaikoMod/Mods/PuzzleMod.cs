@@ -3,8 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using SaikoMod.UI;
 
-namespace SaikoMod.Mods
-{
+namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(ElectricPuzzle))]
     class PuzzleMod {
         static ElectricPuzzle i;
@@ -17,10 +16,8 @@ namespace SaikoMod.Mods
         }
 
         [HarmonyPatch("CheckCanContinue"), HarmonyPrefix]
-        static bool CheckCanContinuePatch(ref bool __result)
-        {
-            if (PuzzleHack)
-            {
+        static bool CheckCanContinuePatch(ref bool __result) {
+            if (PuzzleHack) {
                 __result = true;
                 return false;
             }
@@ -37,10 +34,8 @@ namespace SaikoMod.Mods
                 sw.switchLed.GetComponent<MeshRenderer>().material = i.puzzleLed[ledIndex];
             }
         }
-        public static string GetPatterns
-        {
-            get
-            {
+        public static string GetPatterns {
+            get {
                 if (i == null) return string.Empty;
                 else return string.Join(",", i.puzzlePair);
             }

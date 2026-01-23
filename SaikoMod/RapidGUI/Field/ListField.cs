@@ -18,7 +18,7 @@ namespace RapidGUI
         public static T ListField<T>(T list, string label, Func<T, int, string, object> customElementGUI = null)
             where T : IList
         {
-            return (T)DoField(list, list.GetType(), label, styleNone, (v, type) => ListField(v, type, customElementGUI), null);
+            return (T)DoField(list, list.GetType(), label, (v, type) => ListField(v, type, customElementGUI), null);
         }
 
         static object ListField(object v, Type type) => ListField<object>(v, type, null);

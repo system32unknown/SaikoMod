@@ -6,10 +6,8 @@ using SaikoMod.Utils;
 using SaikoMod.Core.Enums;
 using SaikoMod.Core.Components;
 
-namespace SaikoMod.UI
-{
-    public class GameUI : BaseWindowUI
-    {
+namespace SaikoMod.UI {
+    public class GameUI : BaseWindowUI {
         int page = 0;
         string gameMessage = "";
         bool timerStarted = true;
@@ -30,8 +28,7 @@ namespace SaikoMod.UI
         public static AIRoom curRoom;
         int roomIdx = 0;
 
-        public void OnLoad()
-        {
+        public void OnLoad() {
             ep = Object.FindObjectOfType<ElectricPuzzle>();
             ele = Object.FindObjectOfType<Electricity>();
             aiRooms = Object.FindObjectsOfType<AIRoom>();
@@ -43,8 +40,7 @@ namespace SaikoMod.UI
             CCTVManager.AddedMoreCam = false;
         }
 
-        public void OnUnload()
-        {
+        public void OnUnload() {
             timerStarted = true;
         }
 
@@ -57,24 +53,20 @@ namespace SaikoMod.UI
         }
 
         public override void Draw() {
-            switch (page)
-            {
+            switch (page) {
                 case 0:
                     GameData.instance.difficultyChosen = RGUI.Field(GameData.instance.difficultyChosen, "Game Difficulty");
                     if (GUILayout.Button("Fix CF2 Canvas")) gm.cf2rig.enabled = true;
                     if (!CCTVManager.AddedMoreCam && GUILayout.Button("Add POV CCTV")) CCTVManager.AddMoreCam();
 
-                    if (gm)
-                    {
+                    if (gm) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Messages");
                         messageType = RGUI.Field(messageType, "Message Type");
                         GUILayout.BeginHorizontal();
                         gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
-                        if (GUILayout.Button("Send Message", GUILayout.ExpandWidth(false)))
-                        {
-                            switch (messageType)
-                            {
+                        if (GUILayout.Button("Send Message", GUILayout.ExpandWidth(false))) {
+                            switch (messageType) {
                                 case MessageType.Hint: gm.ShowHint(gameMessage); break;
                                 case MessageType.Message: gm.AddMessage(gameMessage); break;
                                 case MessageType.ItemName: gm.AddPickupMessage(gameMessage); break;
@@ -95,8 +87,7 @@ namespace SaikoMod.UI
                         GUILayout.EndVertical();
                     }
 
-                    if (ep)
-                    {
+                    if (ep) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Electric Puzzle & KeyPad");
                         patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
@@ -109,8 +100,7 @@ namespace SaikoMod.UI
                     }
                     if (curRoom) curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
 
-                    if (gm)
-                    {
+                    if (gm) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Time: " + StringUtils.FormatTime(gm.seconds), RGUIStyle.centerLabel);
                         GUILayout.BeginHorizontal();
@@ -127,11 +117,9 @@ namespace SaikoMod.UI
                         GUILayout.EndVertical();
                     }
 
-                    if (interact)
-                    {
+                    if (interact) {
                         interact.RayLength = RGUI.SliderFloat(interact.RayLength, 0f, 50f, 2.5f, "Interact Distance");
-                        if (interact.RaycastObject && dynamicObj && dynamicObj.dynamicType == Type_Dynamic.Door)
-                        {
+                        if (interact.RaycastObject && dynamicObj && dynamicObj.dynamicType == Type_Dynamic.Door) {
                             GUILayout.BeginVertical("Box");
                             if (RGUI.Button(dynamicObj.isLocked, "Locked")) dynamicObj.isLocked = !dynamicObj.isLocked;
                             if (RGUI.Button(otherWay, "Use Other Way")) otherWay = !otherWay;
