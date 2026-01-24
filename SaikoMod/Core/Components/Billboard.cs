@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 
 public class Billboard : MonoBehaviour {
-    void Start() => m_Camera = Camera.main;
-    void LateUpdate() => transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.forward);
+    void Start() => cam = Camera.main;
+    void LateUpdate() {
+        camRot.eulerAngles = Vector3.up * cam.transform.rotation.eulerAngles.y + Vector3.right * cam.transform.rotation.eulerAngles.x;
+        transform.LookAt(transform.position + camRot * Vector3.forward, transform.up);
+    }
 
-    Camera m_Camera;
+    Quaternion camRot;
+    Camera cam;
 }

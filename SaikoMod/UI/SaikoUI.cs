@@ -121,15 +121,15 @@ namespace SaikoMod.UI {
                     }
                     break;
                 case 1:
-                    GUILayout.BeginVertical("Box");
                     if (GameUI.curRoom) {
+                        GUILayout.BeginVertical("Box");
                         if (GUILayout.Button("Look Window")) yand.LookThroughWindow(GameUI.curRoom);
                         if (GUILayout.Button("Hide Behind Desk")) yand.HideBehindDesk(GameUI.curRoom);
                         if (GUILayout.Button("Harrass Player")) yand.HarrassPlayer(GameUI.curRoom);
                         if (GUILayout.Button("Come Here")) yand.GoToComeHerePosition(GameUI.curRoom);
                         if (GUILayout.Button("Drag Player To Room")) yand.DragPlayerToTheRoom(GameUI.curRoom);
+                        GUILayout.EndVertical();
                     }
-                    GUILayout.EndVertical();
                     if (yand) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.BeginHorizontal();
@@ -150,19 +150,21 @@ namespace SaikoMod.UI {
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Change Material")) {
                             Material[] mats = new Material[3];
-                            switch (skins) {
-                                case SaikoSkins.Default: for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i]; break;
-                                case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
-                                case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
-                                case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
-                                case SaikoSkins.Invisible: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, 0f)), 3).ToArray(); break;
-                                case SaikoSkins.What:
-                                    mats[0] = MaterialUtils.CorruptMaterial();
-                                    mats[1] = MaterialUtils.CorruptMaterial();
-                                    mats[2] = MaterialUtils.CorruptMaterial();
-                                    break;
-                            }
-                            foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
+                            if (skins != SaikoSkins.Blood) {
+                                switch (skins) {
+                                    case SaikoSkins.Default: for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i]; break;
+                                    case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
+                                    case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
+                                    case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
+                                    case SaikoSkins.Invisible: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, 0f)), 3).ToArray(); break;
+                                    case SaikoSkins.Corrupt:
+                                        mats[0] = MaterialUtils.CorruptMaterial();
+                                        mats[1] = MaterialUtils.CorruptMaterial();
+                                        mats[2] = MaterialUtils.CorruptMaterial();
+                                        break;
+                                }
+                                foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
+                            } else graphic.PutBloodMaterials();
                         }
                         if (GUILayout.Button("Change to Default")) for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i];
                         GUILayout.EndHorizontal();
@@ -182,9 +184,8 @@ namespace SaikoMod.UI {
                     break;
                 case 2:
                     if (EmoteFilenames.Count < 0) return;
-
-                    GUILayout.BeginVertical("Box");
                     if (yand) {
+                        GUILayout.BeginVertical("Box");
                         if (!animAdded && GUILayout.Button("Add Custom Anim")) {
                             animAdded = true;
                             yand.gameObject.GetComponent<Animator>().enabled = false;
@@ -204,8 +205,8 @@ namespace SaikoMod.UI {
                             curClip = animationClips[animIdx];
                             curClip.wrapMode = RGUI.Field(curClip.wrapMode, "Wrap Mode");
                         }
+                        GUILayout.EndVertical();
                     }
-                    GUILayout.EndVertical();
                     break;
             }
             page = RGUI.Page(page, 3, true);

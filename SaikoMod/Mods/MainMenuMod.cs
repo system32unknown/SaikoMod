@@ -40,6 +40,7 @@ namespace SaikoMod.Mods {
 
             #region LOADING SCREEN
             Text loadTxt = loading_UI.Find("Text (3)").GetComponent<Text>();
+            Object.Destroy(loadTxt.GetComponent<Outline>());
             loadTxt.font = ArialFont;
             loadTxt.fontSize = 22;
 

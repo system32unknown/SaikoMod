@@ -5,6 +5,7 @@
         Shadow,
         Ghost,
         Invisible,
-        What
+        Blood,
+        Corrupt
     }
 }
