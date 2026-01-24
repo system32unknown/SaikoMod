@@ -119,6 +119,7 @@
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
     <Compile Include="Core\Components\FlyController.cs" />
+    <Compile Include="Core\Components\LevelLoader.cs" />
     <Compile Include="Core\Enums\GodModeType.cs" />
     <Compile Include="Core\Enums\MessageType.cs" />
     <Compile Include="Core\Enums\SaikoSkins.cs" />

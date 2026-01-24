@@ -4,9 +4,6 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using System;
 using UnityEngine;
-#region do not remove it.
-using SaikoMod.Mods;
-#endregion
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
 using SaikoMod.WinAPI;
