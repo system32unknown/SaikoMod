@@ -2,24 +2,18 @@
 using System.Linq;
 using UnityEngine;
 
-namespace RapidGUI
-{
-    public static partial class RGUI
-    {
-        static object EnumField(object v)
-        {
-            var type = v.GetType();
-            var enumValues = Enum.GetValues(type).Cast<object>().ToList();
+namespace RapidGUI {
+    public static partial class RGUI {
+        static object EnumField(object v) {
+            Type type = v.GetType();
+            System.Collections.Generic.List<object> enumValues = Enum.GetValues(type).Cast<object>().ToList();
 
-            var isFlag = type.GetCustomAttributes(typeof(FlagsAttribute), true).Any();
-            if (isFlag)
-            {
+            bool isFlag = type.GetCustomAttributes(typeof(FlagsAttribute), true).Any();
+            if (isFlag) {
                 ulong flagV = Convert.ToUInt64(Convert.ChangeType(v, type));
-                enumValues.ForEach(value =>
-                {
+                enumValues.ForEach(value => {
                     ulong flag = Convert.ToUInt64(value);
-                    if (flag > 0)
-                    {
+                    if (flag > 0) {
                         bool has = (flag & flagV) == flag;
                         has = GUILayout.Toggle(has, value.ToString());
                         flagV = has ? (flagV | flag) : (flagV & ~flag);
@@ -27,11 +21,9 @@ namespace RapidGUI
                 });
 
                 v = Enum.ToObject(type, flagV);
-            }
-            else
-            {
-                var idx = enumValues.IndexOf(v);
-                var valueNames = enumValues.Select(value => value.ToString()).ToArray();
+            } else {
+                int idx = enumValues.IndexOf(v);
+                string[] valueNames = enumValues.Select(value => value.ToString()).ToArray();
                 {
                     idx = SelectionPopup(idx, valueNames);
                 }

@@ -31,8 +31,7 @@ namespace SaikoMod.Utils {
             return (max.HasValue && lowerBound > max.Value) ? max.Value : lowerBound;
         }
 
-        public static float Normalize(float x, float min, float max, bool isBound = true)
-        {
+        public static float Normalize(float x, float min, float max, bool isBound = true) {
             return isBound ? Bound((x - min) / (max - min), 0, 1) : (x - min) / (max - min);
         }
     }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SaikoMod.WinAPI
-{
-    public static class WindowTitle
-    {
+namespace SaikoMod.WinAPI {
+    public static class WindowTitle {
         delegate bool EnumThreadDelegate(IntPtr hwnd, IntPtr lParam);
 
         [DllImport("user32.dll")]
@@ -13,8 +11,7 @@ namespace SaikoMod.WinAPI
         [DllImport("Kernel32.dll")]
         static extern int GetCurrentThreadId();
 
-        static IntPtr GetWindowHandle()
-        {
+        static IntPtr GetWindowHandle() {
             IntPtr returnHwnd = IntPtr.Zero;
             int threadId = GetCurrentThreadId();
             EnumThreadWindows(threadId,
@@ -28,8 +25,7 @@ namespace SaikoMod.WinAPI
         [DllImport("user32.dll", EntryPoint = "SetWindowText")]
         static extern bool SetWindowText(IntPtr hwnd, string lpString);
 
-        static void SetTextInternal(string text)
-        {
+        static void SetTextInternal(string text) {
             SetWindowText(GetWindowHandle(), text);
         }
 
@@ -37,10 +33,8 @@ namespace SaikoMod.WinAPI
         static bool enabled;
 
         //SET FUNCTION
-        public static void SetText(string text)
-        {
-            if (!osChecked)
-            {
+        public static void SetText(string text) {
+            if (!osChecked) {
                 osChecked = true;
                 enabled = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             }

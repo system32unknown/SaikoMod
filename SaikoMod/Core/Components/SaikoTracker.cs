@@ -40,8 +40,7 @@ namespace SaikoMod.Core.Components {
         void Update() {
             if (UpdateTracker) {
                 updateTimer -= Time.deltaTime;
-                if (updateTimer <= 0.0f)
-                {
+                if (updateTimer <= 0.0f) {
                     GeneratePath(from.position, to.position);
                     updateTimer = updateRate;
                 }

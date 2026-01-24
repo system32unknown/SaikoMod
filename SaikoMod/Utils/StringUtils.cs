@@ -2,14 +2,11 @@
 using System.Text;
 
 namespace SaikoMod.Utils {
-    class StringUtils
-    {
-        public static string FormatBytes(float Bytes, int Precision = 2)
-        {
+    class StringUtils {
+        public static string FormatBytes(float Bytes, int Precision = 2) {
             string[] units = { "Bytes", "kB", "MB", "GB", "TB", "PB" };
             int curUnit = 0;
-            while (Bytes >= 1024 && curUnit < units.Length - 1)
-            {
+            while (Bytes >= 1024 && curUnit < units.Length - 1) {
                 Bytes /= 1024;
                 curUnit++;
             }
@@ -20,8 +17,7 @@ namespace SaikoMod.Utils {
         /// Pads a numeric value on the left with a specific character until it reaches a fixed digit count.
         /// Example: FillNumber(7, 3, '0') -> "007"
         /// </summary>
-        public static string FillNumber(float value, int digits, char padChar)
-        {
+        public static string FillNumber(float value, int digits, char padChar) {
             string str = value.ToString();
             int len = str.Length;
 
@@ -38,14 +34,13 @@ namespace SaikoMod.Utils {
         /// "mm:ss", "h:mm:ss", "Xd Xh Xm Xs", or "Xw Xd Xh Xm Xs"
         /// Matches your original Haxe logic.
         /// </summary>
-        public static string FormatTime(float time, int precision = 0, int timePre = 0)
-        {
+        public static string FormatTime(float time, int precision = 0, int timePre = 0) {
             int totalSeconds = Mathf.FloorToInt(time);
 
             string secs = (totalSeconds % 60).ToString();
-            string mins = ((totalSeconds / 60) % 60).ToString();
-            string hour = ((totalSeconds / 3600) % 24).ToString();
-            string days = ((totalSeconds / 86400) % 7).ToString();
+            string mins = (totalSeconds / 60 % 60).ToString();
+            string hour = (totalSeconds / 3600 % 24).ToString();
+            string days = (totalSeconds / 86400 % 7).ToString();
             string weeks = (totalSeconds / (86400 * 7)).ToString();
 
             if (secs.Length < 2) secs = "0" + secs;

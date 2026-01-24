@@ -2,10 +2,8 @@
 using SaikoMod.Controller;
 using SaikoMod.Core.Interfaces;
 
-namespace SaikoMod.UI
-{
-    public abstract class BaseWindowUI : IWindowUI
-    {
+namespace SaikoMod.UI {
+    public abstract class BaseWindowUI : IWindowUI {
         public virtual Color BgColor => Color.black;
         public abstract string Title { get; }
         public abstract void Draw();
@@ -15,8 +13,7 @@ namespace SaikoMod.UI
             UIController.Instance.MenuTab = Core.Enums.MenuTab.Off;
         }
 
-        public void WindowLayout(int _)
-        {
+        public void WindowLayout(int _) {
             GUI.backgroundColor = BgColor;
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 

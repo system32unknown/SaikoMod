@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace SaikoMod.Core.Components {
-    class CCTVManager {
+    public class CCTVManager {
         public static void AddMoreCam() {
             if (AddedMoreCam) return;
 

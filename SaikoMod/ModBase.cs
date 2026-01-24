@@ -13,8 +13,7 @@ using SaikoMod.WinAPI;
 
 namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]
-    public class ModBase : BaseUnityPlugin
-    {
+    public class ModBase : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
         public const string modVer = "0.0.0.3";
 
@@ -31,8 +30,7 @@ namespace SaikoMod {
         readonly Harmony harmony = new Harmony(modGUID);
 
         void Awake() {
-            if (!IsGameValid() && WinMessageBox.Show("This version of the Modmenu is intended to be used with \"Saiko No Sutoka\".", WinMessageBox.MBIcon.Error))
-            {
+            if (!IsGameValid() && WinMessageBox.Show("This version of the Modmenu is intended to be used with \"Saiko No Sutoka\".", WinMessageBox.MBIcon.Error)) {
                 Application.Quit();
             }
             instance = this;
@@ -60,13 +58,11 @@ namespace SaikoMod {
             }
         }
 
-        void OnDestroy()
-        {
+        void OnDestroy() {
             harmony.UnpatchSelf();
         }
 
-        static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka")
-        {
+        static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka") {
             return Application.temporaryCachePath.Contains(gameName);
         }
     }

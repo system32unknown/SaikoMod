@@ -3,12 +3,9 @@ using UnityEngine;
 using System.Linq;
 using SaikoMod.Core.Components.UI;
 
-namespace SaikoMod.UI
-{
-    public static class AnchorUtils
-    {
-        public enum AnchorPreset
-        {
+namespace SaikoMod.UI {
+    public static class AnchorUtils {
+        public enum AnchorPreset {
             TopLeft,
             Top,
             TopRight,
@@ -23,12 +20,10 @@ namespace SaikoMod.UI
         /// <summary>
         /// Sets anchor, pivot, and anchoredPosition using an enum.
         /// </summary>
-        public static void SetAnchor(RectTransform rect, AnchorPreset preset)
-        {
+        public static void SetAnchor(RectTransform rect, AnchorPreset preset) {
             if (rect == null) return;
 
-            switch (preset)
-            {
+            switch (preset) {
                 case AnchorPreset.TopLeft:
                     rect.anchorMin = new Vector2(0f, 1f);
                     rect.anchorMax = new Vector2(0f, 1f);

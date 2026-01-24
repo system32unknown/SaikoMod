@@ -6,21 +6,12 @@ namespace RapidGUI {
     using FieldFunc = Func<object, Type, object>;
 
     public static partial class RGUI {
-        // dummy GUIStyle.none.
-        // unity is optimized to GUIStyle.none.
-        // it seems to occur indent mismatch for complex Vertical/Horizontal Scope.
-        static readonly GUIStyle styleNone = new GUIStyle(GUIStyle.none);
-
-        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field(v, label, styleNone, options);
-
-        public static T Field<T>(T v, string label, GUIStyle style, params GUILayoutOption[] options) {
+        public static T Field<T>(T v, string label, params GUILayoutOption[] options) {
             Type type = typeof(T);
-            return (T)Convert.ChangeType(Field(v, type, label, style, options), type);
+            return (T)Convert.ChangeType(Field(v, type, label, options), type);
         }
 
-        public static object Field(object obj, Type type, string label = null, params GUILayoutOption[] options) => Field(obj, type, label, GUIStyle.none, options);
-
-        public static object Field(object obj, Type type, string label, GUIStyle style, params GUILayoutOption[] options) {
+        public static object Field(object obj, Type type, string label, params GUILayoutOption[] options) {
             return DoField(obj, type, label, DispatchFieldFunc(type), options);
         }
 

@@ -9,16 +9,14 @@ namespace SaikoMod.UI {
 
         bool allPoint = false;
 
-        public void OnLoad()
-        {
+        public void OnLoad() {
             if (allPoint) {
                 ForcePointFilter(Resources.FindObjectsOfTypeAll<Texture2D>());
                 ForcePointFilter(Resources.FindObjectsOfTypeAll<RenderTexture>());
             }
         }
 
-        public override void Draw()
-        {
+        public override void Draw() {
             if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;
         }
 

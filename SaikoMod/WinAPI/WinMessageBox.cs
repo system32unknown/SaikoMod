@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SaikoMod.WinAPI
-{
-    public static class WinMessageBox
-    {
+namespace SaikoMod.WinAPI {
+    public static class WinMessageBox {
         // MessageBox Types (Buttons)
-        public enum MBButtons : uint
-        {
+        public enum MBButtons : uint {
             OK = 0x00000000,
             OKCancel = 0x00000001,
             AbortRetryIgnore = 0x00000002,
@@ -18,8 +15,7 @@ namespace SaikoMod.WinAPI
         }
 
         // MessageBox Icons
-        public enum MBIcon : uint
-        {
+        public enum MBIcon : uint {
             None = 0x00000000,
             Error = 0x00000010,
             Question = 0x00000020,
@@ -28,16 +24,14 @@ namespace SaikoMod.WinAPI
         }
 
         // MessageBox Default Button
-        public enum MBDefaultButton : uint
-        {
+        public enum MBDefaultButton : uint {
             Button1 = 0x00000000,
             Button2 = 0x00000100,
             Button3 = 0x00000200
         }
 
         // MessageBox Modality Options
-        public enum MBOptions : uint
-        {
+        public enum MBOptions : uint {
             None = 0,
             SystemModal = 0x00001000,
             TaskModal = 0x00002000,
@@ -47,8 +41,7 @@ namespace SaikoMod.WinAPI
         }
 
         // MessageBox return result
-        public enum MBResult : int
-        {
+        public enum MBResult : int {
             OK = 1,
             Cancel = 2,
             Abort = 3,
@@ -67,14 +60,13 @@ namespace SaikoMod.WinAPI
         /// <summary>
         /// Shows a Windows MessageBox using WinAPI.
         /// </summary>
-        public static MBResult Show( string text, string caption = "Message", MBButtons buttons = MBButtons.OK, MBIcon icon = MBIcon.None, MBDefaultButton defaultButton = MBDefaultButton.Button1, MBOptions options = MBOptions.None) {
+        public static MBResult Show(string text, string caption = "Message", MBButtons buttons = MBButtons.OK, MBIcon icon = MBIcon.None, MBDefaultButton defaultButton = MBDefaultButton.Button1, MBOptions options = MBOptions.None) {
             uint type = (uint)buttons | (uint)icon | (uint)defaultButton | (uint)options;
             int result = MessageBox(IntPtr.Zero, text, caption, type);
             return (MBResult)result;
         }
 
-        public static bool Show(string text, MBIcon icon = MBIcon.None)
-        {
+        public static bool Show(string text, MBIcon icon = MBIcon.None) {
             uint type = (uint)MBButtons.OK | (uint)icon;
             int result = MessageBox(IntPtr.Zero, text, "Saiko Mod Menu", type);
             return (MBResult)result == MBResult.OK;

@@ -18,8 +18,7 @@ namespace RapidGUI {
                 string hex = ColorUtility.ToHtmlStringRGBA(color);
                 string newHex = GUILayout.TextField(hex, GUILayout.Width(120));
 
-                if (newHex != hex && newHex.Length == 8)
-                {
+                if (newHex != hex && newHex.Length == 8) {
                     if (ColorUtility.TryParseHtmlString("#" + newHex, out Color c)) color = c;
                 }
             }
@@ -28,8 +27,7 @@ namespace RapidGUI {
             return color;
         }
 
-        public static Color ColorPickerOne(Color color, string label = null)
-        {
+        public static Color ColorPickerOne(Color color, string label = null) {
             GUI.backgroundColor = Color.white;
             GUILayout.BeginVertical("box");
             if (label != null) GUILayout.Label(label);
@@ -45,8 +43,7 @@ namespace RapidGUI {
             return color;
         }
 
-        static float _Slider(string name, float value)
-        {
+        static float _Slider(string name, float value) {
             GUILayout.BeginHorizontal();
             GUILayout.Label(name, GUILayout.Width(15));
             value = GUILayout.HorizontalSlider(value, 0f, 1f);

@@ -38,8 +38,6 @@ namespace RapidGUI {
         public Vector3Int LerpUnclamped(float t) => Vector3Int.FloorToInt(Vector3.LerpUnclamped(min, max, t));
     }
 
-
-
     #region Internal
     public class MinMax<T> {
         public T min;

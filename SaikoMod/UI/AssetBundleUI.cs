@@ -19,36 +19,31 @@ namespace SaikoMod.UI {
 
         GameObject gameObjParent;
 
-        public AssetBundleUI()
-        {
+        public AssetBundleUI() {
             AssetBundleHelper.InitBundle(filePath, ".unityobj", (string ename, string filename) => {
                 ObjNames.Add(ename);
                 ObjFilenames.Add(filename);
             });
         }
-        public void OnLoad()
-        {
+
+        public void OnLoad() {
             gameObjParent = new GameObject("gameObjAssets");
             playerTransform = GameObject.Find("FPSPLAYER").transform;
-            foreach (string objName in ObjFilenames)
-            {
+            foreach (string objName in ObjFilenames) {
                 ObjAsset = AssetBundle.LoadFromFile(filePath + objName);
                 objAssets.Add(ObjAsset.LoadAllAssets<GameObject>()[0]);
             }
         }
 
-        public void OnUnload()
-        {
+        public void OnUnload() {
             objAssets.Clear();
             AssetBundle.UnloadAllAssetBundles(true);
         }
 
-        public override void Draw()
-        {
+        public override void Draw() {
             if (objAssets.Count <= 0) return;
             GUILayout.BeginVertical("Box");
-            if (RGUI.ArrayNavigatorButton<GameObject>(ref objIdx, objAssets, "objs"))
-            {
+            if (RGUI.ArrayNavigatorButton<GameObject>(ref objIdx, objAssets, "objs")) {
                 GameObject curObj = objAssets[objIdx];
                 if (curObj == null) return;
                 GameObject cloned = Object.Instantiate(curObj, playerTransform.position, playerTransform.rotation);
@@ -66,18 +61,14 @@ namespace SaikoMod.UI {
                 cloned.name = curObj.name;
                 cloned.transform.parent = gameObjParent.transform;
             }
-            if (gameObjParent.transform.childCount > 0)
-            {
+            if (gameObjParent.transform.childCount > 0) {
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Delete Object"))
-                {
+                if (GUILayout.Button("Delete Object")) {
                     Transform childObj = gameObjParent.transform.GetChild(gameObjParent.transform.childCount - 1);
                     if (childObj) Object.Destroy(childObj.gameObject);
                 }
-                if (GUILayout.Button("Delete Objects"))
-                {
-                    for (int i = 0; i < gameObjParent.transform.childCount; i++)
-                    {
+                if (GUILayout.Button("Delete Objects")) {
+                    for (int i = 0; i < gameObjParent.transform.childCount; i++) {
                         Object.Destroy(gameObjParent.transform.GetChild(i).gameObject);
                     }
                 }

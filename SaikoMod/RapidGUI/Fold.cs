@@ -2,30 +2,23 @@
 using UnityEngine;
 
 
-namespace RapidGUI
-{
-    public class Fold : TitleContent<Fold>
-    {
+namespace RapidGUI {
+    public class Fold : TitleContent<Fold> {
         public Fold() : base() { }
         public Fold(string name) : base(name) { }
 
-        public bool DoGUI()
-        {
+        public bool DoGUI() {
             var ret = false;
             var guiFuncs = GetGUIFuncs();
 
-            if (guiFuncs.Any())
-            {
-                using (new GUILayout.HorizontalScope())
-                {
+            if (guiFuncs.Any()) {
+                using (new GUILayout.HorizontalScope()) {
                     IsOpen = DoGUIHeader(IsOpen, name);
                     titleAction?.Invoke();
                 }
 
-                using (new RGUI.IndentScope())
-                {
-                    if (IsOpen)
-                    {
+                using (new RGUI.IndentScope()) {
+                    if (IsOpen) {
                         ret |= guiFuncs.Aggregate(false, (changed, drawFunc) => changed || drawFunc());
                     }
                 }
@@ -34,21 +27,17 @@ namespace RapidGUI
             return ret;
         }
 
-        public static bool DoGUIHeader(bool isOpen, string name, params GUILayoutOption[] options)
-        {
-            var foldStr = isOpen ? "▼" : "▶";
+        public static bool DoGUIHeader(bool isOpen, string name, params GUILayoutOption[] options) {
+            string foldStr = isOpen ? "▼" : "▶";
             isOpen ^= GUILayout.Button(foldStr + name, Style.Fold, options);
-
             return isOpen;
         }
 
-        public static class Style
-        {
+        public static class Style {
             public static readonly GUIStyle Fold;
             static readonly Texture2D tex;
 
-            static Style()
-            {
+            static Style() {
                 GUIStyle style = new GUIStyle(GUI.skin.label);
                 GUIStyle toggle = GUI.skin.toggle;
                 style.normal.textColor = toggle.normal.textColor;

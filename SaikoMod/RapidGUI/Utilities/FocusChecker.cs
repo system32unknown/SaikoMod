@@ -1,26 +1,21 @@
 ﻿using UnityEngine;
 
-namespace RapidGUI
-{
-    public static class FocusChecker
-    {
+namespace RapidGUI {
+    public static class FocusChecker {
         static int time;
         static int mouseId;
         static int keyboardId;
         static bool changed;
 
-        public static bool IsChanged()
-        {
-            if (time != Time.frameCount)
-            {
+        public static bool IsChanged() {
+            if (time != Time.frameCount) {
                 time = Time.frameCount;
 
-                var currentMouse = GUIUtility.hotControl;
-                var currentKeyboard = GUIUtility.keyboardControl;
+                int currentMouse = GUIUtility.hotControl;
+                int currentKeyboard = GUIUtility.keyboardControl;
 
                 changed = (keyboardId != currentKeyboard) || (mouseId != currentMouse);
-                if (changed)
-                {
+                if (changed) {
                     keyboardId = currentKeyboard;
                     mouseId = currentMouse;
                 }

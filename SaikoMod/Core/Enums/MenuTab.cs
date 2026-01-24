@@ -1,7 +1,5 @@
-﻿namespace SaikoMod.Core.Enums
-{
-    public enum MenuTab
-    {
+﻿namespace SaikoMod.Core.Enums {
+    public enum MenuTab {
         Off,
         Player,
         Saiko,

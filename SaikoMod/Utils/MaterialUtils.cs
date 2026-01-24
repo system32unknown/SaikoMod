@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace SaikoMod.Utils
-{
-    class MaterialUtils
-    {
-        public static Material black
-        {
-            get
-            {
-                Material m = new Material(Shader.Find("Unlit/Color"))
-                {
+namespace SaikoMod.Utils {
+    class MaterialUtils {
+        public static Material black {
+            get {
+                Material m = new Material(Shader.Find("Unlit/Color")) {
                     color = Color.black
                 };
                 m.SetInt("_SrcBlend", (int)BlendMode.One);
@@ -21,8 +16,7 @@ namespace SaikoMod.Utils
             }
         }
 
-        public static Material CorruptMaterial()
-        {
+        public static Material CorruptMaterial() {
             Shader[] shaders = Resources.FindObjectsOfTypeAll<Shader>();
             Texture[] texs = Resources.FindObjectsOfTypeAll<Texture>();
 
@@ -39,30 +33,22 @@ namespace SaikoMod.Utils
         /// <param name="color">Base color including alpha (default: white with 50% alpha)</param>
         /// <param name="name">Optional material name</param>
         /// <returns>Newly created Material configured for transparency</returns>
-        public static Material CreateTransparent(Color? color = null)
-        {
+        public static Material CreateTransparent(Color? color = null) {
             Color col = color ?? new Color(1f, 1f, 1f, 0.5f);
 
             // Try builtin Standard shader
             Shader shader = Shader.Find("Standard");
 
             // If Standard not found (e.g., URP project), try common URP/Lit names
-            if (shader == null)
-            {
-                shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("URP/Lit") ?? Shader.Find("HDRP/Lit");
-            }
+            if (shader == null) shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("URP/Lit") ?? Shader.Find("HDRP/Lit");
 
             // If still null, fallback to an Unlit/Transparent shader that usually exists
-            if (shader == null)
-            {
-                shader = Shader.Find("Unlit/Transparent") ?? Shader.Find("Sprites/Default");
-            }
+            if (shader == null) shader = Shader.Find("Unlit/Transparent") ?? Shader.Find("Sprites/Default");
 
             Material mat = new Material(shader);
 
             // Configure for built-in Standard shader transparency
-            if (shader != null && shader.name == "Standard")
-            {
+            if (shader != null && shader.name == "Standard") {
                 // 3 = Transparent mode for Standard
                 mat.SetFloat("_Mode", 3f);
                 mat.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
@@ -76,12 +62,9 @@ namespace SaikoMod.Utils
 
                 // Assign base color (Standard uses _Color)
                 if (mat.HasProperty("_Color")) mat.SetColor("_Color", col);
-            }
-            else
-            {
+            } else {
                 // Try to handle URP Lit (surface type = 1 -> Transparent)
-                if (shader != null && (shader.name.Contains("Universal Render Pipeline") || shader.name.Contains("URP")))
-                {
+                if (shader != null && (shader.name.Contains("Universal Render Pipeline") || shader.name.Contains("URP"))) {
                     // URP: _Surface 0 = Opaque, 1 = Transparent
                     if (mat.HasProperty("_Surface")) mat.SetFloat("_Surface", 1f);
 
@@ -93,16 +76,11 @@ namespace SaikoMod.Utils
 
                     if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", col); // URP Lit property
                     else if (mat.HasProperty("_Color")) mat.SetColor("_Color", col);
-                }
-                else
-                {
+                } else {
                     // Fallback: most unlit/transparent shaders accept _Color
-                    if (mat.HasProperty("_Color"))
-                    {
+                    if (mat.HasProperty("_Color")) {
                         mat.SetColor("_Color", col);
-                    }
-                    else if (mat.HasProperty("_BaseColor"))
-                    {
+                    } else if (mat.HasProperty("_BaseColor")) {
                         mat.SetColor("_BaseColor", col);
                     }
 

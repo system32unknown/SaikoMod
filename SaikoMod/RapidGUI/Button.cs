@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using SaikoMod.Helper;
 
-namespace RapidGUI
-{
-    public static partial class RGUI
-    {
-        public static bool Button(bool v, string label, params GUILayoutOption[] options)
-        {
+namespace RapidGUI {
+    public static partial class RGUI {
+        public static bool Button(bool v, string label, params GUILayoutOption[] options) {
             GUI.backgroundColor = Color.black;
 
             using (new GUILayout.VerticalScope(options))
-            using (new GUILayout.HorizontalScope())
-            {
-                string text;
+            using (new GUILayout.HorizontalScope()) {
                 GUILayout.Label("<b>" + label + "</b>");
-                text = v ? "On" : "Off";
-                v = GUILayout.Button("<b>" + text + "</b>", RGUIStyle.button, GUILayout.Width(260f));
+                v = GUILayout.Button("<b>" + (v ? "On" : "Off") + "</b>", RGUIStyle.button, GUILayout.Width(260f));
             }
 
             return v;
@@ -33,8 +27,7 @@ namespace RapidGUI
                 return false;
             }
 
-            if (array == null || array.Length == 0)
-            {
+            if (array == null || array.Length == 0) {
                 GUILayout.Label("<b>No Items</b>");
                 return false;
             }
@@ -44,14 +37,12 @@ namespace RapidGUI
             bool clickedCenter = false;
 
             using (new GUILayout.VerticalScope(options))
-            using (new GUILayout.HorizontalScope())
-            {
+            using (new GUILayout.HorizontalScope()) {
                 if (!string.IsNullOrEmpty(label))
                     GUILayout.Label("<b>" + label + "</b>", GUILayout.Width(120f));
 
                 // Left Button
-                if (GUILayout.Button("<b><=</b>", RGUIStyle.button, GUILayout.Width(30f)))
-                {
+                if (GUILayout.Button("<b><=</b>", RGUIStyle.button, GUILayout.Width(30f))) {
                     index--;
                     if (index < 0) index = array.Length - 1;
                 }
@@ -60,14 +51,12 @@ namespace RapidGUI
                 string text = "Null";
                 if (array[index] != null) text = ReflectionHelpers.GetNameIfExists(array[index]);
 
-                if (GUILayout.Button("<b>" + text + "</b>", GUILayout.Width(200f)))
-                {
+                if (GUILayout.Button("<b>" + text + "</b>", GUILayout.Width(200f))) {
                     clickedCenter = true;
                 }
 
                 // Right Button
-                if (GUILayout.Button("<b>=></b>", GUILayout.Width(30f)))
-                {
+                if (GUILayout.Button("<b>=></b>", GUILayout.Width(30f))) {
                     index++;
                     if (index >= array.Length) index = 0;
                 }

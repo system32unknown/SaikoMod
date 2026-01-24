@@ -7,8 +7,7 @@ namespace SaikoMod.Core.Components.UI {
         public Button button;
         public RectTransform Rect;
 
-        public Vector3 position
-        {
+        public Vector3 position {
             get {
                 return Rect.anchoredPosition;
             }

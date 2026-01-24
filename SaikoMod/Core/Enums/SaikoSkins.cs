@@ -1,7 +1,5 @@
-﻿namespace SaikoMod.Core.Enums
-{
-    public enum SaikoSkins
-    {
+﻿namespace SaikoMod.Core.Enums {
+    public enum SaikoSkins {
         Default,
         Black,
         Shadow,

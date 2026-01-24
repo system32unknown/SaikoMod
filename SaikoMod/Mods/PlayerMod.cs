@@ -1,14 +1,11 @@
 ﻿using HarmonyLib;
 using SaikoMod.Core.Enums;
 
-namespace SaikoMod.Mods
-{
+namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(PlayerController))]
-    class PlayerMod
-    {
+    class PlayerMod {
         [HarmonyPatch("GetsNeckBroken"), HarmonyPrefix]
-        static bool KillPatch()
-        {
+        static bool KillPatch() {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
     }
@@ -16,8 +13,7 @@ namespace SaikoMod.Mods
     [HarmonyPatch(typeof(CameraMotionController))]
     class PlayerCamMod {
         [HarmonyPatch("PlayNeckStabAnimation"), HarmonyPrefix]
-        static bool KillPatch()
-        {
+        static bool KillPatch() {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
     }

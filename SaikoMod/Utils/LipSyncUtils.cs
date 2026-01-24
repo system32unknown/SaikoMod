@@ -1,21 +1,16 @@
 ﻿using RogoDigital.Lipsync;
 using UnityEngine;
 
-namespace SaikoMod.Utils
-{
-    class LipSyncUtils
-    {
-        public static LipSyncData GetSampleData(float dur, PhonemeMarker[] p, int ph, int em)
-        {
+namespace SaikoMod.Utils {
+    class LipSyncUtils {
+        public static LipSyncData GetSampleData(float dur, PhonemeMarker[] p, int ph, int em) {
             return CreateData(CreateAudioClip("TMP_AUD", dur), "*Unintelligible*", p, ph, em, true);
         }
-        public static LipSyncData GetEmptyData()
-        {
+        public static LipSyncData GetEmptyData() {
             return CreateData(CreateAudioClip("Quiet", 0.5f, true), "", new PhonemeMarker[0], 0, 0);
         }
 
-        public static LipSyncData CreateData(AudioClip clip, string transcript, PhonemeMarker[] phonemeData, int phCount, int emCount, bool generate = false)
-        {
+        public static LipSyncData CreateData(AudioClip clip, string transcript, PhonemeMarker[] phonemeData, int phCount, int emCount, bool generate = false) {
             LipSyncData syncData = ScriptableObject.CreateInstance<LipSyncData>();
             syncData.clip = clip;
             syncData.transcript = transcript;
@@ -33,8 +28,7 @@ namespace SaikoMod.Utils
                 data.transcript = voices[Random.Range(0, voices.Length - 1)].clip.transcript;
             }
         }
-        public static void Shufflevoice(LipSyncVoice voice)
-        {
+        public static void Shufflevoice(LipSyncVoice voice) {
             AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
             voice.voiceline = RandomUtil.GetString(100, true, 10);
             LipSyncData data = voice.clip;
@@ -49,12 +43,10 @@ namespace SaikoMod.Utils
             RandomUtil.ShuffleCurve(data.emotionPoseCurves, 10f, 100f, 100f);
         }
 
-        public static void SetEmptyDatas(LipSyncVoice[] voices)
-        {
+        public static void SetEmptyDatas(LipSyncVoice[] voices) {
             foreach (LipSyncVoice voice in voices) SetEmptyData(voice);
         }
-        public static void SetEmptyData(LipSyncVoice voice)
-        {
+        public static void SetEmptyData(LipSyncVoice voice) {
             LipSyncData data = voice.clip;
             data.clip = CreateAudioClip("Quiet", .5f, true);
             data.transcript = voice.voiceline = "";

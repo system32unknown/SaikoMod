@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using SaikoMod.Core.Components.UI;
 
-namespace SaikoMod.Mods
-{
+namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(MainMenuManager), "Start")]
     internal class MainMenuMod {
         static void Postfix(MainMenuManager __instance) {

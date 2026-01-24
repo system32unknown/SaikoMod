@@ -1,7 +1,5 @@
-﻿namespace SaikoMod.Core.Interfaces
-{
-    public interface IWindowUI
-    {
+﻿namespace SaikoMod.Core.Interfaces {
+    public interface IWindowUI {
         /// <summary>Draws window content (excluding title bar).</summary>
         void Draw();
 

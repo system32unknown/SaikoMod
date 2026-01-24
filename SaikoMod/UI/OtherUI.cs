@@ -3,10 +3,8 @@ using UnityEngine;
 using SaikoMod.Utils;
 using SaikoMod.Helper;
 
-namespace SaikoMod.UI
-{
-    public class OtherUI : BaseWindowUI
-    {
+namespace SaikoMod.UI {
+    public class OtherUI : BaseWindowUI {
         MinMaxFloat vertRange = new MinMaxFloat() {
             min = .1f,
             max = .1f
@@ -29,8 +27,7 @@ namespace SaikoMod.UI
         }
 
         public override void Draw() {
-            switch (page)
-            {
+            switch (page) {
                 case 0:
                     GUILayout.BeginVertical("Box");
                     GUILayout.Label("Corruptions");
@@ -56,11 +53,9 @@ namespace SaikoMod.UI
                     }
 
                     GUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Corrupt Audios"))
-                    {
+                    if (GUILayout.Button("Corrupt Audios")) {
                         AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
-                        foreach (AudioSource source in Resources.FindObjectsOfTypeAll<AudioSource>())
-                        {
+                        foreach (AudioSource source in Resources.FindObjectsOfTypeAll<AudioSource>()) {
                             source.pitch = Random.Range(-3f, 3f);
                             source.clip = clips[Random.Range(0, clips.Length - 1)];
                             source.loop = RandomUtil.GetBool();

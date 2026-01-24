@@ -2,84 +2,64 @@
 using System.Linq;
 using UnityEngine;
 
-namespace RapidGUI
-{
-    public static partial class RGUI
-    {
+namespace RapidGUI {
+    public static partial class RGUI {
         static int popupControlId;
         static readonly PopupWindow popupWindow = new PopupWindow();
 
-        public static string SelectionPopup(string current, string[] displayOptions)
-        {
+        public static string SelectionPopup(string current, string[] displayOptions) {
             int idx = Array.IndexOf(displayOptions, current);
             GUILayout.Box(current, RGUIStyle.alignLeftBox);
             var newIdx = PopupOnLastRect(idx, displayOptions);
-            if (newIdx != idx)
-            {
+            if (newIdx != idx) {
                 current = displayOptions[newIdx];
             }
             return current;
         }
 
-        public static int SelectionPopup(int selectionIndex, string[] displayOptions)
-        {
+        public static int SelectionPopup(int selectionIndex, string[] displayOptions) {
             var label = (selectionIndex < 0 || displayOptions.Length <= selectionIndex) ? "" : displayOptions[selectionIndex];
             GUILayout.Box("<b>" + label + "</b>", RGUIStyle.alignLeftBox);
             return PopupOnLastRect(selectionIndex, displayOptions);
         }
-
 
         public static int PopupOnLastRect(string[] displayOptions, string label = "") => PopupOnLastRect(-1, displayOptions, -1, label);
         public static int PopupOnLastRect(string[] displayOptions, int button, string label = "") => PopupOnLastRect(-1, displayOptions, button, label);
 
         public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int mouseButton = -1, string label = "") => Popup(GUILayoutUtility.GetLastRect(), mouseButton, selectionIndex, displayOptions, label);
 
-        public static int Popup(Rect launchRect, int mouseButton, int selectionIndex, string[] displayOptions, string label = "")
-        {
+        public static int Popup(Rect launchRect, int mouseButton, int selectionIndex, string[] displayOptions, string label = "") {
             int ret = selectionIndex;
             int controlId = GUIUtility.GetControlID(FocusType.Passive);
 
             // not Popup Owner
-            if (popupControlId != controlId)
-            {
+            if (popupControlId != controlId) {
                 var ev = Event.current;
                 var pos = ev.mousePosition;
 
-                if ((ev.type == EventType.MouseUp)
-                    && ((mouseButton < 0) || (ev.button == mouseButton))
-                    && launchRect.Contains(pos)
-                    && displayOptions != null
-                    && displayOptions.Any()
-                    )
-                {
+                if ((ev.type == EventType.MouseUp) && ((mouseButton < 0) || (ev.button == mouseButton)) && launchRect.Contains(pos) && displayOptions != null && displayOptions.Any()) {
                     popupWindow.pos = RGUIUtility.GetMouseScreenPos(Vector2.one * 150f);
                     popupControlId = controlId;
                     ev.Use();
                 }
             }
             // Active
-            else
-            {
+            else {
                 EventType type = Event.current.type;
 
                 int? result = popupWindow.result;
-                if (result.HasValue && type == EventType.Layout)
-                {
+                if (result.HasValue && type == EventType.Layout) {
                     if (result.Value >= 0) // -1 when the popup is closed by clicking outside the window
                     {
                         ret = result.Value;
                     }
                     popupWindow.result = null;
                     popupControlId = 0;
-                }
-                else
-                {
-                    if ((type == EventType.Layout) || (type == EventType.Repaint))
-                    {
+                } else {
+                    if ((type == EventType.Layout) || (type == EventType.Repaint)) {
                         var buttonStyle = RGUIStyle.popupFlatButton;
                         var contentSize = Vector2.zero;
-                        for (var i = 0; i < displayOptions.Length; ++i)
-                        {
+                        for (var i = 0; i < displayOptions.Length; ++i) {
                             var textSize = buttonStyle.CalcSize(RGUIUtility.TempContent(displayOptions[i]));
                             contentSize.x = Mathf.Max(contentSize.x, textSize.x);
                             contentSize.y += textSize.y;
@@ -113,8 +93,7 @@ namespace RapidGUI
             return ret;
         }
 
-        class PopupWindow : IDoGUIWindow
-        {
+        class PopupWindow : IDoGUIWindow {
             public string label;
             public Vector2 pos;
             public Vector2 size;
@@ -126,28 +105,23 @@ namespace RapidGUI
 
             public Rect GetWindowRect() => new Rect(pos, size);
 
-            public void DoGUIWindow()
-            {
+            public void DoGUIWindow() {
                 GUI.ModalWindow(PopupWindowId, GetWindowRect(), (id) => {
-                    using (GUILayout.ScrollViewScope sc = new GUILayout.ScrollViewScope(scrollPosition))
-                    {
+                    using (GUILayout.ScrollViewScope sc = new GUILayout.ScrollViewScope(scrollPosition)) {
                         scrollPosition = sc.scrollPosition;
 
-                        for (int j = 0; j < displayOptions.Length; ++j)
-                        {
-                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupFlatButton))
-                            {
+                        for (int j = 0; j < displayOptions.Length; ++j) {
+                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupFlatButton)) {
                                 result = j;
                             }
                         }
                     }
 
                     var ev = Event.current;
-                    if ((ev.rawType == EventType.MouseDown) && !(new Rect(Vector2.zero, size).Contains(ev.mousePosition)))
-                    {
+                    if ((ev.rawType == EventType.MouseDown) && !(new Rect(Vector2.zero, size).Contains(ev.mousePosition))) {
                         result = -1; ;
                     }
-                } , label, RGUIStyle.popup);
+                }, label, RGUIStyle.popup);
             }
 
             public void CloseWindow() { result = -1; }

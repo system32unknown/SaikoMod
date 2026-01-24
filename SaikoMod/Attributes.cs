@@ -10,39 +10,26 @@ using System.Reflection;
 using UnityEngine;
 
 // Credit MissingTextureMan101 for original HarmonyExtensions
-namespace SaikoMod
-{
-    public static class HarmonyExtensions
-    {
+namespace SaikoMod {
+    public static class HarmonyExtensions {
         /// <summary>
         /// Patches all conditional patches with the specified assembly
         /// </summary>
-        public static void PatchAllConditionals(this Harmony _harmony, Assembly assembly, bool assumeUnmarkedAsTrue = true)
-        {
-            AccessTools.GetTypesFromAssembly(assembly).Do(type =>
-            {
-                foreach (CustomAttributeData cad in type.CustomAttributes)
-                {
-                    if (typeof(ConditionalPatch).IsAssignableFrom(cad.AttributeType))
-                    {
+        public static void PatchAllConditionals(this Harmony _harmony, Assembly assembly, bool assumeUnmarkedAsTrue = true) {
+            AccessTools.GetTypesFromAssembly(assembly).Do(type => {
+                foreach (CustomAttributeData cad in type.CustomAttributes) {
+                    if (typeof(ConditionalPatch).IsAssignableFrom(cad.AttributeType)) {
                         List<CustomAttributeTypedArgument> list = cad.ConstructorArguments.ToList();
                         List<object> paramList = new List<object>();
-                        list.ForEach(arg =>
-                        {
-                            paramList.Add(arg.Value);
-                        });
+                        list.ForEach(arg => paramList.Add(arg.Value));
                         ConditionalPatch condP = (ConditionalPatch)Activator.CreateInstance(cad.AttributeType, paramList.ToArray());
-                        if (condP.ShouldPatch())
-                        {
+                        if (condP.ShouldPatch()) {
                             _harmony.CreateClassProcessor(type).Patch();
                         }
                         return;
                     }
                 }
-                if (assumeUnmarkedAsTrue)
-                {
-                    _harmony.CreateClassProcessor(type).Patch();
-                }
+                if (assumeUnmarkedAsTrue) _harmony.CreateClassProcessor(type).Patch();
             });
         }
 
@@ -50,8 +37,7 @@ namespace SaikoMod
         /// Patches all conditional patches in the current assembly. A direct replacement for PatchAll.
         /// </summary>
         /// <param name="_harmony"></param>
-        public static void PatchAllConditionals(this Harmony _harmony)
-        {
+        public static void PatchAllConditionals(this Harmony _harmony) {
             MethodBase method = new StackTrace().GetFrame(1).GetMethod();
             Assembly assembly = method.ReflectedType.Assembly;
             _harmony.PatchAllConditionals(assembly);
@@ -61,18 +47,15 @@ namespace SaikoMod
     /// <summary>
     /// Base class for ConditionalPatches.
     /// </summary>
-    public abstract class ConditionalPatch : Attribute
-    {
+    public abstract class ConditionalPatch : Attribute {
         public abstract bool ShouldPatch();
     }
 
     /// <summary>
     /// Always patches, same as not having a ConditionalPatch at all.
     /// </summary>
-    public class ConditionalPatchAlways : ConditionalPatch
-    {
-        public override bool ShouldPatch()
-        {
+    public class ConditionalPatchAlways : ConditionalPatch {
+        public override bool ShouldPatch() {
             return true;
         }
     }
@@ -80,30 +63,25 @@ namespace SaikoMod
     /// <summary>
     /// Patches if the specified config is true.
     /// </summary>
-    public class ConditionalPatchConfig : ConditionalPatch
-    {
+    public class ConditionalPatchConfig : ConditionalPatch {
         string _mod;
         string _category;
         string _name;
-        public ConditionalPatchConfig(string mod, string category, string name)
-        {
+        public ConditionalPatchConfig(string mod, string category, string name) {
             _mod = mod;
             _category = category;
             _name = name;
         }
 
-        public override bool ShouldPatch()
-        {
-            if (!Chainloader.PluginInfos.ContainsKey(_mod))
-            {
+        public override bool ShouldPatch() {
+            if (!Chainloader.PluginInfos.ContainsKey(_mod)) {
                 UnityEngine.Debug.LogWarning("ConditionalPatchConfig can NOT find mod with name:" + _mod);
                 return false;
             }
             BaseUnityPlugin instance = Resources.FindObjectsOfTypeAll<BaseUnityPlugin>().First(x => x.Info == Chainloader.PluginInfos[_mod]);
             instance.Config.TryGetEntry(new ConfigDefinition(_category, _name), out ConfigEntry<bool> entry);
-            if (entry == null)
-            {
-                UnityEngine.Debug.LogWarning(String.Format("Cannot find config with: ({0}) {1}, {2}", _mod, _category, _name));
+            if (entry == null) {
+                UnityEngine.Debug.LogWarning(string.Format("Cannot find config with: ({0}) {1}, {2}", _mod, _category, _name));
                 return false;
             }
             return entry.Value;
@@ -113,10 +91,8 @@ namespace SaikoMod
     /// <summary>
     /// Never patches.
     /// </summary>
-    public class ConditionalPatchNever : ConditionalPatch
-    {
-        public override bool ShouldPatch()
-        {
+    public class ConditionalPatchNever : ConditionalPatch {
+        public override bool ShouldPatch() {
             return false;
         }
     }
@@ -124,17 +100,14 @@ namespace SaikoMod
     /// <summary>
     /// Patch if the specified mod is installed.
     /// </summary>
-    public class ConditionalPatchMod : ConditionalPatch
-    {
+    public class ConditionalPatchMod : ConditionalPatch {
         public string modKey;
 
-        public ConditionalPatchMod(string mod)
-        {
+        public ConditionalPatchMod(string mod) {
             modKey = mod;
         }
 
-        public override bool ShouldPatch()
-        {
+        public override bool ShouldPatch() {
             return Chainloader.PluginInfos.ContainsKey(modKey);
         }
     }
@@ -142,17 +115,14 @@ namespace SaikoMod
     /// <summary>
     /// Patch if the specified mod is not installed.
     /// </summary>
-    public class ConditionalPatchNoMod : ConditionalPatch
-    {
+    public class ConditionalPatchNoMod : ConditionalPatch {
         public string modKey;
 
-        public ConditionalPatchNoMod(string mod)
-        {
+        public ConditionalPatchNoMod(string mod) {
             modKey = mod;
         }
 
-        public override bool ShouldPatch()
-        {
+        public override bool ShouldPatch() {
             return !Chainloader.PluginInfos.ContainsKey(modKey);
         }
     }

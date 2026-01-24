@@ -9,12 +9,12 @@ namespace SaikoMod.Core.Components {
         }
 
         void Framerate() {
-            if (fps_timeCounter < fps_refreshTime)
-            {
+            if (fps_timeCounter < fps_refreshTime) {
                 fps_timeCounter += Time.deltaTime;
                 fps_frameCounter++;
                 return;
             }
+
             fps_lastFramerate = fps_frameCounter / fps_timeCounter;
             fps_frameCounter = 0;
             fps_timeCounter = 0f;

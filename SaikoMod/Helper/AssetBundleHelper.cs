@@ -3,26 +3,20 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SaikoMod.Helper
-{
-    public static class AssetBundleHelper
-    {
-        public static void InitBundle(string path, string ext, Action<string, string> func)
-        {
+namespace SaikoMod.Helper {
+    public static class AssetBundleHelper {
+        public static void InitBundle(string path, string ext, Action<string, string> func) {
             if (!Directory.Exists(path)) {
                 Directory.CreateDirectory(path);
                 return;
             }
 
-            foreach (string text in Directory.GetFiles(path))
-            {
-                if (text.Length > 0 && text.EndsWith(ext))
-                {
-                    try
-                    {
+            foreach (string text in Directory.GetFiles(path)) {
+                if (text.Length > 0 && text.EndsWith(ext)) {
+                    try {
                         string fileName = Path.GetFileName(text);
                         func(Path.GetFileNameWithoutExtension(fileName), fileName);
-                    } catch {}
+                    } catch { }
                 }
             }
         }
@@ -36,30 +30,25 @@ namespace SaikoMod.Helper
         /// <summary>
         /// Loads an AssetBundle from file, using cache if available.
         /// </summary>
-        public static AssetBundle LoadBundle(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
+        public static AssetBundle LoadBundle(string path) {
+            if (string.IsNullOrEmpty(path)) {
                 Debug.LogError("[AssetBundleHelper] LoadBundle failed: path is null.");
                 return null;
             }
 
-            if (bundleCache.TryGetValue(path, out AssetBundle cached))
-            {
+            if (bundleCache.TryGetValue(path, out AssetBundle cached)) {
                 if (cached != null) return cached;
                 bundleCache.Remove(path);
             }
 
-            if (!File.Exists(path))
-            {
+            if (!File.Exists(path)) {
                 Debug.LogError("[AssetBundleHelper] File not found: " + path);
                 return null;
             }
 
             AssetBundle bundle = AssetBundle.LoadFromFile(path);
 
-            if (bundle == null)
-            {
+            if (bundle == null) {
                 Debug.LogError("[AssetBundleHelper] Failed to load AssetBundle: " + path);
                 return null;
             }
@@ -72,10 +61,8 @@ namespace SaikoMod.Helper
         /// Loads an AssetBundle from a byte[] array in memory.
         /// CacheKey is used to uniquely identify the memory bundle.
         /// </summary>
-        public static AssetBundle LoadFromMemory(byte[] data, string cacheKey)
-        {
-            if (data == null || data.Length == 0)
-            {
+        public static AssetBundle LoadFromMemory(byte[] data, string cacheKey) {
+            if (data == null || data.Length == 0) {
                 Debug.LogError("[AssetBundleHelper] LoadFromMemory failed: data is null or empty.");
                 return null;
             }
@@ -87,7 +74,7 @@ namespace SaikoMod.Helper
                 return cached;
 
             AssetBundle bundle = AssetBundle.LoadFromMemory(data);
-            if (bundle == null)  {
+            if (bundle == null) {
                 Debug.LogError("[AssetBundleHelper] LoadFromMemory failed: invalid memory data.");
                 return null;
             }
@@ -100,16 +87,13 @@ namespace SaikoMod.Helper
         /// Loads a typed asset from a bundle.
         /// Example: LoadAsset<Texture2D>(bundle, "myTexture");
         /// </summary>
-        public static T LoadAsset<T>(AssetBundle bundle, string assetName) where T : UnityEngine.Object
-        {
-            if (bundle == null)
-            {
+        public static T LoadAsset<T>(AssetBundle bundle, string assetName) where T : UnityEngine.Object {
+            if (bundle == null) {
                 Debug.LogError("[AssetBundleHelper] LoadAsset failed: bundle is null.");
                 return null;
             }
 
-            if (string.IsNullOrEmpty(assetName))
-            {
+            if (string.IsNullOrEmpty(assetName)) {
                 Debug.LogError("[AssetBundleHelper] LoadAsset failed: assetName is null.");
                 return null;
             }
@@ -124,10 +108,8 @@ namespace SaikoMod.Helper
         /// Loads all assets of a given type.
         /// Example: LoadAllAssets<Texture2D>(bundle)
         /// </summary>
-        public static T[] LoadAllAssets<T>(AssetBundle bundle) where T : UnityEngine.Object
-        {
-            if (bundle == null)
-            {
+        public static T[] LoadAllAssets<T>(AssetBundle bundle) where T : UnityEngine.Object {
+            if (bundle == null) {
                 Debug.LogError("[AssetBundleHelper] LoadAllAssets failed: bundle is null.");
                 return Array.Empty<T>();
             }
@@ -138,8 +120,7 @@ namespace SaikoMod.Helper
         /// <summary>
         /// Loads a prefab and instantiates it properly.
         /// </summary>
-        public static GameObject InstantiatePrefab(AssetBundle bundle, string prefabName, Vector3? pos = null, Quaternion? rot = null)
-        {
+        public static GameObject InstantiatePrefab(AssetBundle bundle, string prefabName, Vector3? pos = null, Quaternion? rot = null) {
             GameObject prefab = LoadAsset<GameObject>(bundle, prefabName);
 
             if (prefab == null) return null;
@@ -156,8 +137,7 @@ namespace SaikoMod.Helper
         /// <summary>
         /// Checks if a bundle contains an asset name.
         /// </summary>
-        public static bool Contains(AssetBundle bundle, string name)
-        {
+        public static bool Contains(AssetBundle bundle, string name) {
             if (bundle == null) return false;
             foreach (string n in bundle.GetAllAssetNames())
                 if (n.EndsWith(name, StringComparison.OrdinalIgnoreCase))
@@ -168,10 +148,8 @@ namespace SaikoMod.Helper
         /// <summary>
         /// Unload a specific loaded bundle.
         /// </summary>
-        public static void UnloadBundle(string path, bool unloadAllObjects = false)
-        {
-            if (bundleCache.TryGetValue(path, out AssetBundle bundle) && bundle != null)
-            {
+        public static void UnloadBundle(string path, bool unloadAllObjects = false) {
+            if (bundleCache.TryGetValue(path, out AssetBundle bundle) && bundle != null) {
                 bundle.Unload(unloadAllObjects);
             }
 
@@ -181,10 +159,8 @@ namespace SaikoMod.Helper
         /// <summary>
         /// Unload ALL loaded bundles.
         /// </summary>
-        public static void UnloadAll(bool unloadAllObjects = false)
-        {
-            foreach (KeyValuePair<string, AssetBundle> kv in bundleCache)
-            {
+        public static void UnloadAll(bool unloadAllObjects = false) {
+            foreach (KeyValuePair<string, AssetBundle> kv in bundleCache) {
                 kv.Value?.Unload(unloadAllObjects);
             }
 

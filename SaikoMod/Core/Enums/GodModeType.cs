@@ -1,7 +1,5 @@
-﻿namespace SaikoMod.Core.Enums
-{
-    public enum GodModeType
-    {
+﻿namespace SaikoMod.Core.Enums {
+    public enum GodModeType {
         None,
         Kill,
         Damage,

@@ -1,27 +1,21 @@
 ﻿using UnityEngine;
 
-namespace RapidGUI
-{
-    public static partial class RGUIUtility
-    {
-        static GUIContent tempContent = new GUIContent();
+namespace RapidGUI {
+    public static partial class RGUIUtility {
+        static readonly GUIContent tempContent = new GUIContent();
 
-        public static GUIContent TempContent(string text)
-        {
+        public static GUIContent TempContent(string text) {
             tempContent.text = text;
             tempContent.tooltip = null;
             tempContent.image = null;
-
             return tempContent;
         }
 
-        public static Vector2 GetMouseScreenPos(Vector2? screenInsideOffset = null)
-        {
+        public static Vector2 GetMouseScreenPos(Vector2? screenInsideOffset = null) {
             var mousePos = Input.mousePosition;
             var ret = new Vector2(mousePos.x, Screen.height - mousePos.y);
 
-            if (screenInsideOffset.HasValue)
-            {
+            if (screenInsideOffset.HasValue) {
                 var maxPos = new Vector2(Screen.width, Screen.height) - screenInsideOffset.Value;
                 ret = Vector2.Min(ret, maxPos);
             }

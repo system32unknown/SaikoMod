@@ -4,21 +4,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SaikoMod.Mods
-{
+namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(HFPS_GameManager))]
     internal class GameManagerMod {
         [HarmonyPatch("Start")]
-        static void Postfix(HFPS_GameManager __instance)
-        {
+        static void Postfix(HFPS_GameManager __instance) {
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
 
             pc = __instance.playerController;
             tracker.from = pc.yandereController.transform;
             tracker.to = pc.transform;
 
-            Image img = Resources.FindObjectsOfTypeAll<Image>().First(x => x.name == "PausePanel");
-            img.enabled = false;
+            Resources.FindObjectsOfTypeAll<Image>().First(x => x.name == "PausePanel").enabled = false;
 
             DynamicObject powerbox = Resources.FindObjectsOfTypeAll<DynamicObject>().First(x => x.name == "locker" && x.transform.parent.name == "Dynamic_ElectricBox");
             powerbox.backUseAnim2 = "PowerBox_Close";
@@ -27,11 +24,9 @@ namespace SaikoMod.Mods
             eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
         }
 
-        public static bool EyeEnabled
-        {
+        public static bool EyeEnabled {
             get {
-                if (pc != null)
-                    return eyeObject.transform.GetChild(0).gameObject.activeSelf && eyeObject.transform.GetChild(1).gameObject.activeSelf;
+                if (pc != null) return eyeObject.transform.GetChild(0).gameObject.activeSelf && eyeObject.transform.GetChild(1).gameObject.activeSelf;
                 else return false;
             }
             set {
