@@ -54,4 +54,16 @@ namespace SaikoMod.Mods {
             return !YandModController.noPushing;
         }
     }
+
+    [HarmonyPatch(typeof(DoorAndKeyManager))]
+    class DAMPatch {
+        [HarmonyPatch("Start"), HarmonyPostfix]
+        static void ShoePatch(DoorAndKeyManager __instance) {
+            if (GameData.instance.difficultyChosen == DifficultyChosen.Hard) {
+                __instance.shoes.gameObject.SetActive(true);
+                __instance.firstAidKit.gameObject.SetActive(true);
+                __instance.shoes.transform.position = __instance.shoesSpawnPoints[Random.Range(0, __instance.shoesSpawnPoints.Length)].points[Random.Range(0, 9)].transform.position;
+            }
+        }
+    }
 }

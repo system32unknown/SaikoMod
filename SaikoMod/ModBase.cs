@@ -10,6 +10,7 @@ using SaikoMod.WinAPI;
 
 namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]
+    [BepInProcess("Saiko no sutoka.exe")]
     public class ModBase : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
         public const string modVer = "0.0.0.3";
