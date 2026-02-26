@@ -62,7 +62,9 @@ namespace SaikoMod.UI {
                     lua = cloned.AddComponent<LuaObjectScript>();
                     lua.InitFromFile(luaPath);
 
-                    lua.SetGlobal("yand", Object.FindObjectOfType<YandereController>());
+                    YandereController g = Object.FindObjectOfType<YandereController>();
+                    lua.RegisterType<YandereController>();
+                    lua.SetGlobal("yand", g);
                 }
 
                 cdo.action += () => {

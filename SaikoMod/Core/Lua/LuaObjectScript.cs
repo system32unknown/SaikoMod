@@ -22,17 +22,20 @@ namespace SaikoMod.Core.Lua {
             public void Warn(string msg) => Debug.LogWarning("[LuaObj] " + msg);
             public void Error(string msg) => Debug.LogError("[LuaObj] " + msg);
 
-            public void Destroy() { if (gameObject != null) UnityEngine.Object.Destroy(gameObject); }
+            public void Destroy() {
+                if (gameObject != null)
+                    UnityEngine.Object.Destroy(gameObject);
+            }
         }
 
-        private Script _script;
-        private Table _env;
-        private LuaSelf _self;
+        Script _script;
+        Table _env;
+        LuaSelf _self;
 
-        private DynValue _fnSpawn;
-        private DynValue _fnUpdate;
-        private DynValue _fnAction;
-        private DynValue _fnDestroy;
+        DynValue _fnSpawn;
+        DynValue _fnUpdate;
+        DynValue _fnAction;
+        DynValue _fnDestroy;
 
         public string LastError { get; private set; }
 
@@ -43,20 +46,29 @@ namespace SaikoMod.Core.Lua {
             if (string.IsNullOrEmpty(luaFilePath) || !File.Exists(luaFilePath))
                 return false;
 
-            UserData.RegisterAssembly(); // optional: registers common types; remove if you want stricter control
+            UserData.RegisterAssembly();
 
             // Soft sandbox is generally safer for mod scripts.
-            _script = new Script(CoreModules.Preset_Default);
-            _script.Options.DebugPrint = s => Debug.Log("[Lua] " + s);
+            _script = new Script(CoreModules.Preset_Complete);
+
+            _script.Options.DebugPrint = s => Debug.Log(s);
+            _script.Globals["print"] = (Action<DynValue>)CustomPrint;
             _script.Options.UseLuaErrorLocations = true;
 
             // Build a per-instance environment to avoid global collisions
             _env = new Table(_script);
-            _script.Globals["self"] = DynValue.Nil; // not used directly, but harmless
+
+            Table mt = new Table(_script);
+            mt["__index"] = _script.Globals;
+            _env.MetaTable = mt;
 
             RegisterTypes();
 
-            _self = new LuaSelf { gameObject = gameObject, transform = transform };
+            // self userdata
+            _self = new LuaSelf {
+                gameObject = gameObject,
+                transform = transform
+            };
             _env["self"] = UserData.Create(_self);
 
             try {
@@ -72,7 +84,7 @@ namespace SaikoMod.Core.Lua {
                 _fnDestroy = _env.Get("onDestroy");
 
                 // Call spawn hook
-                CallHook(_fnSpawn);
+                Call(_fnSpawn);
 
                 return true;
             } catch (SyntaxErrorException e) {
@@ -101,13 +113,15 @@ namespace SaikoMod.Core.Lua {
 
             UserData.RegisterType<Quaternion>();
             _script.Globals["Quaternion"] = new Table(_script);
-
             _script.Globals.Get("Quaternion").Table["identity"] = Quaternion.identity;
             _script.Globals.Get("Quaternion").Table["Euler"] = (Func<float, float, float, Quaternion>)((x, y, z) => Quaternion.Euler(x, y, z));
         }
 
         public void CallAction() {
-            CallHook(_fnAction);
+            Call(_fnAction);
+        }
+        public bool HasFunction(string name) {
+            return name != null && _script.Globals[name] != null;
         }
 
         public void RegisterType<T>() {
@@ -117,11 +131,14 @@ namespace SaikoMod.Core.Lua {
         public void SetGlobal(string key, Action act) {
             _script.Globals[key] = act;
         }
-        public void SetGlobal(string key, object obj) {
-            _script.Globals[key] = obj;
+        public void SetGlobal(Type type) {
+            _script.Globals[type.Name] = type;
+        }
+        public void SetGlobal(string key, MonoBehaviour behaviour) {
+            _script.Globals[key] = behaviour;
         }
 
-        private void Update() {
+        void Update() {
             if (_script == null) return;
             if (_fnUpdate == null || _fnUpdate.Type != DataType.Function) return;
 
@@ -134,14 +151,14 @@ namespace SaikoMod.Core.Lua {
             }
         }
 
-        private void OnDestroy() {
-            CallHook(_fnDestroy);
+        void OnDestroy() {
+            Call(_fnDestroy);
             _script = null;
             _env = null;
             _self = null;
         }
 
-        private void CallHook(DynValue fn) {
+        void Call(DynValue fn) {
             if (_script == null) return;
             if (fn == null || fn.Type != DataType.Function) return;
 
@@ -150,6 +167,10 @@ namespace SaikoMod.Core.Lua {
             } catch (ScriptRuntimeException e) {
                 Debug.LogError("Lua hook error:\n" + e.DecoratedMessage);
             }
+        }
+
+        void CustomPrint(DynValue value) {
+            Debug.Log(value.ToPrintString());
         }
     }
 }
