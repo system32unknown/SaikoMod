@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
 using UnityEngine;
 
 namespace SaikoMod.Core.Lua {
@@ -48,9 +49,8 @@ namespace SaikoMod.Core.Lua {
 
             UserData.RegisterAssembly();
 
-            // Soft sandbox is generally safer for mod scripts.
-            _script = new Script(CoreModules.Preset_Complete);
-
+            _script = new Script(CoreModules.Preset_Complete ^ CoreModules.IO ^ CoreModules.OS_System);
+            _script.Options.ScriptLoader = new FileSystemScriptLoader();
             _script.Options.DebugPrint = s => Debug.Log(s);
             _script.Globals["print"] = (Action<DynValue>)CustomPrint;
             _script.Options.UseLuaErrorLocations = true;
@@ -107,6 +107,7 @@ namespace SaikoMod.Core.Lua {
             UserData.RegisterType<LuaSelf>();
             UserData.RegisterType<GameObject>();
             UserData.RegisterType<Transform>();
+            UserData.RegisterType<UnityEngine.AI.NavMeshAgent>();
 
             UserData.RegisterType<Vector3>();
             _script.Globals["Vector3"] = (Func<float, float, float, Vector3>)((x, y, z) => new Vector3(x, y, z));
@@ -131,11 +132,8 @@ namespace SaikoMod.Core.Lua {
         public void SetGlobal(string key, Action act) {
             _script.Globals[key] = act;
         }
-        public void SetGlobal(Type type) {
-            _script.Globals[type.Name] = type;
-        }
-        public void SetGlobal(string key, MonoBehaviour behaviour) {
-            _script.Globals[key] = behaviour;
+        public void SetGlobal(string key, object obj) {
+            _script.Globals[key] = obj;
         }
 
         void Update() {
