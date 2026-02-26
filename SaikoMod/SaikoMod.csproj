@@ -44,6 +44,9 @@
     <Reference Include="BepInEx">
       <HintPath>..\..\..\Saikonosutoka201\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="MoonSharp.Interpreter">
+      <HintPath>..\..\..\..\Saikonosutoka201\BepInEx\plugins\MoonSharp.Interpreter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -124,7 +127,7 @@
     <Compile Include="Core\Enums\MessageType.cs" />
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
-    <Compile Include="Helper\AssetBundleHelper.cs" />
+    <Compile Include="Core\Lua\LuaObjectScript.cs" />
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />

@@ -41,7 +41,7 @@ namespace SaikoMod.UI {
         int animIdx = 0;
 
         public SaikoUI() {
-            AssetBundleHelper.InitBundle(emotefilePath, ".emotes", (string ename, string filename) => {
+            PathUtils.ScanFolderFiles(emotefilePath, ".emotes", (string ename, string filename) => {
                 EmoteNames.Add(ename);
                 EmoteFilenames.Add(filename);
             });

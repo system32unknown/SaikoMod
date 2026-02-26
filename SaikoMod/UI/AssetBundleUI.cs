@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.IO;
 using System.Collections.Generic;
-using SaikoMod.Helper;
+using SaikoMod.Utils;
 using SaikoMod.Core.Components;
+using SaikoMod.Core.Lua;
 using RapidGUI;
 
 namespace SaikoMod.UI {
@@ -16,11 +18,10 @@ namespace SaikoMod.UI {
 
         int objIdx = 0;
         Transform playerTransform;
-
         GameObject gameObjParent;
 
         public AssetBundleUI() {
-            AssetBundleHelper.InitBundle(filePath, ".unityobj", (string ename, string filename) => {
+            PathUtils.ScanFolderFiles(filePath, ".unityobj", (string ename, string filename) => {
                 ObjNames.Add(ename);
                 ObjFilenames.Add(filename);
             });
@@ -29,6 +30,7 @@ namespace SaikoMod.UI {
         public void OnLoad() {
             gameObjParent = new GameObject("gameObjAssets");
             playerTransform = GameObject.Find("FPSPLAYER").transform;
+
             foreach (string objName in ObjFilenames) {
                 ObjAsset = AssetBundle.LoadFromFile(filePath + objName);
                 objAssets.Add(ObjAsset.LoadAllAssets<GameObject>()[0]);
@@ -46,21 +48,28 @@ namespace SaikoMod.UI {
             if (RGUI.ArrayNavigatorButton<GameObject>(ref objIdx, objAssets, "objs")) {
                 GameObject curObj = objAssets[objIdx];
                 if (curObj == null) return;
+
                 GameObject cloned = Object.Instantiate(curObj, playerTransform.position, playerTransform.rotation);
-                CustomDynamicObj cdo = cloned.AddComponent<CustomDynamicObj>();
-                cdo.action += () => {
-                    GameObject yand = GameObject.Find("yandere");
-                    Vector3 originPlayer = playerTransform.position;
-                    Vector3 originYand = yand.transform.position;
-                    yand.GetComponent<NavMeshAgent>().enabled = false;
-                    yand.transform.position = originPlayer;
-                    yand.GetComponent<NavMeshAgent>().enabled = true;
-                    playerTransform.position = originYand;
-                    Object.Destroy(cloned);
-                };
                 cloned.name = curObj.name;
                 cloned.transform.parent = gameObjParent.transform;
+                CustomDynamicObj cdo = cloned.AddComponent<CustomDynamicObj>();
+
+                string bundleFile = ObjFilenames[objIdx]; // same index as objAssets
+                string luaPath = Path.Combine(filePath, Path.GetFileNameWithoutExtension(bundleFile) + ".lua");
+
+                LuaObjectScript lua = null;
+                if (File.Exists(luaPath)) {
+                    lua = cloned.AddComponent<LuaObjectScript>();
+                    lua.InitFromFile(luaPath);
+
+                    lua.SetGlobal("yand", Object.FindObjectOfType<YandereController>());
+                }
+
+                cdo.action += () => {
+                    lua?.CallAction();
+                };
             }
+
             if (gameObjParent.transform.childCount > 0) {
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Delete Object")) {

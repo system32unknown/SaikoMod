@@ -50,5 +50,21 @@ namespace SaikoMod.Utils {
             texture2D.name = Path.GetFileNameWithoutExtension(path);
             return texture2D;
         }
+
+        public static void ScanFolderFiles(string path, string ext, Action<string, string> onFileFound) {
+            if (!Directory.Exists(path)) {
+                Directory.CreateDirectory(path);
+                return;
+            }
+
+            foreach (string text in Directory.GetFiles(path)) {
+                if (text.Length > 0 && text.EndsWith(ext)) {
+                    try {
+                        string fileName = Path.GetFileName(text);
+                        onFileFound(Path.GetFileNameWithoutExtension(fileName), fileName);
+                    } catch { }
+                }
+            }
+        }
     }
 }
