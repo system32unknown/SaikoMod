@@ -33,7 +33,7 @@ namespace SaikoMod.Core.Lua {
         Table _env;
         LuaSelf _self;
 
-        DynValue _fnSpawn;
+        DynValue _fnCreate;
         DynValue _fnUpdate;
         DynValue _fnAction;
         DynValue _fnDestroy;
@@ -78,13 +78,13 @@ namespace SaikoMod.Core.Lua {
                 _script.Call(chunk);
 
                 // Cache hook functions (optional)
-                _fnSpawn = _env.Get("onCreate");
+                _fnCreate = _env.Get("onCreate");
                 _fnUpdate = _env.Get("onUpdate");
                 _fnAction = _env.Get("onAction");
                 _fnDestroy = _env.Get("onDestroy");
 
-                // Call spawn hook
-                Call(_fnSpawn);
+                // Call create hook
+                Call(_fnCreate);
 
                 return true;
             } catch (SyntaxErrorException e) {
@@ -121,16 +121,26 @@ namespace SaikoMod.Core.Lua {
         public void CallAction() {
             Call(_fnAction);
         }
+
         public bool HasFunction(string name) {
-            return name != null && _script.Globals[name] != null;
+            if (string.IsNullOrEmpty(name)) return false;
+            if (_script == null) return false;
+
+            DynValue value = DynValue.Nil;
+            if (_env != null) value = _env.Get(name);
+
+            if (value.Type != DataType.Function)
+                value = _script.Globals.Get(name);
+
+            return value.Type == DataType.Function;
         }
 
         public void RegisterType<T>() {
             UserData.RegisterType<T>();
         }
 
-        public void SetGlobal(string key, Action act) {
-            _script.Globals[key] = act;
+        public void SetGlobal(Type type) {
+            _script.Globals[type.Name] = type;
         }
         public void SetGlobal(string key, object obj) {
             _script.Globals[key] = obj;
