@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using RapidGUI;
 using UnityEngine;
+using UnityEngine.UI;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
 using SaikoMod.Core.Enums;
@@ -24,6 +25,8 @@ namespace SaikoMod.UI {
         Keypad keypad;
         HFPS_GameManager gm;
 
+        Canvas GameCanvas;
+
         public static AIRoom[] aiRooms;
         public static AIRoom curRoom;
         int roomIdx = 0;
@@ -38,6 +41,16 @@ namespace SaikoMod.UI {
 
             keypad = Object.FindObjectsOfType<Keypad>().First(x => x.gameObject.name == "Keypad (1)");
             CCTVManager.AddedMoreCam = false;
+
+            GameCanvas = Object.FindObjectsOfType<Canvas>().First(x => x.transform.parent.name == "GAMEMANAGER");
+
+            GameObject rawimg_ = new GameObject("RAWIMG_");
+            rawimg_.transform.parent = GameCanvas.transform;
+            RawImage _raw = rawimg_.AddComponent<RawImage>();
+            _raw.texture = Resources.FindObjectsOfTypeAll<RenderTexture>().First(x => x.name == "display 6 (Instance)");
+            RectTransform _rawrect = rawimg_.GetComponent<RectTransform>();
+            AnchorUtils.SetAnchor(_rawrect, AnchorUtils.AnchorPreset.TopRight);
+            _rawrect.position = new Vector2(0, 0);
         }
 
         public void OnUnload() {
@@ -52,6 +65,7 @@ namespace SaikoMod.UI {
             else if (rayObj.GetComponent<DynamicNode>()) dynamicObj = rayObj.GetComponent<DynamicNode>().door;
         }
 
+        int curIdxCam = 0;
         public override void Draw() {
             switch (page) {
                 case 0:
@@ -98,7 +112,7 @@ namespace SaikoMod.UI {
                         keypad.AccessCode = RGUI.Field(keypad.AccessCode, "Keycode Access");
                         GUILayout.EndVertical();
                     }
-                    if (curRoom) curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
+                    curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
 
                     if (gm) {
                         GUILayout.BeginVertical("Box");
@@ -130,6 +144,8 @@ namespace SaikoMod.UI {
                             GUILayout.EndVertical();
                         }
                     }
+                    break;
+                case 1:
                     break;
             }
             page = RGUI.Page(page, 2, true);

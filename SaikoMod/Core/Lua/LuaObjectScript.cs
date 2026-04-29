@@ -55,7 +55,6 @@ namespace SaikoMod.Core.Lua {
             _script.Globals["print"] = (Action<DynValue>)CustomPrint;
             _script.Options.UseLuaErrorLocations = true;
 
-            // Build a per-instance environment to avoid global collisions
             _env = new Table(_script);
 
             Table mt = new Table(_script);
@@ -64,7 +63,6 @@ namespace SaikoMod.Core.Lua {
 
             RegisterTypes();
 
-            // self userdata
             _self = new LuaSelf {
                 gameObject = gameObject,
                 transform = transform
@@ -72,18 +70,15 @@ namespace SaikoMod.Core.Lua {
             _env["self"] = UserData.Create(_self);
 
             try {
-                // Load + execute script into environment
                 string code = File.ReadAllText(luaFilePath);
                 DynValue chunk = _script.LoadString(code, _env, Path.GetFileName(luaFilePath));
                 _script.Call(chunk);
 
-                // Cache hook functions (optional)
                 _fnCreate = _env.Get("onCreate");
                 _fnUpdate = _env.Get("onUpdate");
                 _fnAction = _env.Get("onAction");
                 _fnDestroy = _env.Get("onDestroy");
 
-                // Call create hook
                 Call(_fnCreate);
 
                 return true;
@@ -103,7 +98,6 @@ namespace SaikoMod.Core.Lua {
         }
 
         void RegisterTypes() {
-            // Register userdata types
             UserData.RegisterType<LuaSelf>();
             UserData.RegisterType<GameObject>();
             UserData.RegisterType<Transform>();
@@ -153,7 +147,6 @@ namespace SaikoMod.Core.Lua {
             try {
                 _script.Call(_fnUpdate, _env["self"], DynValue.NewNumber(Time.deltaTime));
             } catch (ScriptRuntimeException e) {
-                // Don’t spam logs every frame: disable updates on error.
                 Debug.LogError("Lua update error:\n" + e.DecoratedMessage);
                 _fnUpdate = DynValue.Nil;
             }

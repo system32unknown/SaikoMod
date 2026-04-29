@@ -45,7 +45,7 @@
       <HintPath>..\..\..\Saikonosutoka201\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="MoonSharp.Interpreter">
-      <HintPath>..\..\..\..\Saikonosutoka201\BepInEx\plugins\MoonSharp.Interpreter.dll</HintPath>
+      <HintPath>..\..\..\Saikonosutoka201\BepInEx\plugins\MoonSharp.Interpreter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

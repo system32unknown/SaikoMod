@@ -13,6 +13,7 @@ namespace SaikoMod.Core.Components {
             cctv.activeCams[cctv.activeCams.Length - 1] = true;
             AddedMoreCam = true;
         }
+
         public static bool AddedMoreCam = false;
 
         public static Transform GetHead(string name) =>
