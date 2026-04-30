@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 using SaikoMod.Core.Components.UI;
 
@@ -83,13 +84,29 @@ namespace SaikoMod.UI {
 
     public static class UIHelpers {
         public static CustomButton CreateButton(string label, Transform parent, AnchorUtils.AnchorPreset anchor, Vector2 position) {
-            Button but = Object.Instantiate(Object.FindObjectsOfType<Button>().First(x => x.name == "Start"), parent);
+            Button but = null;
+            string labelBut = "Start";
+            if (SceneManager.GetActiveScene().name.ToLower() == "levelnew") labelBut = "Play (1)";
+            but = Object.Instantiate(Object.FindObjectsOfType<Button>().First(x => x.name == labelBut), parent);
+            if (!but) return null;
+
             CustomButton button = new CustomButton(but);
             button.Label.text = label;
             AnchorUtils.SetAnchor(button.Rect, anchor);
             button.Label.fontSize = 22;
             button.position = position;
             return button;
+        }
+
+        public static RawImage CreateRawImg(string name, Transform parent, AnchorUtils.AnchorPreset anchor, Vector2 pos) {
+            GameObject temp = new GameObject(name);
+            temp.transform.parent = parent;
+            RawImage raw = temp.AddComponent<RawImage>();
+            RectTransform _rawrect = raw.GetComponent<RectTransform>();
+            AnchorUtils.SetAnchor(_rawrect, anchor);
+            _rawrect.localScale = Vector3.one;
+            _rawrect.localPosition = pos;
+            return raw;
         }
     }
 }

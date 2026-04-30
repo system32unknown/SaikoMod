@@ -26,6 +26,7 @@ namespace SaikoMod.UI {
         HFPS_GameManager gm;
 
         Canvas GameCanvas;
+        Material DisplayMat;
 
         public static AIRoom[] aiRooms;
         public static AIRoom curRoom;
@@ -43,14 +44,10 @@ namespace SaikoMod.UI {
             CCTVManager.AddedMoreCam = false;
 
             GameCanvas = Object.FindObjectsOfType<Canvas>().First(x => x.transform.parent.name == "GAMEMANAGER");
+            DisplayMat = Resources.FindObjectsOfTypeAll<Material>().First(x => x.name == "display 6");
 
-            GameObject rawimg_ = new GameObject("RAWIMG_");
-            rawimg_.transform.parent = GameCanvas.transform;
-            RawImage _raw = rawimg_.AddComponent<RawImage>();
-            _raw.texture = Resources.FindObjectsOfTypeAll<RenderTexture>().First(x => x.name == "display 6 (Instance)");
-            RectTransform _rawrect = rawimg_.GetComponent<RectTransform>();
-            AnchorUtils.SetAnchor(_rawrect, AnchorUtils.AnchorPreset.TopRight);
-            _rawrect.position = new Vector2(0, 0);
+            RawImage _raw = UIHelpers.CreateRawImg("RAWIMG_", GameCanvas.transform, AnchorUtils.AnchorPreset.TopRight, new Vector2(384f, 240f));
+            _raw.texture = DisplayMat.mainTexture;
         }
 
         public void OnUnload() {
