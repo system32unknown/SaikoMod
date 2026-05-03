@@ -72,6 +72,7 @@ namespace SaikoMod.UI {
 
                     lua.RegisterType<PlayerController>();
                     lua.SetGlobal("player", Object.FindObjectOfType<PlayerController>());
+                    lua.SetGlobal("playerCam", Camera.main);
                 }
 
                 cdo.action += () => {

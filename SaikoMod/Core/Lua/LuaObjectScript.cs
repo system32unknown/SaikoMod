@@ -98,6 +98,8 @@ namespace SaikoMod.Core.Lua {
         }
 
         void RegisterTypes() {
+            // Register userdata types
+            UserData.RegisterType<Camera>();
             UserData.RegisterType<LuaSelf>();
             UserData.RegisterType<GameObject>();
             UserData.RegisterType<Transform>();
