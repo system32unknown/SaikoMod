@@ -26,7 +26,8 @@ namespace SaikoMod.UI {
         HFPS_GameManager gm;
 
         Canvas GameCanvas;
-        Material DisplayMat;
+        RenderTexture camRender;
+        RawImage _raw;
 
         public static AIRoom[] aiRooms;
         public static AIRoom curRoom;
@@ -44,10 +45,18 @@ namespace SaikoMod.UI {
             CCTVManager.AddedMoreCam = false;
 
             GameCanvas = Object.FindObjectsOfType<Canvas>().First(x => x.transform.parent.name == "GAMEMANAGER");
-            DisplayMat = Resources.FindObjectsOfTypeAll<Material>().First(x => x.name == "display 6");
 
-            RawImage _raw = UIHelpers.CreateRawImg("RAWIMG_", GameCanvas.transform, AnchorUtils.AnchorPreset.TopRight, new Vector2(384f, 240f));
-            _raw.texture = DisplayMat.mainTexture;
+            #region CAMERA RENDERER
+            Material DisplayMat = Resources.FindObjectsOfTypeAll<Material>().First(x => x.name == "display 6");
+
+            camRender = DisplayMat.mainTexture as RenderTexture;
+            camRender.filterMode = FilterMode.Point;
+
+            _raw = UIHelpers.CreateRawImg("RAWIMG_", GameCanvas.transform, AnchorUtils.AnchorPreset.TopRight, new Vector2(384f, 240f));
+            _raw.texture = camRender;
+            _raw.rectTransform.sizeDelta = new Vector2(150f, 150f);
+            _raw.gameObject.SetActive(false);
+            #endregion
         }
 
         public void OnUnload() {
@@ -62,7 +71,6 @@ namespace SaikoMod.UI {
             else if (rayObj.GetComponent<DynamicNode>()) dynamicObj = rayObj.GetComponent<DynamicNode>().door;
         }
 
-        int curIdxCam = 0;
         public override void Draw() {
             switch (page) {
                 case 0:
@@ -143,6 +151,10 @@ namespace SaikoMod.UI {
                     }
                     break;
                 case 1:
+                    GUILayout.BeginVertical("Box");
+                    GUILayout.Label("Camera");
+                    if (GUILayout.Button("Toggle Minicam")) _raw.gameObject.SetActive(!_raw.gameObject.activeSelf);
+                    GUILayout.EndVertical();
                     break;
             }
             page = RGUI.Page(page, 2, true);
