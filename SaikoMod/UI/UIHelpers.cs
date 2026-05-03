@@ -105,7 +105,18 @@ namespace SaikoMod.UI {
             RectTransform _rawrect = raw.rectTransform;
             AnchorUtils.SetAnchor(_rawrect, anchor);
             _rawrect.localScale = Vector3.one;
-            _rawrect.localPosition = pos;
+            _rawrect.anchoredPosition = pos;
+            return raw;
+        }
+
+        public static RawImage CreateRawImg(string name, Transform parent, AnchorUtils.AnchorPreset anchor) {
+            GameObject temp = new GameObject(name);
+            temp.transform.parent = parent;
+            RawImage raw = temp.AddComponent<RawImage>();
+            RectTransform _rawrect = raw.rectTransform;
+            AnchorUtils.SetAnchor(_rawrect, anchor);
+            _rawrect.localScale = Vector3.one;
+            _rawrect.anchoredPosition = Vector2.zero;
             return raw;
         }
     }

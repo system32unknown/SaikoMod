@@ -28,6 +28,8 @@ namespace SaikoMod.UI {
 
         FlyController flyController;
 
+        Animator camAnim;
+
         public void OnLoad() {
             dkm = Object.FindObjectOfType<DoorAndKeyManager>();
             pf = Object.FindObjectOfType<PlayerFunctions>();
@@ -39,6 +41,8 @@ namespace SaikoMod.UI {
                 flyController = player.gameObject.AddComponent<FlyController>();
                 flyController.enabled = false;
             }
+
+            camAnim = Camera.main.GetComponent<Animator>();
         }
 
         public override void Draw() {
@@ -129,6 +133,8 @@ namespace SaikoMod.UI {
                         Camera.main.farClipPlane = RGUI.SliderFloat(Camera.main.farClipPlane, 0f, 5555f, 30f, "Far Clip");
                         Camera.main.nearClipPlane = RGUI.SliderFloat(Camera.main.nearClipPlane, 0f, 5555f, 1000f, "Near Clip");
                         GUILayout.EndVertical();
+
+                        if (camAnim && RGUI.Button(camAnim.enabled, "Cam Animation")) camAnim.enabled = !camAnim.enabled;
                         GUILayout.EndVertical();
 
                         GUILayout.BeginVertical("Box");

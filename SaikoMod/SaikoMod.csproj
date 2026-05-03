@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Attributes.cs" />
     <Compile Include="Controller\BaseController.cs" />
+    <Compile Include="Core\Backend\IniFile.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
     <Compile Include="Core\Components\FlyController.cs" />
@@ -185,7 +186,7 @@
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MeshUtils.cs" />
     <Compile Include="Utils\PathUtils.cs" />
-    <Compile Include="Utils\RandomUtil.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Helper\ReflectionHelpers.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="UI\BaseWindowUI.cs" />

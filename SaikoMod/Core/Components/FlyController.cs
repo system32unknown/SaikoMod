@@ -68,9 +68,7 @@ namespace SaikoMod.Core.Components {
         void RotateTowardsCamera(Quaternion current, System.Action<Quaternion> applyRotation) {
             Vector3 forward = cam.forward;
             forward.y = 0f;
-
-            if (forward.sqrMagnitude < 0.001f)
-                return;
+            if (forward.sqrMagnitude < 0.001f) return;
 
             applyRotation(Quaternion.LookRotation(forward));
         }

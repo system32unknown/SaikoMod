@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace SaikoMod.Utils {
-    class RandomUtil {
+    class RandomUtils {
         public static Vector3 GetVector(float min = 0f, float max = .3f) {
             return new Vector3(Random.Range(min, max), Random.Range(min, max), Random.Range(min, max));
         }

@@ -5,7 +5,6 @@ using UnityEngine;
 using SaikoMod.Core.Enums;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
-using SaikoMod.Helper;
 
 namespace SaikoMod.UI {
     public class SaikoUI : BaseWindowUI {

@@ -30,17 +30,17 @@ namespace SaikoMod.Utils {
         }
         public static void Shufflevoice(LipSyncVoice voice) {
             AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
-            voice.voiceline = RandomUtil.GetString(100, true, 10);
+            voice.voiceline = RandomUtils.GetString(100, true, 10);
             LipSyncData data = voice.clip;
             data.clip = clips[Random.Range(0, clips.Length - 1)];
             foreach (PhonemeMarker phoneme in data.phonemeData) {
-                phoneme.useRandomness = RandomUtil.GetBool();
+                phoneme.useRandomness = RandomUtils.GetBool();
                 phoneme.intensity = Random.Range(1f, 5f);
                 phoneme.phonemeNumber = Random.Range(0, 10);
             }
 
-            RandomUtil.ShuffleCurve(data.phonemePoseCurves, 10f, 100f, 100f);
-            RandomUtil.ShuffleCurve(data.emotionPoseCurves, 10f, 100f, 100f);
+            RandomUtils.ShuffleCurve(data.phonemePoseCurves, 10f, 100f, 100f);
+            RandomUtils.ShuffleCurve(data.emotionPoseCurves, 10f, 100f, 100f);
         }
 
         public static void SetEmptyDatas(LipSyncVoice[] voices) {

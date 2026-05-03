@@ -21,7 +21,7 @@ namespace SaikoMod.Utils {
             Texture[] texs = Resources.FindObjectsOfTypeAll<Texture>();
 
             Material m = new Material(shaders[Random.Range(0, shaders.Length)]);
-            if (m.HasProperty("_Color")) m.SetColor("_Color", RandomUtil.GetColor(true));
+            if (m.HasProperty("_Color")) m.SetColor("_Color", RandomUtils.GetColor(true));
             m.mainTexture = texs[Random.Range(0, texs.Length)];
             return m;
         }

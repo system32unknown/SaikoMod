@@ -58,7 +58,7 @@ namespace SaikoMod.UI {
                         foreach (AudioSource source in Resources.FindObjectsOfTypeAll<AudioSource>()) {
                             source.pitch = Random.Range(-3f, 3f);
                             source.clip = clips[Random.Range(0, clips.Length - 1)];
-                            source.loop = RandomUtil.GetBool();
+                            source.loop = RandomUtils.GetBool();
                         }
                     }
 

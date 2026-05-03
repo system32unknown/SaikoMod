@@ -26,8 +26,7 @@ namespace SaikoMod.UI {
         HFPS_GameManager gm;
 
         Canvas GameCanvas;
-        RenderTexture camRender;
-        RawImage _raw;
+        RawImage rawImage;
 
         public static AIRoom[] aiRooms;
         public static AIRoom curRoom;
@@ -36,39 +35,50 @@ namespace SaikoMod.UI {
         public void OnLoad() {
             ep = Object.FindObjectOfType<ElectricPuzzle>();
             ele = Object.FindObjectOfType<Electricity>();
-            aiRooms = Object.FindObjectsOfType<AIRoom>();
             interact = Object.FindObjectOfType<InteractManager>();
             gm = HFPS_GameManager.instance;
-            curRoom = aiRooms[0];
 
-            keypad = Object.FindObjectsOfType<Keypad>().First(x => x.gameObject.name == "Keypad (1)");
+            aiRooms = Object.FindObjectsOfType<AIRoom>();
+            curRoom = aiRooms.FirstOrDefault();
+
+            keypad = Object.FindObjectsOfType<Keypad>().FirstOrDefault(x => x.gameObject.name == "Keypad (1)");
+            GameCanvas = Object.FindObjectsOfType<Canvas>().FirstOrDefault(x => x.transform.parent?.name == "GAMEMANAGER");
+
+            SetupCameraPreview();
+
             CCTVManager.AddedMoreCam = false;
+        }
 
-            GameCanvas = Object.FindObjectsOfType<Canvas>().First(x => x.transform.parent.name == "GAMEMANAGER");
+        void SetupCameraPreview() {
+            Material mat = Resources.FindObjectsOfTypeAll<Material>().FirstOrDefault(x => x.name == "display 6");
+            if (!mat || !GameCanvas) return;
 
-            #region CAMERA RENDERER
-            Material DisplayMat = Resources.FindObjectsOfTypeAll<Material>().First(x => x.name == "display 6");
+            RenderTexture renderTex = mat.mainTexture as RenderTexture;
+            if (!renderTex) return;
 
-            camRender = DisplayMat.mainTexture as RenderTexture;
-            camRender.filterMode = FilterMode.Point;
+            renderTex.filterMode = FilterMode.Point;
 
-            _raw = UIHelpers.CreateRawImg("RAWIMG_", GameCanvas.transform, AnchorUtils.AnchorPreset.TopRight, new Vector2(384f, 240f));
-            _raw.texture = camRender;
-            _raw.rectTransform.sizeDelta = new Vector2(150f, 150f);
-            _raw.gameObject.SetActive(false);
-            #endregion
+            rawImage = UIHelpers.CreateRawImg("RAWIMG_", GameCanvas.transform, AnchorUtils.AnchorPreset.TopRight);
+            rawImage.texture = renderTex;
+            rawImage.rectTransform.sizeDelta = new Vector2(150f, 150f);
+            rawImage.gameObject.SetActive(false);
         }
 
         public void OnUnload() {
             timerStarted = true;
+            Object.Destroy(rawImage);
         }
 
         public void OnUpdate() {
-            GameObject rayObj = interact.RaycastObject;
-            if (!rayObj) return;
+            if (!interact) return;
 
-            if (rayObj.GetComponent<DynamicObject>()) dynamicObj = rayObj.GetComponent<DynamicObject>();
-            else if (rayObj.GetComponent<DynamicNode>()) dynamicObj = rayObj.GetComponent<DynamicNode>().door;
+            GameObject rayObj = interact.RaycastObject;
+            if (!rayObj) {
+                dynamicObj = null;
+                return;
+            }
+
+            dynamicObj = rayObj.GetComponent<DynamicObject>() ?? rayObj.GetComponent<DynamicNode>()?.door;
         }
 
         public override void Draw() {
@@ -153,7 +163,7 @@ namespace SaikoMod.UI {
                 case 1:
                     GUILayout.BeginVertical("Box");
                     GUILayout.Label("Camera");
-                    if (GUILayout.Button("Toggle Minicam")) _raw.gameObject.SetActive(!_raw.gameObject.activeSelf);
+                    if (rawImage && GUILayout.Button("Toggle Minicam")) rawImage.gameObject.SetActive(!rawImage.gameObject.activeSelf);
                     GUILayout.EndVertical();
                     break;
             }
