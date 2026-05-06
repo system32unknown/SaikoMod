@@ -58,7 +58,7 @@ namespace SaikoMod.UI {
 
             renderTex.filterMode = FilterMode.Point;
 
-            rawImage = UIHelpers.CreateRawImg("RAWIMG_", GameCanvas.transform, AnchorUtils.AnchorPreset.TopRight);
+            rawImage = UIHelpers.CreateRawImg("CCTVIMG", GameCanvas.transform.GetChild(0), AnchorUtils.AnchorPreset.TopRight);
             rawImage.texture = renderTex;
             rawImage.rectTransform.sizeDelta = new Vector2(150f, 150f);
             rawImage.gameObject.SetActive(false);

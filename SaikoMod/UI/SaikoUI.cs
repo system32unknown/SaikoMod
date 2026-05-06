@@ -13,8 +13,7 @@ namespace SaikoMod.UI {
         SaikoSkins skins = SaikoSkins.Black;
 
         AssetBundle EmoteAsset;
-
-        Material[][] originalMat = new Material[3][];
+        readonly Material[][] originalMat = new Material[3][];
         bool eyeMatColor = false;
         Material eyeMat;
         Shader eyeShader;
@@ -28,14 +27,14 @@ namespace SaikoMod.UI {
         YandereGraphicQualityManager graphic;
         YandereMoodController mood;
 
-        List<string> EmoteNames = new List<string>();
-        List<string> EmoteFilenames = new List<string>();
+        readonly List<string> EmoteNames = new List<string>();
+        readonly List<string> EmoteFilenames = new List<string>();
         const string emotefilePath = "mods/emotes/saiko/";
 
         bool animAdded = false;
         Animation EmoteAnimation;
-        List<AnimationClip> animationClips = new List<AnimationClip>();
-        List<Texture2D> customTex = new List<Texture2D>();
+        readonly List<AnimationClip> animationClips = new List<AnimationClip>();
+        readonly List<Texture2D> customTex = new List<Texture2D>();
         AnimationClip curClip;
         int animIdx = 0;
 

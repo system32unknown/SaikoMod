@@ -73,7 +73,7 @@ namespace SaikoMod.Controller {
             MainMenuRect = GUILayout.Window(9000, MainMenuRect, MainMenu, "<b>Saiko Mod Menu</b>");
 
             if (MenuTab == MenuTab.Off) return;
-            TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, GetTabSize(MenuTab)), GetTabWinFunc(MenuTab), "<b>" + GetTabTitle(MenuTab) + "</b>");
+            TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, GetTabSize()), GetTabWinFunc(MenuTab), "<b>" + GetTabTitle(MenuTab) + "</b>");
         }
 
         GUI.WindowFunction GetTabWinFunc(MenuTab tab) {
@@ -100,7 +100,7 @@ namespace SaikoMod.Controller {
             }
             return "";
         }
-        Vector3 GetTabSize(MenuTab tab) {
+        Vector3 GetTabSize() {
             return new Vector2(444f, 664f);
         }
 

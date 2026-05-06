@@ -91,6 +91,10 @@
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
@@ -119,7 +123,6 @@
   <ItemGroup>
     <Compile Include="Attributes.cs" />
     <Compile Include="Controller\BaseController.cs" />
-    <Compile Include="Core\Backend\IniFile.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
     <Compile Include="Core\Components\FlyController.cs" />

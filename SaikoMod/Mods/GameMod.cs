@@ -7,8 +7,11 @@ using UnityEngine.UI;
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(HFPS_GameManager))]
     internal class GameManagerMod {
+        static Font cachedFont;
+
         [HarmonyPatch("Start")]
         static void Postfix(HFPS_GameManager __instance) {
+            cachedFont = __instance.noteText.font;
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
 
             pc = __instance.playerController;
@@ -22,6 +25,22 @@ namespace SaikoMod.Mods {
 
             __instance.healthManager.Health = 200f;
             eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
+        }
+
+        public static void OpenNotePadCustom(string text) {
+            HFPS_GameManager i = HFPS_GameManager.instance;
+            if (i == null) return;
+
+            i.notePanel.gameObject.SetActive(true);
+
+            i.noteText.font = cachedFont;
+            i.noteText.supportRichText = true;
+            i.noteText.text = text;
+            i.isPaused = true;
+            i.ShowCursor(i.isPaused);
+            i.cf2rig.enabled = false;
+            i.scriptManager.GetScript<PlayerFunctions>().enabled = false;
+            if (i.reallyPause) Time.timeScale = 0f;
         }
 
         public static bool EyeEnabled {
