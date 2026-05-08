@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Linq;
+using FPSCounter = SaikoMod.Core.Components.FPSDisplay;
 using System.Collections.Generic;
 using RapidGUI;
 
@@ -18,6 +18,7 @@ namespace SaikoMod.UI {
 
         public override void Draw() {
             if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;
+            if (ModBase.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Mode");
         }
 
         void ForcePointFilter<T>(IEnumerable<T> textures) where T : Texture {
