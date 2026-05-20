@@ -38,6 +38,8 @@ namespace SaikoMod.UI {
         AnimationClip curClip;
         int animIdx = 0;
 
+        int selMenu = 0;
+
         public SaikoUI() {
             PathUtils.ScanFolderFiles(emotefilePath, ".emotes", (string ename, string filename) => {
                 EmoteNames.Add(ename);
@@ -142,68 +144,76 @@ namespace SaikoMod.UI {
                         if (GUILayout.Button("Rotate Towards Object")) yand.RotateTowardsObject(PlayerUI.curPlayerPos);
                         GUILayout.EndVertical();
                     }
-                    if (graphic && yand) {
-                        GUILayout.BeginVertical("Box");
-                        skins = RGUI.Field(skins, "Saiko Skins");
-                        GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Change Material")) {
-                            Material[] mats = new Material[3];
-                            if (skins != SaikoSkins.Blood) {
-                                switch (skins) {
-                                    case SaikoSkins.Default: for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i]; break;
-                                    case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
-                                    case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
-                                    case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
-                                    case SaikoSkins.Invisible: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, 0f)), 3).ToArray(); break;
-                                    case SaikoSkins.Corrupt:
-                                        mats[0] = MaterialUtils.CorruptMaterial();
-                                        mats[1] = MaterialUtils.CorruptMaterial();
-                                        mats[2] = MaterialUtils.CorruptMaterial();
-                                        break;
-                                }
-                                foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
-                            } else graphic.PutBloodMaterials();
-                        }
-                        if (GUILayout.Button("Change to Default")) for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i];
-                        GUILayout.EndHorizontal();
-
-                        if (RGUI.Button(YandModAI.customEye, "Custom Eye")) {
-                            YandModAI.customEye = !YandModAI.customEye;
-                            ai.eyeShader.SetTexture("_MainTex", YandModAI.customEye ? custom_eye : original_eye);
-                        }
-                        if (YandModAI.customEye) ai.eyeShader.color = RGUI.ColorPicker(ai.eyeShader.color, "Glow Eye Color");
-                        if (RGUI.Button(eyeMatColor, "Eye Color")) {
-                            eyeMatColor = !eyeMatColor;
-                            eyeMat.shader = eyeMatColor ? eyeShader : originalShader;
-                        }
-                        if (eyeMatColor) eyeMat.color = RGUI.ColorPicker(eyeMat.color, "Eye Color");
-                        GUILayout.EndVertical();
-                    }
                     break;
                 case 2:
-                    if (EmoteFilenames.Count < 0) return;
-                    if (yand) {
-                        GUILayout.BeginVertical("Box");
-                        if (!animAdded && GUILayout.Button("Add Custom Anim")) {
-                            animAdded = true;
-                            yand.gameObject.GetComponent<Animator>().enabled = false;
-                            if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
-                        }
-                        if (animAdded && GUILayout.Button("Remove Custom Anim")) {
-                            animAdded = false;
-                            yand.gameObject.GetComponent<Animator>().enabled = true;
-                            if (EmoteAnimation) Object.Destroy(EmoteAnimation);
-                        }
-                        if (animAdded && EmoteAnimation) {
-                            if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation")) {
-                                if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
-                                EmoteAnimation.Play(EmoteNames[animIdx]);
+                    selMenu = GUILayout.SelectionGrid(selMenu, new string[] {"Animation", "Skins"}, 2);
+                    switch (selMenu) {
+                        case 0:
+                            if (EmoteFilenames.Count > 0) {
+                                if (yand) {
+                                    GUILayout.BeginVertical("Box");
+                                    if (!animAdded && GUILayout.Button("Add Custom Anim")) {
+                                        animAdded = true;
+                                        yand.gameObject.GetComponent<Animator>().enabled = false;
+                                        if (!EmoteAnimation) EmoteAnimation = yand.gameObject.AddComponent<Animation>();
+                                    }
+                                    if (animAdded && GUILayout.Button("Remove Custom Anim")) {
+                                        animAdded = false;
+                                        yand.gameObject.GetComponent<Animator>().enabled = true;
+                                        if (EmoteAnimation) Object.Destroy(EmoteAnimation);
+                                    }
+                                    if (animAdded && EmoteAnimation) {
+                                        if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation")) {
+                                            if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
+                                            EmoteAnimation.Play(EmoteNames[animIdx]);
+                                        }
+                                        if (EmoteAnimation.isPlaying && GUILayout.Button("Stop")) EmoteAnimation.Stop();
+                                        curClip = animationClips[animIdx];
+                                        curClip.wrapMode = RGUI.Field(curClip.wrapMode, "Wrap Mode");
+                                    }
+                                    GUILayout.EndVertical();
+                                }
                             }
-                            if (EmoteAnimation.isPlaying && GUILayout.Button("Stop")) EmoteAnimation.Stop();
-                            curClip = animationClips[animIdx];
-                            curClip.wrapMode = RGUI.Field(curClip.wrapMode, "Wrap Mode");
-                        }
-                        GUILayout.EndVertical();
+                            break;
+                        case 1:
+                            if (graphic && yand) {
+                                GUILayout.BeginVertical("Box");
+                                skins = RGUI.Field(skins, "Saiko Skins");
+                                GUILayout.BeginHorizontal();
+                                if (GUILayout.Button("Change Material")) {
+                                    Material[] mats = new Material[3];
+                                    if (skins != SaikoSkins.Blood) {
+                                        switch (skins) {
+                                            case SaikoSkins.Default: for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i]; break;
+                                            case SaikoSkins.Black: mats = Enumerable.Repeat(MaterialUtils.black, 3).ToArray(); break;
+                                            case SaikoSkins.Shadow: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, .3f)), 3).ToArray(); break;
+                                            case SaikoSkins.Ghost: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(115f, 169f, 255f, .2f)), 3).ToArray(); break;
+                                            case SaikoSkins.Invisible: mats = Enumerable.Repeat(MaterialUtils.CreateTransparent(new Color(0f, 0f, 0f, 0f)), 3).ToArray(); break;
+                                            case SaikoSkins.Corrupt:
+                                                mats[0] = MaterialUtils.CorruptMaterial();
+                                                mats[1] = MaterialUtils.CorruptMaterial();
+                                                mats[2] = MaterialUtils.CorruptMaterial();
+                                                break;
+                                        }
+                                        foreach (SkinnedMeshRenderer skin in graphic.meshToChangeMat) skin.materials = mats;
+                                    } else graphic.PutBloodMaterials();
+                                }
+                                if (GUILayout.Button("Change to Default")) for (int i = 0; i < graphic.meshToChangeMat.Length; i++) graphic.meshToChangeMat[i].materials = originalMat[i];
+                                GUILayout.EndHorizontal();
+
+                                if (RGUI.Button(YandModAI.customEye, "Custom Eye")) {
+                                    YandModAI.customEye = !YandModAI.customEye;
+                                    ai.eyeShader.SetTexture("_MainTex", YandModAI.customEye ? custom_eye : original_eye);
+                                }
+                                if (YandModAI.customEye) ai.eyeShader.color = RGUI.ColorPicker(ai.eyeShader.color, "Glow Eye Color");
+                                if (RGUI.Button(eyeMatColor, "Eye Color")) {
+                                    eyeMatColor = !eyeMatColor;
+                                    eyeMat.shader = eyeMatColor ? eyeShader : originalShader;
+                                }
+                                if (eyeMatColor) eyeMat.color = RGUI.ColorPicker(eyeMat.color, "Eye Color");
+                                GUILayout.EndVertical();
+                            }
+                            break;
                     }
                     break;
             }

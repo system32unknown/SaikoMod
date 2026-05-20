@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.AI;
 
 namespace SaikoMod.Core.Components {
@@ -26,10 +27,15 @@ namespace SaikoMod.Core.Components {
             lr = gameObject.AddComponent<LineRenderer>();
             path = new NavMeshPath();
 
-            Material line_Material = new Material(Shader.Find("Sprites/Default"));
+            Material line_Material = new Material(Shader.Find("Hidden/Internal-Colored"));
             line_Material.renderQueue = 3999;
+            line_Material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+            line_Material.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+            line_Material.SetInt("_Cull", (int)CullMode.Off);
+            line_Material.SetInt("_ZWrite", 0);
             lr.material = line_Material;
             lr.useWorldSpace = true;
+            lr.sortingOrder = 100;
 
             lr.startColor = Color.red;
             lr.endColor = Color.green;

@@ -94,7 +94,7 @@ namespace SaikoMod.UI {
                         messageType = RGUI.Field(messageType, "Message Type");
                         GUILayout.BeginHorizontal();
                         gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
-                        if (GUILayout.Button("Send Message", GUILayout.ExpandWidth(false))) {
+                        if (GUILayout.Button("Send Message", new GUILayoutOption[] { GUILayout.Height(21f), GUILayout.ExpandWidth(false) })) {
                             switch (messageType) {
                                 case MessageType.Hint: gm.ShowHint(gameMessage); break;
                                 case MessageType.Message: gm.AddMessage(gameMessage); break;
@@ -124,7 +124,7 @@ namespace SaikoMod.UI {
                         if (RGUI.Button(PuzzleMod.PuzzleHack, "Puzzle Hack")) PuzzleMod.PuzzleHack = !PuzzleMod.PuzzleHack;
                         if (!ep.puzzleSolved && GUILayout.Button("Solve Puzzle")) ep.PuzzleSolved();
                         if (ep.puzzleSolved && !ele.isPoweredOn && GUILayout.Button("Switch On")) ele.SwitcherUp();
-                        keypad.AccessCode = RGUI.Field(keypad.AccessCode, "Keycode Access");
+                        GUIUtils.DrawField("Keycode Access", ref keypad.AccessCode, new GUILayoutOption[] { GUILayout.ExpandWidth(false), GUILayout.Height(21f) });
                         GUILayout.EndVertical();
                     }
                     curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);

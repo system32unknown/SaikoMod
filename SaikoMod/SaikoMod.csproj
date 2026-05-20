@@ -132,6 +132,7 @@
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
     <Compile Include="Core\Lua\LuaObjectScript.cs" />
+    <Compile Include="Helper\UnityHelpers.cs" />
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Components\FPSDisplay.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="UI\LightingUI.cs" />
     <Compile Include="UI\AssetBundleUI.cs" />
+    <Compile Include="Utils\GUIUtils.cs" />
     <Compile Include="Utils\LipSyncUtils.cs" />
     <Compile Include="Utils\MaterialUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
