@@ -93,7 +93,7 @@
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -186,6 +186,7 @@
     <Compile Include="UI\LightingUI.cs" />
     <Compile Include="UI\AssetBundleUI.cs" />
     <Compile Include="Utils\GUIUtils.cs" />
+    <Compile Include="Utils\FPSUtils.cs" />
     <Compile Include="Utils\LipSyncUtils.cs" />
     <Compile Include="Utils\MaterialUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
