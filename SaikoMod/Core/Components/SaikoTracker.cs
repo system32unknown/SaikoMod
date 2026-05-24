@@ -28,7 +28,7 @@ namespace SaikoMod.Core.Components {
             path = new NavMeshPath();
 
             Material line_Material = new Material(Shader.Find("Hidden/Internal-Colored"));
-            line_Material.renderQueue = 3999;
+            line_Material.renderQueue = 3999;                                                                       
             line_Material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
             line_Material.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
             line_Material.SetInt("_Cull", (int)CullMode.Off);

@@ -9,7 +9,7 @@ namespace SaikoMod.Core.Components {
     };
 
     public class FPSDisplay : MonoBehaviour {
-        FPSUtils fps;
+        public FPSUtils fps;
         GUIStyle FpsStyle;
 
         public static FPSLagMode lagMode = FPSLagMode.LERP;
@@ -32,12 +32,7 @@ namespace SaikoMod.Core.Components {
                     float green = MathUtils.Normalize(fps.CurFPS, 1f, SquaredFPS);
                     float blue = MathUtils.Normalize(fps.CurFPS, SquaredFPS, fps.TargetFPS);
 
-                    FpsStyle.normal.textColor = new Color32(
-                        255,
-                        (byte)Mathf.RoundToInt(green * 255f),
-                        (byte)Mathf.RoundToInt(blue * 255f),
-                        255
-                    );
+                    FpsStyle.normal.textColor = new Color32(255, (byte)Mathf.RoundToInt(green * 255f), (byte)Mathf.RoundToInt(blue * 255f), 255);
                     break;
             }
             GUI.Label(new Rect(2f, 2f, 100f, 20f), $"{fps.TotalFPS:#}fps", FpsStyle);

@@ -21,6 +21,7 @@ namespace SaikoMod {
         internal ManualLogSource mls;
 
         public static GameObject manager;
+        public static FPSDisplay fpsDisplay;
 
         internal ConfigEntry<bool> allowChangeWindowTitle;
         public ConfigEntry<bool> showFPSDisplay;
@@ -50,9 +51,9 @@ namespace SaikoMod {
                 WindowTitle.SetText(Application.productName + " (Modded)");
 
             if (showFPSDisplay.Value) {
-                GameObject fpsDisplay = new GameObject("FPS_Display");
-                fpsDisplay.AddComponent<FPSDisplay>();
-                DontDestroyOnLoad(fpsDisplay);
+                GameObject _fpsDis = new GameObject("FPS_Display");
+                fpsDisplay = _fpsDis.AddComponent<FPSDisplay>();
+                DontDestroyOnLoad(_fpsDis);
             }
         }
 

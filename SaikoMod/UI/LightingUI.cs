@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using System.Linq;
 using RapidGUI;
@@ -7,9 +6,7 @@ using RapidGUI;
 namespace SaikoMod.UI {
     public class LightingUI : BaseWindowUI {
         int page = 0;
-
-        GameObject[] windowLights;
-        bool windowLightEnabled = true;
+        int selMenu = 0;
 
         Light directionLight;
         Transform playerTransform;
@@ -18,11 +15,6 @@ namespace SaikoMod.UI {
         Vector3 originalLightPos;
         Quaternion originalLightRot;
         public void OnLoad() {
-            if (SceneManager.GetActiveScene().name == "LevelNew") {
-                windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r")).ToArray();
-                windowLightEnabled = true;
-            }
-
             directionLight = Object.FindObjectsOfType<Light>().First(x => x.type == LightType.Directional);
             GameObject plrObj = GameObject.Find("FPSPLAYER");
             if (plrObj) playerTransform = plrObj.transform;
@@ -42,7 +34,8 @@ namespace SaikoMod.UI {
         }
 
         public override void Draw() {
-            switch (page) {
+            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Fog", "Light", "Ambient"}, 3);
+            switch (selMenu) {
                 case 0:
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(RenderSettings.fog, "Fog")) RenderSettings.fog = !RenderSettings.fog;
@@ -61,6 +54,8 @@ namespace SaikoMod.UI {
                         }
                     }
                     GUILayout.EndVertical();
+                    break;
+                case 1:
                     if (directionLight) {
                         GUILayout.BeginVertical("Box");
                         if (RGUI.Button(directionLight.enabled, "Light")) directionLight.enabled = !directionLight.enabled;
@@ -88,12 +83,8 @@ namespace SaikoMod.UI {
                         }
                         GUILayout.EndVertical();
                     }
-                    if (windowLights != null && RGUI.Button(windowLightEnabled, "Window Light Enabled")) {
-                        windowLightEnabled = !windowLightEnabled;
-                        foreach (GameObject window in windowLights) window.SetActive(windowLightEnabled);
-                    }
                     break;
-                case 1:
+                case 2:
                     GUILayout.BeginVertical("Box");
                     RenderSettings.ambientMode = RGUI.Field(RenderSettings.ambientMode, "Ambient Mode");
                     switch (RenderSettings.ambientMode) {
@@ -110,8 +101,6 @@ namespace SaikoMod.UI {
                     GUILayout.EndVertical();
                     break;
             }
-
-            page = RGUI.Page(page, 1, true);
         }
 
         public override string Title => "Lighting";

@@ -27,7 +27,7 @@ namespace SaikoMod.Mods {
             eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
         }
 
-        public static void OpenNotePadCustom(string text) {
+        public static void OpenNotePadCustom(string text, bool paused = true) {
             HFPS_GameManager i = HFPS_GameManager.instance;
             if (i == null) return;
 
@@ -36,6 +36,8 @@ namespace SaikoMod.Mods {
             i.noteText.font = cachedFont;
             i.noteText.supportRichText = true;
             i.noteText.text = text;
+
+            if (!paused) return;
             i.isPaused = true;
             i.ShowCursor(i.isPaused);
             i.cf2rig.enabled = false;
@@ -77,7 +79,7 @@ namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(DoorAndKeyManager))]
     class DAMPatch {
         [HarmonyPatch("Start"), HarmonyPostfix]
-        static void ShoePatch(DoorAndKeyManager __instance) {
+        static void InitPatch(DoorAndKeyManager __instance) {
             if (GameData.instance.difficultyChosen == DifficultyChosen.Hard) {
                 __instance.shoes.gameObject.SetActive(true);
                 __instance.firstAidKit.gameObject.SetActive(true);
