@@ -5,7 +5,6 @@ using RapidGUI;
 
 namespace SaikoMod.UI {
     public class LightingUI : BaseWindowUI {
-        int page = 0;
         int selMenu = 0;
 
         Light directionLight;

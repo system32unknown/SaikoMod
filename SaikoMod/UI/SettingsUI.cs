@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using FPSCounter = SaikoMod.Core.Components.FPSDisplay;
 using FPSUtils = SaikoMod.Utils.FPSUtils;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,8 @@ namespace SaikoMod.UI {
         GameObject[] windowLights;
         bool windowLightEnabled = true;
 
+        OperatingSystem os;
+
         public void OnLoad() {
             if (allPoint) {
                 ForcePointFilter(Resources.FindObjectsOfTypeAll<Texture2D>());
@@ -28,12 +31,13 @@ namespace SaikoMod.UI {
                 windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r") && x.activeSelf).ToArray();
                 windowLightEnabled = true;
             }
+            os = Environment.OSVersion;
         }
 
         public override void Draw() {
             if (fpsUtils == null) fpsUtils = ModBase.fpsDisplay.fps;
 
-            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "General", "Stats" }, 2);
+            selMenu = GUILayout.SelectionGrid(selMenu, new string[] {"General", "Stats"}, 2);
             switch (selMenu) {
                 case 0:
                     if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;
@@ -44,8 +48,17 @@ namespace SaikoMod.UI {
                     if (ModBase.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Mode");
                     break;
                 case 1:
-                    if (fpsUtils == null) return;
-                    GUILayout.Label($"curFPS:{fpsUtils.CurFPS} / Total: {fpsUtils.TotalFPS}\nclamped:{fpsUtils.ClampFPS}\nTarget:{fpsUtils.TargetFPS}");
+                    if (fpsUtils != null) {
+                        GUILayout.BeginVertical("Box");
+                        GUILayout.Label("Framerate");
+                        GUILayout.Label($"curFPS:{fpsUtils.CurFPS} / Total: {fpsUtils.TotalFPS}\nclamped:{fpsUtils.ClampFPS}\nTarget:{fpsUtils.TargetFPS}");
+                        GUILayout.EndVertical();
+                    }
+
+                    GUILayout.BeginVertical("Box");
+                    GUILayout.Label("System");
+                    GUILayout.Label($"Platform: {os.VersionString}\nVersion: {Application.version} / Unity Ver: {Application.unityVersion}");
+                    GUILayout.EndVertical();
                     break;
             }
         }

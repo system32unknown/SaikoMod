@@ -5,7 +5,7 @@ using MathUtils = SaikoMod.Utils.MathUtils;
 namespace SaikoMod.Core.Components {
     public enum FPSLagMode {
         INSTANT,
-        LERP,
+        LERP
     };
 
     public class FPSDisplay : MonoBehaviour {

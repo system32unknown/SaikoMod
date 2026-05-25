@@ -51,9 +51,10 @@ namespace SaikoMod.UI {
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(SaikoTracker.UpdateTracker, "Update Tracker")) SaikoTracker.UpdateTracker = !SaikoTracker.UpdateTracker;
                     SaikoTracker.updateRate = RGUI.SliderFloat(SaikoTracker.updateRate, 0.1f, 10f, 3f, "Update Rate");
+                    if (RGUI.Button(SaikoTracker.RenderTop, "Render On Top")) SaikoTracker.RenderTop = !SaikoTracker.RenderTop;
                     GUILayout.EndVertical();
 
-                    if (RGUI.Button(GameManagerMod.EyeEnabled, "Eye Vision")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
+                    if (RGUI.Button(GameManagerMod.EyeEnabled, "Vignette")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
                     HealthMod.godModeType = RGUI.Field(HealthMod.godModeType, "Godmode Type");
                     if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 

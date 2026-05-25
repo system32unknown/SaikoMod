@@ -10,6 +10,17 @@ namespace SaikoMod.Core.Components {
         public Transform from;
         public Transform to;
 
+        static bool _RenderTop = false;
+        public static bool RenderTop {
+            get {
+                return _RenderTop;
+            }
+            set {
+                lr?.material.SetInt("_ZTest", (int)(value ? CompareFunction.Always : CompareFunction.LessEqual));
+                _RenderTop = value;
+            }
+        }
+
         static bool _UpdateTracker = false;
         public static bool UpdateTracker {
             get {

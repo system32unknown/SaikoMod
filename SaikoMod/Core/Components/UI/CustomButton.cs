@@ -16,9 +16,10 @@ namespace SaikoMod.Core.Components.UI {
             }
         }
 
+
         public CustomButton(Button button) {
             this.button = button;
-            this.button.onClick.RemoveAllListeners();
+            this.button.onClick = new Button.ButtonClickedEvent();
             Rect = this.button.GetComponent<RectTransform>();
             Label = this.button.transform.GetChild(0).GetComponent<Text>();
             Label.resizeTextForBestFit = false;

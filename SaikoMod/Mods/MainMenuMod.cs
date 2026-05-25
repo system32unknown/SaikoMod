@@ -36,6 +36,12 @@ namespace SaikoMod.Mods {
                 GameData.instance.difficultyChosen = DifficultyChosen.Hard;
                 __instance.PlayGame();
             });
+
+            CustomButton changelang = UI.UIHelpers.CreateButton("Change Language", main_UI, UI.AnchorUtils.AnchorPreset.Left, new Vector2(0f, GameObject.Find("Credits").GetComponent<RectTransform>().anchoredPosition.y + 30));
+            changelang.button.name = "Change Language";
+            changelang.Label.fontSize = 10;
+            changelang.Rect.sizeDelta /= 1.5f;
+            changelang.button.onClick.AddListener(() => __instance.transform.Find("ChooseLanguage").gameObject.SetActive(true));
             #endregion
 
             #region LOADING SCREEN
