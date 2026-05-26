@@ -5,13 +5,13 @@ namespace SaikoMod.Utils
     class MeshUtils {
         public static void ScrambleVertices(Mesh mesh, float value) {
             Vector3[] vertices = mesh.vertices;
-            for (int i = 0; i < vertices.Length; i++) vertices[i] += RandomUtils.GetVectorRange(value);
+            for (int i = 0; i < vertices.Length; i++) vertices[i] += RandomUtils.GetVector3Range(value);
             mesh.vertices = vertices;
         }
 
         public static void ScrambleNormals(Mesh mesh, float value) {
             Vector3[] normals = mesh.normals;
-            for (int i = 0; i < normals.Length; i++) normals[i] = RandomUtils.GetVectorRange(value).normalized;
+            for (int i = 0; i < normals.Length; i++) normals[i] = RandomUtils.GetVector3Range(value).normalized;
             mesh.normals = normals;
         }
 

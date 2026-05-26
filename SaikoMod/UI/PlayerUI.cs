@@ -45,6 +45,10 @@ namespace SaikoMod.UI {
             camAnim = Camera.main.GetComponent<Animator>();
         }
 
+        public void OnUnload() {
+            YandModController.noChoke = false;
+        }
+
         public override void Draw() {
             switch (page) {
                 case 0:

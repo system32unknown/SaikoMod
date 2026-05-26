@@ -46,6 +46,7 @@ namespace SaikoMod.Controller {
                 saikomods.OnUnload();
                 assetBundle.OnUnload();
                 gamemods.OnUnload();
+                playermods.OnUnload();
             }
         }
 

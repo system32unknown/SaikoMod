@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
 using System.Text;
+using Enum = System.Enum;
 
 namespace SaikoMod.Utils {
     class RandomUtils {
-        public static Vector3 GetVector(float min = 0f, float max = .3f) {
+        public static Vector3 GetVector3(float min = 0f, float max = .3f) {
             return new Vector3(Random.Range(min, max), Random.Range(min, max), Random.Range(min, max));
         }
+        public static Vector2 GetVector2(float min = 0f, float max = .3f) {
+            return new Vector2(Random.Range(min, max), Random.Range(min, max));
+        }
 
-        public static Vector3 GetVectorRange(float value) {
+        public static Vector3 GetVector3Range(float value) {
             return new Vector3(Random.Range(-value, value), Random.Range(-value, value), Random.Range(-value, value));
+        }
+        public static Vector2 GetVector2Range(float value) {
+            return new Vector2(Random.Range(-value, value), Random.Range(-value, value));
         }
 
         public static Color GetColor(bool includeAlpha = false) {
@@ -19,8 +26,8 @@ namespace SaikoMod.Utils {
             return Random.Range(0, 100) < chance;
         }
 
-        public static T RandomEnum<T>() where T : System.Enum {
-            System.Array values = System.Enum.GetValues(typeof(T));
+        public static T RandomEnum<T>() where T : Enum {
+            System.Array values = Enum.GetValues(typeof(T));
             return (T)values.GetValue(Random.Range(0, values.Length));
         }
 

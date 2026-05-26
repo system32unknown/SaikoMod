@@ -88,7 +88,7 @@ namespace SaikoMod.UI {
                     if (RGUI.Button(YandModController.noPushing, "No Push")) YandModController.noPushing = !YandModController.noPushing;
                     YandModController.lookMode = RGUI.Field(YandModController.lookMode, "Look Mode");
                     if (yand) {
-                        if (GUILayout.Button("Fake Attack")) yand.FakeAttack();
+                        if (GUILayout.Button("Fake Attack")) yand.FakeAttackingPlayer();
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Increase Anger")) yand.mood.IncreaseAnger();
                         if (GUILayout.Button("Give Gift")) yand.GiveGiftToSenpai();
