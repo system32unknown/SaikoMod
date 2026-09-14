@@ -18,6 +18,12 @@ namespace SaikoMod.Mods {
 
             Font ArialFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
 
+            if (ModBase.instance.alwaysEnglish.Value) {
+                GameObject langMenu = __instance.transform.GetChild(1).gameObject;
+                langMenu.GetComponent<LanguageMenu>().menuCamAnim.enabled = true;
+                langMenu.gameObject.SetActive(false);
+            }
+
             #region MAIN MENU
             Transform t = main_UI.Find("Text (2)");
             Text text = t.gameObject.GetComponent<Text>();

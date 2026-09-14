@@ -125,6 +125,7 @@
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
+    <Compile Include="Core\Components\ESP.cs" />
     <Compile Include="Core\Components\FlyController.cs" />
     <Compile Include="Core\Components\LevelLoader.cs" />
     <Compile Include="Core\Enums\GodModeType.cs" />

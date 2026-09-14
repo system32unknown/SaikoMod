@@ -26,5 +26,20 @@ namespace SaikoMod.Helper {
 #endif
             }
         }
+
+        public static bool IsVisiblyActive(GameObject obj) {
+            if (obj == null || !obj.activeInHierarchy) return false;
+            foreach (Transform t in obj.GetComponentsInChildren<Transform>(false)) {
+                if (t.gameObject.activeSelf) {
+                    Renderer r = t.GetComponent<Renderer>();
+                    if (r != null && r.enabled) return true;
+                    try {
+                        foreach (Component c in t.GetComponents<Component>())
+                            if (c.name.Contains("TextMeshPro")) return true;
+                    } catch { }
+                }
+            }
+            return false;
+        }
     }
 }
