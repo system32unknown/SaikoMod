@@ -7,6 +7,8 @@ using UnityEngine.UI;
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(HFPS_GameManager))]
     internal class GameManagerMod {
+        public static bool showESPkey = false;
+        static ESP espKey;
         static Font cachedFont;
 
         [HarmonyPatch("Start")]
@@ -25,6 +27,24 @@ namespace SaikoMod.Mods {
 
             __instance.healthManager.Health = 200f;
             eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
+
+            if (showESPkey) {
+                GameObject espObj = new GameObject("ESP_KEY");
+                espKey = espObj.AddComponent<ESP>();
+                espKey.smartName = true;
+                espKey.color = Color.cyan;
+
+                LayerMask interactLayerIndex = LayerMask.NameToLayer("Interact");
+
+                foreach (Collider col in Object.FindObjectsOfType<Collider>()) {
+                    GameObject obj = col.gameObject;
+
+                    if (obj.layer != interactLayerIndex) continue;
+                    if (!obj.activeInHierarchy) continue;
+
+                    CheckItem(obj);
+                }
+            }
         }
 
         public static void OpenNotePadCustom(string text, bool paused = true) {
@@ -43,6 +63,13 @@ namespace SaikoMod.Mods {
             i.cf2rig.enabled = false;
             i.scriptManager.GetScript<PlayerFunctions>().enabled = false;
             if (i.reallyPause) Time.timeScale = 0f;
+        }
+
+        static void CheckItem(GameObject obj) {
+            if (espKey.targets.Contains(obj)) return;
+
+            string n = obj.name;
+            if (showESPkey && (n.StartsWith("Door_Key") || n == "StorageRoomKey" || n == "InfirmaryKey" || n == "ExitDoorKey" || (n.StartsWith("Drop_") && n.EndsWith("_Key")))) espKey.targets.Add(obj);
         }
 
         public static bool EyeEnabled {

@@ -165,6 +165,7 @@ namespace SaikoMod.UI {
                     GUILayout.Label("Camera");
                     if (rawImage && GUILayout.Button("Toggle Minicam")) rawImage.gameObject.SetActive(!rawImage.gameObject.activeSelf);
                     GUILayout.EndVertical();
+                    if (RGUI.Button(GameManagerMod.showESPkey, "ESP Key")) GameManagerMod.showESPkey = !GameManagerMod.showESPkey;
                     break;
             }
             page = RGUI.Page(page, 2, true);

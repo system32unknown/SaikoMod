@@ -133,6 +133,7 @@
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
     <Compile Include="Core\Lua\LuaObjectScript.cs" />
+    <Compile Include="Helper\SaikoHelpers.cs" />
     <Compile Include="Helper\UnityHelpers.cs" />
     <Compile Include="ModBase.cs" />
     <Compile Include="Controller\UIController.cs" />
