@@ -44,7 +44,7 @@ namespace SaikoMod.UI {
                         switch (RenderSettings.fogMode) {
                             case FogMode.Linear:
                                 RenderSettings.fogStartDistance = RGUI.SliderFloat(RenderSettings.fogStartDistance, 0f, 9999f, 0f, "Fog Start Distance");
-                                RenderSettings.fogEndDistance = RGUI.SliderFloat(RenderSettings.fogEndDistance, 0f, 9999f, 30f, "Fog Start Distance");
+                                RenderSettings.fogEndDistance = RGUI.SliderFloat(RenderSettings.fogEndDistance, 0f, 9999f, 30f, "Fog End Distance");
                                 break;
                             case FogMode.Exponential:
                             case FogMode.ExponentialSquared:
