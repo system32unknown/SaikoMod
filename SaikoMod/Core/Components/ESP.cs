@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SaikoMod.Helper;
+﻿using SaikoMod.Helper;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SaikoMod.Core.Components {
@@ -10,11 +10,19 @@ namespace SaikoMod.Core.Components {
         public bool stopDraw = false;
         public bool smartName = false;
 
+        LayerMask interactLayerIndex = -1;
+
+        public bool onRunFirst = false;
+        public System.Action<GameObject> onRefresh;
+        float slowUpdateTimer = 0f;
+        const float SLOW_UPDATE_RATE = 2.5f;
+
         Camera _cam;
         public List<GameObject> targets = new List<GameObject>();
 
         void Start() {
             if (_cam == null) _cam = Camera.main;
+            if (interactLayerIndex == -1) interactLayerIndex = LayerMask.NameToLayer("Interact");
         }
 
         public void OnGUI() {
@@ -40,7 +48,31 @@ namespace SaikoMod.Core.Components {
             GUI.color = Color.white;
         }
 
-        public void OnDestroy() {
+        public void Refresh() {
+            targets.Clear();
+
+            foreach (Collider col in FindObjectsOfType<Collider>()) {
+                GameObject obj = col.gameObject;
+
+                if (obj.layer != interactLayerIndex) continue;
+                if (!obj.activeInHierarchy) continue;
+
+                onRefresh(obj);
+            }
+            if (!onRunFirst) onRunFirst = true;
+        }
+
+        void Update() {
+            if (onRunFirst) {
+                slowUpdateTimer += Time.deltaTime;
+                if (slowUpdateTimer >= SLOW_UPDATE_RATE) {
+                    if (enabled) Refresh();
+                    slowUpdateTimer = 0;
+                }
+            }
+        }
+
+        void OnDestroy() {
             targets.Clear();
         }
     }

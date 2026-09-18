@@ -33,17 +33,8 @@ namespace SaikoMod.Mods {
                 espKey = espObj.AddComponent<ESP>();
                 espKey.smartName = true;
                 espKey.color = Color.cyan;
-
-                LayerMask interactLayerIndex = LayerMask.NameToLayer("Interact");
-
-                foreach (Collider col in Object.FindObjectsOfType<Collider>()) {
-                    GameObject obj = col.gameObject;
-
-                    if (obj.layer != interactLayerIndex) continue;
-                    if (!obj.activeInHierarchy) continue;
-
-                    CheckItem(obj);
-                }
+                espKey.onRefresh = obj => CheckItem(obj);
+                espKey.Refresh();
             }
         }
 

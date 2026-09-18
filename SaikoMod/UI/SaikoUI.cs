@@ -141,7 +141,6 @@ namespace SaikoMod.UI {
                         if (GUILayout.Button("Run To Destination")) yand.RunToDestination(PlayerUI.curPlayerPos);
                         if (GUILayout.Button("Patrol To Destination")) yand.PatrolToDestination(PlayerUI.curPlayerPos);
                         GUILayout.EndHorizontal();
-                        if (GUILayout.Button("Rotate Towards Object")) yand.RotateTowardsObject(PlayerUI.curPlayerPos);
                         GUILayout.EndVertical();
                     }
                     break;

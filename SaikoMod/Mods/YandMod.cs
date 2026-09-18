@@ -64,7 +64,6 @@ namespace SaikoMod.Mods {
             return !noDetect;
         }
 
-
         [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
         static bool StabPatch() {
             return !(HealthMod.godModeType == GodModeType.DamageNoQuick || HealthMod.godModeType == GodModeType.AllNoQuick);
