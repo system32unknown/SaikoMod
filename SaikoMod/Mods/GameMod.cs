@@ -83,7 +83,17 @@ namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(Tutorial), "Start")]
     class TutorialMod {
         static void Postfix(Tutorial __instance) {
-            __instance.transform.GetChild(0).gameObject.SetActive(false);
+            Transform tutTrans = __instance.transform;
+            tutTrans.GetChild(0).gameObject.SetActive(false); // BACKGROUND
+
+            tutTrans.GetChild(2).gameObject.SetActive(false); // USELESS STORY LINE 1
+            tutTrans.GetChild(3).gameObject.SetActive(false); // USELESS STORY LINE 2
+
+            #region TUTORIAL LATEST VERSION
+            for (int i = 6; i <= 17; i++) { // KEYBOARDS
+                tutTrans.GetChild(i).position += new Vector3(0f, 100f);
+            }
+            #endregion
         }
     }
 
