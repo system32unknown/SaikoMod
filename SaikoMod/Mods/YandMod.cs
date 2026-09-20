@@ -25,31 +25,31 @@ namespace SaikoMod.Mods {
             return !noDetect;
         }
 
-        [HarmonyPatch("PlayerFoundDetection"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.PlayerFoundDetection)), HarmonyPrefix]
         static bool PlayerFoundDetectionPatch() {
             return !noDetect;
         }
 
-        [HarmonyPatch("AlertToPlayerPosition", new Type[] { typeof(bool), typeof(bool) }), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.AlertToPlayerPosition), new Type[] { typeof(bool), typeof(bool) }), HarmonyPrefix]
         static bool AlertToPlayerPositionPatch() {
             return !noAlert;
         }
 
-        [HarmonyPatch("AtemptKidnapPlayer"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.AtemptKidnapPlayer)), HarmonyPrefix]
         static bool AtemptKidnapPlayerPatch() {
             return !noChoke;
         }
 
-        [HarmonyPatch("ChokePlayer"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.ChokePlayer)), HarmonyPrefix]
         static bool ChokePlayerPatch() {
             return !noChoke;
         }
 
-        [HarmonyPatch("SpawnAtGameIntroPos"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.SpawnAtGameIntroPos)), HarmonyPrefix]
         static bool SpawnAtGameIntroPosPatch() {
             return !noBadEnding;
         }
-        [HarmonyPatch("KillPlayerFromFront"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.KillPlayerFromFront)), HarmonyPrefix]
         static bool KillPlayerFromFrontPatch() {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }

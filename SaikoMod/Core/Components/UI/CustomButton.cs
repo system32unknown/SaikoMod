@@ -16,7 +16,6 @@ namespace SaikoMod.Core.Components.UI {
             }
         }
 
-
         public CustomButton(Button button) {
             this.button = button;
             this.button.onClick = new Button.ButtonClickedEvent();

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SaikoMod.Core.Components;
+using SaikoMod.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -80,20 +81,38 @@ namespace SaikoMod.Mods {
         static GameObject eyeObject;
     }
 
-    [HarmonyPatch(typeof(Tutorial), "Start")]
+    [HarmonyPatch(typeof(Tutorial))]
     class TutorialMod {
-        static void Postfix(Tutorial __instance) {
+        [HarmonyPatch("Start"), HarmonyPostfix]
+        static void StartPatch(Tutorial __instance) {
             Transform tutTrans = __instance.transform;
             tutTrans.GetChild(0).gameObject.SetActive(false); // BACKGROUND
 
+            #region TUTORIAL LATEST VERSION
+            Text tipTxt = tutTrans.GetChild(4).GetComponent<Text>(); // TIP TEXT
+
+            GameObject importantTxt = tutTrans.GetChild(1).gameObject;
+            Vector3 _lastitPos = importantTxt.transform.position;
+            importantTxt.name = "ImportantTxt";
+            importantTxt.transform.position = new Vector3(tipTxt.transform.position.x, tipTxt.transform.position.y + 80f, 0f);
+
+            GameObject inputControls = Object.Instantiate(importantTxt, tutTrans);
+            inputControls.name = "InputControls";
+            inputControls.GetComponent<Text>().text = "INPUT CONTROLS";
+            inputControls.transform.position = _lastitPos;
+
             tutTrans.GetChild(2).gameObject.SetActive(false); // USELESS STORY LINE 1
             tutTrans.GetChild(3).gameObject.SetActive(false); // USELESS STORY LINE 2
+            
+            tipTxt.rectTransform.sizeDelta = new Vector2(590f, tipTxt.rectTransform.sizeDelta.y);
 
-            #region TUTORIAL LATEST VERSION
-            for (int i = 6; i <= 17; i++) { // KEYBOARDS
-                tutTrans.GetChild(i).position += new Vector3(0f, 100f);
-            }
+            for (int i = 6; i <= 17; i++) tutTrans.GetChild(i).position += new Vector3(0f, 240f); // KEYBOARDS
             #endregion
+        }
+
+        [HarmonyPatch("Update"), HarmonyPrefix]
+        static bool UpdatePatch() {
+            return false;
         }
     }
 
