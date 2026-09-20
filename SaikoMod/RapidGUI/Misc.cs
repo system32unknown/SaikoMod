@@ -38,8 +38,7 @@ namespace RapidGUI {
             return page;
         }
 
-        public static T ArrayNavigator<T>(object items, ref int index, bool warped = true, Func<T, string> labelSelector = null, float buttonWidth = 40f)
-        {
+        public static T ArrayNavigator<T>(object items, ref int index, bool warped = true, Func<T, string> labelSelector = null, float buttonWidth = 40f) {
             T[] array;
             if (items is T[] arr) {
                 array = arr;

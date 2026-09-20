@@ -12,6 +12,8 @@ namespace SaikoMod.Core.Components {
         public FPSUtils fps;
         GUIStyle FpsStyle;
 
+        string lastText;
+
         public static FPSLagMode lagMode = FPSLagMode.LERP;
 
         void Awake() {
@@ -35,7 +37,12 @@ namespace SaikoMod.Core.Components {
                     FpsStyle.normal.textColor = new Color32(255, (byte)Mathf.RoundToInt(green * 255f), (byte)Mathf.RoundToInt(blue * 255f), 255);
                     break;
             }
-            GUI.Label(new Rect(2f, 2f, 100f, 20f), $"{fps.TotalFPS:#}fps", FpsStyle);
+
+            string newStr = $"{fps.TotalFPS:#}fps";
+            if (newStr != lastText) {
+                GUI.Label(new Rect(2f, 2f, 100f, 20f), newStr, FpsStyle);
+                lastText = newStr;
+            }
         }
     }
 }

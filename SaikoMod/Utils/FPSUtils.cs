@@ -50,11 +50,9 @@ namespace SaikoMod.Utils {
                 sliceCnt++;
             }
 
-            if (sliceCnt > 0)
-                times.RemoveRange(0, sliceCnt);
+            if (sliceCnt > 0) times.RemoveRange(0, sliceCnt);
 
             int curCount = times.Count;
-
             TotalFPS = Mathf.FloorToInt(CurFPS + (curCount / 8f));
 
             if (curCount != cacheCount) {

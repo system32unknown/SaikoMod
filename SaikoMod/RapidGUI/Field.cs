@@ -25,8 +25,7 @@ namespace RapidGUI {
             return obj;
         }
 
-        static readonly Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>()
-        {
+        static readonly Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>() {
             {typeof(bool), new FieldFunc((obj,t) => BoolField(obj)) }
         };
 

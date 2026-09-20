@@ -122,58 +122,53 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
+	<Compile Include="ModBase.cs" />
     <Compile Include="Controller\BaseController.cs" />
+	<Compile Include="Controller\UIController.cs" />
+    <Compile Include="Core\Interfaces\IWindowUI.cs" />
+    <Compile Include="Core\Lua\LuaObjectScript.cs" />
+    <Compile Include="Core\Enums\GodModeType.cs" />
+    <Compile Include="Core\Enums\MessageType.cs" />
+    <Compile Include="Core\Enums\SaikoSkins.cs" />
+	<Compile Include="Core\Enums\MenuTab.cs" />
+    <Compile Include="Core\Enums\SaikoLookMode.cs" />
+	<Compile Include="Core\Components\FPSDisplay.cs" />
+    <Compile Include="Core\Components\CCTVManager.cs" />
+	<Compile Include="Core\Components\SaikoTracker.cs" />
+	<Compile Include="Core\Components\UI\CustomButton.cs" />
     <Compile Include="Core\Components\Billboard.cs" />
     <Compile Include="Core\Components\CustomDynamicObj.cs" />
     <Compile Include="Core\Components\ESP.cs" />
     <Compile Include="Core\Components\FlyController.cs" />
     <Compile Include="Core\Components\LevelLoader.cs" />
-    <Compile Include="Core\Enums\GodModeType.cs" />
-    <Compile Include="Core\Enums\MessageType.cs" />
-    <Compile Include="Core\Enums\SaikoSkins.cs" />
-    <Compile Include="Core\Interfaces\IWindowUI.cs" />
-    <Compile Include="Core\Lua\LuaObjectScript.cs" />
-    <Compile Include="Helper\SaikoHelpers.cs" />
-    <Compile Include="Helper\UnityHelpers.cs" />
-    <Compile Include="ModBase.cs" />
-    <Compile Include="Controller\UIController.cs" />
-    <Compile Include="Core\Components\FPSDisplay.cs" />
-    <Compile Include="Mods\LipPatches.cs" />
-    <Compile Include="RapidGUI\Field\RecursiveField.cs" />
-    <Compile Include="RapidGUI\PrefixLabel.cs" />
-    <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
-    <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
-    <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
-    <Compile Include="RapidGUI\Utilities\Recursive.cs" />
-    <Compile Include="Core\Components\UI\CustomButton.cs" />
-    <Compile Include="UI\UIHelpers.cs" />
-    <Compile Include="Utils\ConverterUtils.cs" />
-    <Compile Include="Core\Enums\MenuTab.cs" />
-    <Compile Include="Core\Enums\SaikoLookMode.cs" />
-    <Compile Include="Core\Components\CCTVManager.cs" />
+	<Compile Include="Mods\LipPatches.cs" />
     <Compile Include="Mods\GameMod.cs" />
     <Compile Include="Mods\HealthMod.cs" />
     <Compile Include="Mods\MainMenuMod.cs" />
     <Compile Include="Mods\PlayerMod.cs" />
     <Compile Include="Mods\PuzzleMod.cs" />
     <Compile Include="Mods\YandMod.cs" />
-    <Compile Include="RapidGUI\Button.cs" />
-    <Compile Include="RapidGUI\ColorPicker.cs" />
-    <Compile Include="RapidGUI\Component\IDoGUI.cs" />
-    <Compile Include="RapidGUI\Fold.cs" />
-    <Compile Include="RapidGUI\Field.cs" />
     <Compile Include="RapidGUI\Field\BoolField.cs" />
     <Compile Include="RapidGUI\Field\EnumField.cs" />
     <Compile Include="RapidGUI\Field\ListField.cs" />
     <Compile Include="RapidGUI\Field\StandardField.cs" />
+	<Compile Include="RapidGUI\Field\RecursiveField.cs" />
+    <Compile Include="RapidGUI\Button.cs" />
+    <Compile Include="RapidGUI\ColorPicker.cs" />
+    <Compile Include="RapidGUI\Fold.cs" />
+    <Compile Include="RapidGUI\Field.cs" />
     <Compile Include="RapidGUI\MinMax.cs" />
     <Compile Include="RapidGUI\Misc.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
+	<Compile Include="RapidGUI\PrefixLabel.cs" />
+	<Compile Include="RapidGUI\Slider.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />
     <Compile Include="RapidGUI\Scope\EnabledScope.cs" />
     <Compile Include="RapidGUI\Scope\IndentScope.cs" />
-    <Compile Include="RapidGUI\Slider.cs" />
+    <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
+    <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
+    <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
     <Compile Include="RapidGUI\Utilities\FocusChecker.cs" />
     <Compile Include="RapidGUI\Utilities\IDoGUIWindow.cs" />
     <Compile Include="RapidGUI\Utilities\RapidGUIBehaviour.cs" />
@@ -185,8 +180,8 @@
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
-    <Compile Include="UI\LightingUI.cs" />
-    <Compile Include="UI\AssetBundleUI.cs" />
+    <Compile Include="RapidGUI\Utilities\Recursive.cs" />
+	<Compile Include="RapidGUI\Component\IDoGUI.cs" />
     <Compile Include="Utils\GUIUtils.cs" />
     <Compile Include="Utils\FPSUtils.cs" />
     <Compile Include="Utils\LipSyncUtils.cs" />
@@ -195,22 +190,30 @@
     <Compile Include="Utils\MeshUtils.cs" />
     <Compile Include="Utils\PathUtils.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
-    <Compile Include="Helper\ReflectionHelpers.cs" />
-    <Compile Include="Utils\StringUtils.cs" />
+	<Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\ConverterUtils.cs" />
+	<Compile Include="UI\UIHelpers.cs" />
     <Compile Include="UI\BaseWindowUI.cs" />
+    <Compile Include="UI\LightingUI.cs" />
+    <Compile Include="UI\AssetBundleUI.cs" />
     <Compile Include="UI\GameUI.cs" />
     <Compile Include="UI\OtherUI.cs" />
     <Compile Include="UI\SaikoUI.cs" />
     <Compile Include="UI\PlayerUI.cs" />
+	<Compile Include="UI\SettingsUI.cs" />
+	<Compile Include="Helper\ReflectionHelpers.cs" />
+    <Compile Include="Helper\SaikoHelpers.cs" />
+    <Compile Include="Helper\UnityHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\Components\SaikoTracker.cs" />
-    <Compile Include="UI\SettingsUI.cs" />
     <Compile Include="WinAPI\WinMessageBox.cs" />
     <Compile Include="WinAPI\WindowTitle.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /q/y/i "$(TargetPath)" "C:\Users\%25USERNAME%25\Documents\Saikonosutoka201\BepInEx\plugins\" /E /H /C</PostBuildEvent>
+    <PostBuildEvent>SETLOCAL
+set "modPath=C:\Users\%25USERNAME%25\Documents\Saikonosutoka201\BepInEx\plugins"
+xcopy /q/y/i "$(TargetPath)" "%25modPath%25\" /E /H /C
+ENDLOCAL</PostBuildEvent>
   </PropertyGroup>
 </Project>

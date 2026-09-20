@@ -24,8 +24,7 @@ namespace SaikoMod.Core.Lua {
             public void Error(string msg) => Debug.LogError("[LuaObj] " + msg);
 
             public void Destroy() {
-                if (gameObject != null)
-                    UnityEngine.Object.Destroy(gameObject);
+                if (gameObject != null) UnityEngine.Object.Destroy(gameObject);
             }
         }
 
@@ -114,9 +113,7 @@ namespace SaikoMod.Core.Lua {
             _script.Globals.Get("Quaternion").Table["Euler"] = (Func<float, float, float, Quaternion>)((x, y, z) => Quaternion.Euler(x, y, z));
         }
 
-        public void CallAction() {
-            Call(_fnAction);
-        }
+        public void CallAction() => Call(_fnAction);
 
         public bool HasFunction(string name) {
             if (string.IsNullOrEmpty(name)) return false;

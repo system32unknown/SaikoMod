@@ -18,7 +18,7 @@ namespace SaikoMod.Mods {
 
             Font ArialFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
 
-            if (ModBase.instance.alwaysEnglish.Value) {
+            if (ModBase.instance.forceEnglish.Value) {
                 GameObject langMenu = __instance.transform.GetChild(1).gameObject;
                 langMenu.GetComponent<LanguageMenu>().menuCamAnim.enabled = true;
                 langMenu.gameObject.SetActive(false);
@@ -62,7 +62,7 @@ namespace SaikoMod.Mods {
             #endregion
         }
 
-        [HarmonyPatch("PlayGame"), HarmonyPrefix]
+        [HarmonyPatch(nameof(MainMenuManager.PlayGame)), HarmonyPrefix]
         static bool LoadPatch() {
             loadingScreen.SetActive(true);
             loader.LoadLevel(1);

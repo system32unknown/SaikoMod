@@ -31,7 +31,6 @@ namespace SaikoMod.Utils {
         /// Tries to use the Built-in Standard shader first, falls back to common URP shader names if necessary.
         /// </summary>
         /// <param name="color">Base color including alpha (default: white with 50% alpha)</param>
-        /// <param name="name">Optional material name</param>
         /// <returns>Newly created Material configured for transparency</returns>
         public static Material CreateTransparent(Color? color = null) {
             Color col = color ?? new Color(1f, 1f, 1f, 0.5f);

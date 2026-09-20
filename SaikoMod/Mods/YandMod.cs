@@ -54,12 +54,12 @@ namespace SaikoMod.Mods {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
-        [HarmonyPatch("PushPlayerDown", new Type[] { typeof(bool) }), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.PushPlayerDown), new Type[] { typeof(bool) }), HarmonyPrefix]
         static bool PushPlayerDownPatch() {
             return !noPushing;
         }
 
-        [HarmonyPatch("LookThroughWindow", new Type[] { typeof(AIRoom) }), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereController.LookThroughWindow), new Type[] { typeof(AIRoom) }), HarmonyPrefix]
         static bool LookThroughWindowPatch() {
             return !noDetect;
         }
@@ -93,22 +93,22 @@ namespace SaikoMod.Mods {
             return !customEye;
         }
 
-        [HarmonyPatch("PlayerCanDetectAI"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereAI.PlayerCanDetectAI)), HarmonyPrefix]
         static bool PlayerCanDetectPatch() {
             return !YandModController.noDetect;
         }
 
-        [HarmonyPatch("DetectPlayerLookingDown"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereAI.DetectPlayerLookingDown)), HarmonyPrefix]
         static bool DetectPlayerLookingDownPatch() {
             return !YandModController.noDetect;
         }
 
-        [HarmonyPatch("PlayerAttactAI"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereAI.PlayerAttactAI)), HarmonyPrefix]
         static bool PlayerAttactAIPatch() {
             return !notAttacted;
         }
 
-        [HarmonyPatch("DistanceReachedPlayerAndAI", new Type[] { typeof(float) }), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereAI.DistanceReachedPlayerAndAI), new Type[] { typeof(float) }), HarmonyPrefix]
         static bool DistanceReachedPlayerAndAIPatch() {
             return !noDistanceCheck;
         }
@@ -116,7 +116,7 @@ namespace SaikoMod.Mods {
 
     [HarmonyPatch(typeof(YandereMoodController))]
     internal class YandModMood {
-        [HarmonyPatch("CanExitAtemptKidnap"), HarmonyPrefix]
+        [HarmonyPatch(nameof(YandereMoodController.CanExitAtemptKidnap)), HarmonyPrefix]
         static bool CanExitAtemptKidnapPatch() {
             return !YandModController.noBadEnding;
         }

@@ -12,7 +12,7 @@ namespace SaikoMod.Mods {
 
     [HarmonyPatch(typeof(CameraMotionController))]
     class PlayerCamMod {
-        [HarmonyPatch("PlayNeckStabAnimation"), HarmonyPrefix]
+        [HarmonyPatch(nameof(CameraMotionController.PlayNeckBreakAnimation)), HarmonyPrefix]
         static bool KillPatch() {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }

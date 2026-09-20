@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using SaikoMod.Core.Components;
-using SaikoMod.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;

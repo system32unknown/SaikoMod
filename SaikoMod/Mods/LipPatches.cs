@@ -8,8 +8,6 @@ namespace SaikoMod.Mods {
         public static Action<LipSyncData> onPlay;
 
         [HarmonyPatch(nameof(LipSync.Play), new Type[] { typeof(LipSyncData) }), HarmonyPostfix]
-        static void PlayPatch(LipSyncData dataFile) {
-            onPlay?.Invoke(dataFile);
-        }
+        static void PlayPatch(LipSyncData dataFile) => onPlay?.Invoke(dataFile);
     }
 }

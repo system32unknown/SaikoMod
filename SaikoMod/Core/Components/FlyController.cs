@@ -57,15 +57,15 @@ namespace SaikoMod.Core.Components {
 
         void MoveRigidbody() {
             rb.MovePosition(rb.position + curVel * Time.fixedDeltaTime);
-            RotateTowardsCamera(rb.rotation, rb.MoveRotation);
+            RotateTowardsCamera(rb.MoveRotation);
         }
 
         void MoveTransform() {
             transform.position += curVel * Time.deltaTime;
-            RotateTowardsCamera(transform.rotation, r => transform.rotation = r);
+            RotateTowardsCamera(r => transform.rotation = r);
         }
 
-        void RotateTowardsCamera(Quaternion current, System.Action<Quaternion> applyRotation) {
+        void RotateTowardsCamera(System.Action<Quaternion> applyRotation) {
             Vector3 forward = cam.forward;
             forward.y = 0f;
             if (forward.sqrMagnitude < 0.001f) return;

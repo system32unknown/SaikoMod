@@ -13,7 +13,7 @@ namespace SaikoMod {
     [BepInProcess("Saiko no sutoka.exe")]
     public class ModBase : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
-        public const string modVer = "0.0.0.3";
+        public const string modVer = "0.0.3";
 
         public static Version Version => new Version(modVer);
 
@@ -25,7 +25,7 @@ namespace SaikoMod {
 
         internal ConfigEntry<bool> allowChangeWindowTitle;
         public ConfigEntry<bool> showFPSDisplay;
-        public ConfigEntry<bool> alwaysEnglish;
+        public ConfigEntry<bool> forceEnglish;
 
         readonly Harmony harmony = new Harmony(modGUID);
 
@@ -43,24 +43,18 @@ namespace SaikoMod {
             mls.LogInfo("Mod Loaded Successfully.");
             mls.LogInfo($"Mod Version: {modVer}");
 
-            allowChangeWindowTitle = Config.Bind("Misc", "Allow Change Window Title", true);
+            allowChangeWindowTitle = Config.Bind("General", "Allow Change Window Title", true);
+            forceEnglish = Config.Bind("General", "Force English Language", false);
             showFPSDisplay = Config.Bind("Misc", "Show FPS Display", false);
-            alwaysEnglish = Config.Bind("Misc", "Always English Language", false);
 
             harmony.PatchAllConditionals();
-
-            if (allowChangeWindowTitle.Value)
-                WindowTitle.SetText(Application.productName + " (Modded)");
+            if (allowChangeWindowTitle.Value) WindowTitle.SetText($"SaikoMod v{modVer}");
 
             if (showFPSDisplay.Value) {
                 GameObject _fpsDis = new GameObject("FPS_Display");
                 fpsDisplay = _fpsDis.AddComponent<FPSDisplay>();
                 DontDestroyOnLoad(_fpsDis);
             }
-        }
-
-        void OnDestroy() {
-            harmony.UnpatchSelf();
         }
 
         static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka") {

@@ -15,23 +15,19 @@ namespace SaikoMod.Helper {
 
                     if (typeName.Contains("TextMeshPro") || typeName.Contains("TMP_Text")) {
                         PropertyInfo prop = type.GetProperty("text", publicFlag);
-
                         if (prop != null && prop.CanRead) {
                             object val = prop.GetValue(c, null);
                             if (val != null) return val.ToString();
                         }
 
                         FieldInfo field = type.GetField("m_text", publicFlag);
-
                         if (field != null) {
                             object val = field.GetValue(c);
                             if (val != null) return val.ToString();
                         }
                     }
                 }
-            } catch {
-                // Ignore reflection errors
-            }
+            } catch { } // Ignore reflection errors
 
             return obj.name.Replace("(Clone)", "").Replace("Door_", "").Replace("Drop_", "").Replace("Key", "").Replace("journal", "Diary").Trim();
         }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SaikoMod.Utils
-{
+namespace SaikoMod.Utils {
     class MeshUtils {
         public static void ScrambleVertices(Mesh mesh, float value) {
             Vector3[] vertices = mesh.vertices;

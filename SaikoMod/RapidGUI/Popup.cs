@@ -10,15 +10,13 @@ namespace RapidGUI {
         public static string SelectionPopup(string current, string[] displayOptions) {
             int idx = Array.IndexOf(displayOptions, current);
             GUILayout.Box(current, RGUIStyle.alignLeftBox);
-            var newIdx = PopupOnLastRect(idx, displayOptions);
-            if (newIdx != idx) {
-                current = displayOptions[newIdx];
-            }
+            int newIdx = PopupOnLastRect(idx, displayOptions);
+            if (newIdx != idx) current = displayOptions[newIdx];
             return current;
         }
 
         public static int SelectionPopup(int selectionIndex, string[] displayOptions) {
-            var label = (selectionIndex < 0 || displayOptions.Length <= selectionIndex) ? "" : displayOptions[selectionIndex];
+            string label = (selectionIndex < 0 || displayOptions.Length <= selectionIndex) ? "" : displayOptions[selectionIndex];
             GUILayout.Box("<b>" + label + "</b>", RGUIStyle.alignLeftBox);
             return PopupOnLastRect(selectionIndex, displayOptions);
         }
@@ -34,25 +32,20 @@ namespace RapidGUI {
 
             // not Popup Owner
             if (popupControlId != controlId) {
-                var ev = Event.current;
-                var pos = ev.mousePosition;
+                Event ev = Event.current;
+                Vector2 pos = ev.mousePosition;
 
                 if ((ev.type == EventType.MouseUp) && ((mouseButton < 0) || (ev.button == mouseButton)) && launchRect.Contains(pos) && displayOptions != null && displayOptions.Any()) {
                     popupWindow.pos = RGUIUtility.GetMouseScreenPos(Vector2.one * 150f);
                     popupControlId = controlId;
                     ev.Use();
                 }
-            }
-            // Active
-            else {
+            } else { // Active
                 EventType type = Event.current.type;
 
                 int? result = popupWindow.result;
                 if (result.HasValue && type == EventType.Layout) {
-                    if (result.Value >= 0) // -1 when the popup is closed by clicking outside the window
-                    {
-                        ret = result.Value;
-                    }
+                    if (result.Value >= 0) ret = result.Value; // -1 when the popup is closed by clicking outside the window
                     popupWindow.result = null;
                     popupControlId = 0;
                 } else {

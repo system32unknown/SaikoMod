@@ -15,7 +15,7 @@ namespace SaikoMod.Mods {
             GameUI.patternCode = GetPatterns;
         }
 
-        [HarmonyPatch("CheckCanContinue"), HarmonyPrefix]
+        [HarmonyPatch(nameof(ElectricPuzzle.CheckCanContinue)), HarmonyPrefix]
         static bool CheckCanContinuePatch(ref bool __result) {
             if (PuzzleHack) {
                 __result = true;
