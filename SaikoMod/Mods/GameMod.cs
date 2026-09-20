@@ -8,7 +8,7 @@ namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(HFPS_GameManager))]
     internal class GameManagerMod {
         public static bool showESPkey = false;
-        static ESP espKey;
+        public static ESP espKey;
         static Font cachedFont;
 
         [HarmonyPatch("Start")]
@@ -34,7 +34,6 @@ namespace SaikoMod.Mods {
                 espKey.smartName = true;
                 espKey.color = Color.cyan;
                 espKey.onRefresh = obj => CheckItem(obj);
-                espKey.Refresh();
             }
         }
 
@@ -112,6 +111,11 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("Update"), HarmonyPrefix]
         static bool UpdatePatch() {
             return false;
+        }
+
+        [HarmonyPatch(nameof(Tutorial.StartGame)), HarmonyPostfix]
+        static void StartGamePatch() {
+            if (GameManagerMod.showESPkey) GameManagerMod.espKey.Refresh();
         }
     }
 
