@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using SaikoMod.Helper;
 using System.Collections.Generic;
-using SaikoMod.Helper;
+using UnityEngine;
 
 namespace RapidGUI {
     public static partial class RGUI {

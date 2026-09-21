@@ -101,7 +101,7 @@ namespace SaikoMod.Mods {
 
             tutTrans.GetChild(2).gameObject.SetActive(false); // USELESS STORY LINE 1
             tutTrans.GetChild(3).gameObject.SetActive(false); // USELESS STORY LINE 2
-            
+
             tipTxt.rectTransform.sizeDelta = new Vector2(590f, tipTxt.rectTransform.sizeDelta.y);
 
             for (int i = 6; i <= 17; i++) tutTrans.GetChild(i).position += new Vector3(0f, 240f); // KEYBOARDS

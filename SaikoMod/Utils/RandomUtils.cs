@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Text;
+﻿using System.Text;
+using UnityEngine;
 using Enum = System.Enum;
 
 namespace SaikoMod.Utils {

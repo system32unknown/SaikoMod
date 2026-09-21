@@ -1,6 +1,6 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using SaikoMod.Core.Enums;
+using System;
 using UnityEngine;
 
 namespace SaikoMod.Mods {

@@ -36,22 +36,16 @@ namespace SaikoMod.Core.Components {
 
             _slowUpdateTimer += Time.deltaTime;
 
-            if (_slowUpdateTimer < SLOW_UPDATE_RATE) return;
-
-            _slowUpdateTimer -= SLOW_UPDATE_RATE;
-            Refresh();
+            if (_slowUpdateTimer >= SLOW_UPDATE_RATE) {
+                _slowUpdateTimer -= SLOW_UPDATE_RATE;
+                Refresh();
+            }
         }
 
         public void Refresh() {
             if (_interactLayer == -1) return;
 
-            _targetSet.Clear();
-
-            Collider[] colliders = FindObjectsOfType<Collider>();
-
-            for (int i = 0; i < colliders.Length; i++) {
-                Collider col = colliders[i];
-
+            foreach (Collider col in FindObjectsOfType<Collider>()) {
                 if (col == null) continue;
 
                 GameObject obj = col.gameObject;
@@ -63,12 +57,12 @@ namespace SaikoMod.Core.Components {
                 onRefresh?.Invoke(obj);
             }
 
-            CleanupTargets();
+            RemoveInvalidTargets();
 
             onRunFirst = true;
         }
 
-        void CleanupTargets() {
+        void RemoveInvalidTargets() {
             for (int i = targets.Count - 1; i >= 0; i--) {
                 GameObject target = targets[i];
                 if (target == null || !_targetSet.Contains(target)) targets.RemoveAt(i);
@@ -94,10 +88,11 @@ namespace SaikoMod.Core.Components {
                 if (!UnityHelpers.IsVisiblyActive(target)) continue;
 
                 Vector3 screenPosition = _cam.WorldToScreenPoint(target.transform.position);
-                if (screenPosition.z <= 0f)  continue;
+
+                if (screenPosition.z <= 0f) continue;
 
                 string name = smartName ? SaikoHelpers.GetSmartName(target) : objName;
-                string distance = hasDistance ? " [" + (int)Vector3.Distance(_cam.transform.position, target.transform.position ) + "m]" : string.Empty;
+                string distance = hasDistance ? " [" + (int)Vector3.Distance(_cam.transform.position, target.transform.position) + "m]" : string.Empty;
 
                 string text = "<b>" + name + distance + "</b>";
                 GUI.Label(new Rect(screenPosition.x - 50f, Screen.height - screenPosition.y - 20f, 100f, 40f), text);

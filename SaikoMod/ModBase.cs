@@ -1,12 +1,12 @@
 ﻿using BepInEx;
-using BepInEx.Logging;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using HarmonyLib;
-using System;
-using UnityEngine;
 using SaikoMod.Controller;
 using SaikoMod.Core.Components;
 using SaikoMod.WinAPI;
+using System;
+using UnityEngine;
 
 namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]

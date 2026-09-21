@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
-using System;
 using RogoDigital.Lipsync;
+using System;
 
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(LipSync))]

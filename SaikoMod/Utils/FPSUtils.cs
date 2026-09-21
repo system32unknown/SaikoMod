@@ -56,7 +56,7 @@ namespace SaikoMod.Utils {
             TotalFPS = Mathf.FloorToInt(CurFPS + (curCount / 8f));
 
             if (curCount != cacheCount) {
-                AvgFPS = curCount > 0  ? 1000f / ((float)sum / curCount) : 0f;
+                AvgFPS = curCount > 0 ? 1000f / ((float)sum / curCount) : 0f;
 
                 int roundedAvgFPS = Mathf.RoundToInt(AvgFPS);
                 CurFPS = ClampFPS ? Mathf.Min(roundedAvgFPS, TargetFPS) : roundedAvgFPS;

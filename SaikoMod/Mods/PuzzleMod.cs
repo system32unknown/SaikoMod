@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using SaikoMod.UI;
+using System.Linq;
+using UnityEngine;
 
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(ElectricPuzzle))]

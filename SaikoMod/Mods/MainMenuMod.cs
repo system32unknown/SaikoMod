@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
+using SaikoMod.Core.Components;
+using SaikoMod.Core.Components.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using SaikoMod.Core.Components.UI;
-using SaikoMod.Core.Components;
 
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(MainMenuManager))]

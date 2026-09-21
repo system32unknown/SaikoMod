@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.AI;
-using System.IO;
-using System.Collections.Generic;
-using SaikoMod.Utils;
+﻿using RapidGUI;
 using SaikoMod.Core.Components;
 using SaikoMod.Core.Lua;
-using RapidGUI;
+using SaikoMod.Utils;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace SaikoMod.UI {
     public class AssetBundleUI : BaseWindowUI {

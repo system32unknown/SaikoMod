@@ -50,46 +50,46 @@ namespace RapidGUI {
 
             switch (evType) {
                 case EventType.MouseDown: {
-                        if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) && rect.Contains(ev.mousePosition)) {
-                            GUIUtility.hotControl = controlId;
-                            lastMousePos = ev.mousePosition;
-                            ev.Use();
-                        }
+                    if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) && rect.Contains(ev.mousePosition)) {
+                        GUIUtility.hotControl = controlId;
+                        lastMousePos = ev.mousePosition;
+                        ev.Use();
                     }
-                    break;
+                }
+                break;
 
                 case EventType.MouseUp: {
-                        if (GUIUtility.hotControl == controlId) {
-                            GUIUtility.hotControl = 0;
-                            ev.Use();
-                        }
+                    if (GUIUtility.hotControl == controlId) {
+                        GUIUtility.hotControl = 0;
+                        ev.Use();
                     }
-                    break;
+                }
+                break;
 
                 case EventType.MouseDrag: {
-                        if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) &&
-                            (GUIUtility.hotControl == controlId)) {
-                            var diff = ev.mousePosition - lastMousePos;
-                            var add = (Mathf.Abs(diff.x) > Mathf.Abs(diff.y)) ? diff.x : diff.y;
-                            add = Math.Sign(add);
+                    if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) &&
+                        (GUIUtility.hotControl == controlId)) {
+                        var diff = ev.mousePosition - lastMousePos;
+                        var add = (Mathf.Abs(diff.x) > Mathf.Abs(diff.y)) ? diff.x : diff.y;
+                        add = Math.Sign(add);
 
-                            lastMousePos = ev.mousePosition;
-                            if (typeof(int) == type) {
-                                var v = (int)obj;
-                                v += (int)(add);
-                                obj = v;
-                            } else if (typeof(float) == type) {
-                                var scale = 0.03f;
-                                var v = (float)obj;
-                                v += add * scale;
-                                v = Mathf.Floor(v * 100f) * 0.01f; // chop
-                                obj = v;
-                            }
-
-                            ev.Use();
+                        lastMousePos = ev.mousePosition;
+                        if (typeof(int) == type) {
+                            var v = (int)obj;
+                            v += (int)(add);
+                            obj = v;
+                        } else if (typeof(float) == type) {
+                            var scale = 0.03f;
+                            var v = (float)obj;
+                            v += add * scale;
+                            v = Mathf.Floor(v * 100f) * 0.01f; // chop
+                            obj = v;
                         }
+
+                        ev.Use();
                     }
-                    break;
+                }
+                break;
             }
 
             return obj;

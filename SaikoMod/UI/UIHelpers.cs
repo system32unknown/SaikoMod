@@ -1,8 +1,8 @@
-﻿using UnityEngine.UI;
+﻿using SaikoMod.Core.Components.UI;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
-using SaikoMod.Core.Components.UI;
+using UnityEngine.UI;
 
 namespace SaikoMod.UI {
     public static class AnchorUtils {

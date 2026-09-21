@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using RapidGUI;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using RapidGUI;
+using SaikoMod.Core.Components;
+using SaikoMod.Core.Enums;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
-using SaikoMod.Core.Enums;
-using SaikoMod.Core.Components;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace SaikoMod.UI {
     public class GameUI : BaseWindowUI {

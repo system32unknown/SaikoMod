@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using RapidGUI;
 using System;
-using FPSCounter = SaikoMod.Core.Components.FPSDisplay;
-using FPSUtils = SaikoMod.Utils.FPSUtils;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
-using RapidGUI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using FPSCounter = SaikoMod.Core.Components.FPSDisplay;
+using FPSUtils = SaikoMod.Utils.FPSUtils;
 
 namespace SaikoMod.UI {
     public class SettingsUI : BaseWindowUI {
@@ -37,7 +37,7 @@ namespace SaikoMod.UI {
         public override void Draw() {
             if (fpsUtils == null) fpsUtils = ModBase.fpsDisplay.fps;
 
-            selMenu = GUILayout.SelectionGrid(selMenu, new string[] {"General", "Stats"}, 2);
+            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "General", "Stats" }, 2);
             switch (selMenu) {
                 case 0:
                     if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;

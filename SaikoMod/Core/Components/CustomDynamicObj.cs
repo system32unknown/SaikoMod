@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 namespace SaikoMod.Core.Components {
     public class CustomDynamicObj : MonoBehaviour {

@@ -1,11 +1,11 @@
 ﻿using RapidGUI;
-using System.Linq;
+using SaikoMod.Core.Components;
+using SaikoMod.Helper;
+using SaikoMod.Mods;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using SaikoMod.Core.Components;
-using SaikoMod.Mods;
-using SaikoMod.Helper;
 
 namespace SaikoMod.UI {
     public class PlayerUI : BaseWindowUI {
@@ -90,7 +90,7 @@ namespace SaikoMod.UI {
                         if (GUILayout.Button("Save Position")) {
                             curPlayerPos = player.transform.position;
                             tempPlayerPos[selectedWayPos] = curPlayerPos;
-                        };
+                        }
                         if (GUILayout.Button("Reset Position")) tempPlayerPos[selectedWayPos] = Vector3.zero;
                         if (GUILayout.Button("Load Position")) player.transform.position = tempPlayerPos[selectedWayPos];
                         GUILayout.EndHorizontal();

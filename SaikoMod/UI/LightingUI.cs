@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.Rendering;
+﻿using RapidGUI;
 using System.Linq;
-using RapidGUI;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace SaikoMod.UI {
     public class LightingUI : BaseWindowUI {
@@ -33,7 +33,7 @@ namespace SaikoMod.UI {
         }
 
         public override void Draw() {
-            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Fog", "Light", "Ambient"}, 3);
+            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Fog", "Light", "Ambient" }, 3);
             switch (selMenu) {
                 case 0:
                     GUILayout.BeginVertical("Box");

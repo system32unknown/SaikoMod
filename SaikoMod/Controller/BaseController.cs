@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using RapidGUI;
+﻿using RapidGUI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SaikoMod.Controller
-{
+namespace SaikoMod.Controller {
     public abstract class BaseController : MonoBehaviour, IDoGUI {
         void Start() {
             SceneManager.sceneLoaded += OnSceneLoad;

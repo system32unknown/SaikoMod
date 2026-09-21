@@ -1,10 +1,10 @@
 ﻿using RapidGUI;
+using SaikoMod.Helper;
+using SaikoMod.Utils;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
-using SaikoMod.Utils;
-using SaikoMod.Helper;
 
 namespace SaikoMod.UI {
     public class OtherUI : BaseWindowUI {

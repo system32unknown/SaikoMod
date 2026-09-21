@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RapidGUI;
-using UnityEngine;
+﻿using RapidGUI;
 using SaikoMod.Core.Enums;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace SaikoMod.UI {
     public class SaikoUI : BaseWindowUI {
@@ -145,7 +145,7 @@ namespace SaikoMod.UI {
                     }
                     break;
                 case 2:
-                    selMenu = GUILayout.SelectionGrid(selMenu, new string[] {"Animation", "Skins"}, 2);
+                    selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Animation", "Skins" }, 2);
                     switch (selMenu) {
                         case 0:
                             if (EmoteFilenames.Count > 0) {

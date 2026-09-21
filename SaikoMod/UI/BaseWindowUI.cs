@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using SaikoMod.Controller;
+﻿using SaikoMod.Controller;
 using SaikoMod.Core.Interfaces;
+using UnityEngine;
 
 namespace SaikoMod.UI {
     public abstract class BaseWindowUI : IWindowUI {
