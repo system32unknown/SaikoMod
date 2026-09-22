@@ -55,7 +55,6 @@ namespace RapidGUI {
                 v = Field(v, memberType, tmpStringBuilder.ToString());
                 info.SetValue(obj, v);
             }
-            ;
         }
     }
 }

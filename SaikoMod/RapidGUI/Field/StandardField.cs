@@ -12,8 +12,8 @@ namespace RapidGUI {
 
             UnparsedStr unparsedStr = UnparsedStr.Create();
             using (new ColorScope((unparsedStr.hasStr && !unparsedStr.CanParse(type)) ? Color.red : GUI.color)) {
-                var text = unparsedStr.Get() ?? ((v != null) ? v.ToString() : "");
-                var displayStr = GUILayout.TextField(text, GUILayout.Height(21f), option ?? fieldWidthMin);
+                string text = unparsedStr.Get() ?? ((v != null) ? v.ToString() : "");
+                string displayStr = GUILayout.TextField(text, GUILayout.Height(21f), option ?? fieldWidthMin);
                 if (displayStr != text) {
                     try {
                         ret = Convert.ChangeType(displayStr, type);

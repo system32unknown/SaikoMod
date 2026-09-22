@@ -202,9 +202,14 @@ namespace SaikoMod.UI {
                         flyController.acc = RGUI.SliderFloat(flyController.acc, 0f, 99f, 12f, "Noclip Acceleration");
                         GUILayout.EndVertical();
                     }
+                    GUILayout.BeginVertical("Box");
+                    if (RGUI.Button(PlayerMod.allowJump, "Allow Jumping")) PlayerMod.allowJump = !PlayerMod.allowJump;
+                    if (RGUI.Button(PlayerMod.infJump, "Infinite Jump")) PlayerMod.infJump = !PlayerMod.infJump;
+                    player.jumpSpeed = RGUI.SliderFloat(player.jumpSpeed, 0.5f, 20f, 7f, "Jump Speed");
+                    GUILayout.EndVertical();
                     break;
             }
-            page = RGUI.Page(page, 3, true);
+            page = RGUI.Page(page, 4, true);
         }
 
         public override string Title => "Player";
