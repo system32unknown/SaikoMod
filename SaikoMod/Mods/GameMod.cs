@@ -26,7 +26,6 @@ namespace SaikoMod.Mods {
             powerbox.backUseAnim2 = "PowerBox_Close";
 
             __instance.healthManager.Health = 200f;
-            eyeObject = pc.cameraMotionController.eyeBlinkAnim.gameObject;
 
             if (showESPkey) {
                 GameObject espObj = new GameObject("ESP_KEY");
@@ -62,21 +61,7 @@ namespace SaikoMod.Mods {
             if (showESPkey && (n.StartsWith("Door_Key") || n == "StorageRoomKey" || n == "InfirmaryKey" || n == "ExitDoorKey" || (n.StartsWith("Drop_") && n.EndsWith("_Key")))) espKey.targets.Add(obj);
         }
 
-        public static bool EyeEnabled {
-            get {
-                if (pc != null) return eyeObject.transform.GetChild(0).gameObject.activeSelf && eyeObject.transform.GetChild(1).gameObject.activeSelf;
-                else return false;
-            }
-            set {
-                if (pc != null) {
-                    eyeObject.transform.GetChild(0).gameObject.SetActive(value);
-                    eyeObject.transform.GetChild(1).gameObject.SetActive(value);
-                }
-            }
-        }
-
         static PlayerController pc;
-        static GameObject eyeObject;
     }
 
     [HarmonyPatch(typeof(Tutorial))]

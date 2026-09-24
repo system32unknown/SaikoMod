@@ -20,6 +20,7 @@ namespace SaikoMod.UI {
         CameraMotionController cam;
         HealthManager hm;
         DoorAndKeyManager dkm;
+        Shoes shoes;
 
         int keyid = 0;
         string keyname = "";
@@ -36,6 +37,7 @@ namespace SaikoMod.UI {
             player = Object.FindObjectOfType<PlayerController>();
             cam = Object.FindObjectOfType<CameraMotionController>();
             hm = Object.FindObjectOfType<HealthManager>();
+            shoes = Object.FindObjectOfType<Shoes>();
 
             if (player) {
                 flyController = player.gameObject.AddComponent<FlyController>();
@@ -58,13 +60,12 @@ namespace SaikoMod.UI {
                     if (RGUI.Button(SaikoTracker.RenderTop, "Render On Top")) SaikoTracker.RenderTop = !SaikoTracker.RenderTop;
                     GUILayout.EndVertical();
 
-                    if (RGUI.Button(GameManagerMod.EyeEnabled, "Vignette")) GameManagerMod.EyeEnabled = !GameManagerMod.EyeEnabled;
                     HealthMod.godModeType = RGUI.Field(HealthMod.godModeType, "Godmode Type");
                     if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
                     if (player) {
                         if (RGUI.Button(player.beingRide, "Being Ride")) player.beingRide = !player.beingRide;
-                        if (RGUI.Button(player.hasShoes, "Has Shoes")) player.hasShoes = !player.hasShoes;
+                        if (shoes && !player.hasShoes && GUILayout.Button("Unlock Shoes")) shoes.PutShoesOn();
                         GUILayout.BeginVertical("Box");
                         player.runSpeed = RGUI.SliderFloat(player.runSpeed, 0f, 999f, 7f, "Run Speed");
                         player.walkSpeed = RGUI.SliderFloat(player.walkSpeed, 0f, 999f, 4f, "Walk Speed");

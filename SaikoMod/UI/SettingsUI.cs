@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using SaikoMod.Mods;
 using FPSCounter = SaikoMod.Core.Components.FPSDisplay;
 using FPSUtils = SaikoMod.Utils.FPSUtils;
 
@@ -17,6 +18,8 @@ namespace SaikoMod.UI {
         FPSUtils fpsUtils;
 
         GameObject[] windowLights;
+        GameObject eyeObj;
+        CameraBloodEffect bloodEffect;
         bool windowLightEnabled = true;
 
         OperatingSystem os;
@@ -31,27 +34,25 @@ namespace SaikoMod.UI {
                 windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r") && x.activeSelf).ToArray();
                 windowLightEnabled = true;
             }
+
+            eyeObj = GameObject.Find("GAMEMANAGER/Canvas/UI/Eye");
+            bloodEffect = UnityEngine.Object.FindObjectOfType<CameraBloodEffect>();
             os = Environment.OSVersion;
         }
 
         public override void Draw() {
             if (fpsUtils == null) fpsUtils = ModBase.fpsDisplay.fps;
 
-            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "General", "Stats" }, 2);
+            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "General", "Stats", "Optimize" }, 3);
             switch (selMenu) {
-                case 0:
-                    if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;
-                    if (windowLights != null && RGUI.Button(windowLightEnabled, "Window Light Enabled")) {
-                        windowLightEnabled = !windowLightEnabled;
-                        foreach (GameObject window in windowLights) window.SetActive(windowLightEnabled);
-                    }
-                    if (ModBase.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Mode");
+                case 0: // General
+                    if (ModBase.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
                     break;
-                case 1:
+                case 1: // Stats
                     if (fpsUtils != null) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Framerate");
-                        GUILayout.Label($"curFPS:{fpsUtils.CurFPS} / Total: {fpsUtils.TotalFPS}\nclamped:{fpsUtils.ClampFPS}\nTarget:{fpsUtils.TargetFPS}");
+                        GUILayout.Label($"curFPS:{fpsUtils.CurFPS} / Total:{fpsUtils.TotalFPS}\nclamped:{fpsUtils.ClampFPS} / Target:{fpsUtils.TargetFPS}");
                         GUILayout.EndVertical();
                     }
 
@@ -59,6 +60,15 @@ namespace SaikoMod.UI {
                     GUILayout.Label("System");
                     GUILayout.Label($"Platform: {os.VersionString}\nVersion: {Application.version} / Unity Ver: {Application.unityVersion}");
                     GUILayout.EndVertical();
+                    break;
+                case 2: // Optimize
+                    if (eyeObj && RGUI.Button(eyeObj.activeSelf, "Vignette")) eyeObj.SetActive(!eyeObj.activeSelf);
+                    if (RGUI.Button(allPoint, "All Points")) allPoint = !allPoint;
+                    if (windowLights != null && RGUI.Button(windowLightEnabled, "Window Lights")) {
+                        windowLightEnabled = !windowLightEnabled;
+                        foreach (GameObject window in windowLights) window.SetActive(windowLightEnabled);
+                    }
+                    if (bloodEffect && RGUI.Button(bloodEffect.enabled, "Blood FX")) bloodEffect.enabled = !bloodEffect.enabled;
                     break;
             }
         }

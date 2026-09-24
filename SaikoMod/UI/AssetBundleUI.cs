@@ -75,9 +75,7 @@ namespace SaikoMod.UI {
                     lua.SetGlobal("playerCam", Camera.main);
                 }
 
-                cdo.action += () => {
-                    lua?.CallAction();
-                };
+                cdo.action += () => lua?.CallAction();
             }
 
             if (gameObjParent.transform.childCount > 0) {

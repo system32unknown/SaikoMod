@@ -37,6 +37,7 @@ namespace SaikoMod {
 
             manager = new GameObject("SaikoModMenu");
             manager.AddComponent<UIController>();
+            manager.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(manager);
 
             mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
