@@ -26,9 +26,7 @@ namespace SaikoMod.Core.Components {
             cam = Camera.main?.transform;
         }
 
-        void OnDisable() {
-            curVel = Vector3.zero;
-        }
+        void OnDisable() => curVel = Vector3.zero;
 
         void Update() {
             curVel = Vector3.Lerp(curVel, GetInputDirection() * speed, acc * Time.deltaTime);

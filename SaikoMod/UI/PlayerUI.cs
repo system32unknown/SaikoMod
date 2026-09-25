@@ -74,7 +74,6 @@ namespace SaikoMod.UI {
                         player.state = RGUI.SliderInt(player.state, 0, 2, 0, "Player State");
                         GUILayout.EndVertical();
                     }
-
                     if (hm) {
                         GUILayout.BeginVertical("Box");
                         hm.maxRegenerateHealth = hm.maximumHealth = RGUI.SliderFloat(hm.maximumHealth, 0f, 999f, 200f, "Max Health");
@@ -152,8 +151,7 @@ namespace SaikoMod.UI {
                             cam.enabled = false;
                             pf.enabled = true;
                             GameObject.Find("yandere").GetComponent<NavMeshAgent>().enabled = true;
-                            HFPS_GameManager.instance.cf2rig.enabled = true;
-                            HFPS_GameManager.instance.uiInteractive = true;
+                            HFPS_GameManager.instance.cf2rig.enabled = HFPS_GameManager.instance.uiInteractive = true;
                         }
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("Drugged")) player.GetsDrugged();

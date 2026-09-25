@@ -132,12 +132,8 @@ namespace SaikoMod.Core.Lua {
             UserData.RegisterType<T>();
         }
 
-        public void SetGlobal(Type type) {
-            _script.Globals[type.Name] = type;
-        }
-        public void SetGlobal(string key, object obj) {
-            _script.Globals[key] = obj;
-        }
+        public void SetGlobal(Type type) => _script.Globals[type.Name] = type;
+        public void SetGlobal(string key, object obj) => _script.Globals[key] = obj;
 
         void Update() {
             if (_script == null) return;

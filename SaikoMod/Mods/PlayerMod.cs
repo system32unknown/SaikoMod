@@ -22,9 +22,7 @@ namespace SaikoMod.Mods {
         }
 
         [HarmonyPatch(nameof(PlayerController.StartFallDown)), HarmonyPrefix]
-        static bool FallDownPatch() {
-            return !YandModController.noPushing;
-        }
+        static bool FallDownPatch() => !YandModController.noPushing;
     }
 
     [HarmonyPatch(typeof(CameraMotionController))]

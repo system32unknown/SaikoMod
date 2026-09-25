@@ -21,48 +21,33 @@ namespace SaikoMod.Mods {
         }
 
         [HarmonyPatch("isInNpcFOV"), HarmonyPrefix]
-        static bool FOVPatch() {
-            return !noDetect;
-        }
+        static bool FOVPatch() => !noDetect;
 
         [HarmonyPatch(nameof(YandereController.PlayerFoundDetection)), HarmonyPrefix]
-        static bool PlayerFoundDetectionPatch() {
-            return !noDetect;
-        }
+        static bool PlayerFoundDetectionPatch() => !noDetect;
 
         [HarmonyPatch(nameof(YandereController.AlertToPlayerPosition), new Type[] { typeof(bool), typeof(bool) }), HarmonyPrefix]
-        static bool AlertToPlayerPositionPatch() {
-            return !noAlert;
-        }
+        static bool AlertToPlayerPositionPatch() => !noAlert;
 
         [HarmonyPatch(nameof(YandereController.AtemptKidnapPlayer)), HarmonyPrefix]
-        static bool AtemptKidnapPlayerPatch() {
-            return !noChoke;
-        }
+        static bool AtemptKidnapPlayerPatch() => !noChoke;
 
         [HarmonyPatch(nameof(YandereController.ChokePlayer)), HarmonyPrefix]
-        static bool ChokePlayerPatch() {
-            return !noChoke;
-        }
+        static bool ChokePlayerPatch() => !noChoke;
 
         [HarmonyPatch(nameof(YandereController.SpawnAtGameIntroPos)), HarmonyPrefix]
-        static bool SpawnAtGameIntroPosPatch() {
-            return !noBadEnding;
-        }
+        static bool SpawnAtGameIntroPosPatch() => !noBadEnding;
+
         [HarmonyPatch(nameof(YandereController.KillPlayerFromFront)), HarmonyPrefix]
         static bool KillPlayerFromFrontPatch() {
             return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
         }
 
         [HarmonyPatch(nameof(YandereController.PushPlayerDown), new Type[] { typeof(bool) }), HarmonyPrefix]
-        static bool PushPlayerDownPatch() {
-            return !noPushing;
-        }
+        static bool PushPlayerDownPatch() => !noPushing;
 
         [HarmonyPatch(nameof(YandereController.LookThroughWindow), new Type[] { typeof(AIRoom) }), HarmonyPrefix]
-        static bool LookThroughWindowPatch() {
-            return !noDetect;
-        }
+        static bool LookThroughWindowPatch() => !noDetect;
 
         [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
         static bool StabPatch() {
@@ -89,36 +74,24 @@ namespace SaikoMod.Mods {
         public static bool customEye = false;
 
         [HarmonyPatch("FixedUpdate"), HarmonyPrefix]
-        static bool FixedUpdatePatch() {
-            return !customEye;
-        }
+        static bool FixedUpdatePatch() => !customEye;
 
         [HarmonyPatch(nameof(YandereAI.PlayerCanDetectAI)), HarmonyPrefix]
-        static bool PlayerCanDetectPatch() {
-            return !YandModController.noDetect;
-        }
+        static bool PlayerCanDetectPatch() => !YandModController.noDetect;
 
         [HarmonyPatch(nameof(YandereAI.DetectPlayerLookingDown)), HarmonyPrefix]
-        static bool DetectPlayerLookingDownPatch() {
-            return !YandModController.noDetect;
-        }
+        static bool DetectPlayerLookingDownPatch() => !YandModController.noDetect;
 
         [HarmonyPatch(nameof(YandereAI.PlayerAttactAI)), HarmonyPrefix]
-        static bool PlayerAttactAIPatch() {
-            return !notAttacted;
-        }
+        static bool PlayerAttactAIPatch() => !notAttacted;
 
         [HarmonyPatch(nameof(YandereAI.DistanceReachedPlayerAndAI), new Type[] { typeof(float) }), HarmonyPrefix]
-        static bool DistanceReachedPlayerAndAIPatch() {
-            return !noDistanceCheck;
-        }
+        static bool DistanceReachedPlayerAndAIPatch() => !noDistanceCheck;
     }
 
     [HarmonyPatch(typeof(YandereMoodController))]
     internal class YandModMood {
         [HarmonyPatch(nameof(YandereMoodController.CanExitAtemptKidnap)), HarmonyPrefix]
-        static bool CanExitAtemptKidnapPatch() {
-            return !YandModController.noBadEnding;
-        }
+        static bool CanExitAtemptKidnapPatch()=> !YandModController.noBadEnding;
     }
 }

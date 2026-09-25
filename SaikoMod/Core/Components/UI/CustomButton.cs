@@ -8,8 +8,8 @@ namespace SaikoMod.Core.Components.UI {
         public RectTransform Rect;
 
         public Vector3 position {
-            get { return Rect.anchoredPosition; }
-            set { Rect.anchoredPosition = value; }
+            get => Rect.anchoredPosition;
+            set => Rect.anchoredPosition = value;
         }
 
         public CustomButton(Button button) {

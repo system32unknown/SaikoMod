@@ -48,6 +48,7 @@ namespace SaikoMod.Controller {
                 gamemods.OnUnload();
                 playermods.OnUnload();
             }
+            settings.OnUnload();
         }
 
         void Update() {
@@ -101,9 +102,7 @@ namespace SaikoMod.Controller {
             }
             return "";
         }
-        Vector3 GetTabSize() {
-            return new Vector2(444f, 664f);
-        }
+        Vector3 GetTabSize() => new Vector2(444f, 664f);
 
         void MainMenu(int windowID) {
             GUI.backgroundColor = Color.black;

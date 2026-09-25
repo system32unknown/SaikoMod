@@ -23,9 +23,7 @@ namespace SaikoMod {
                         List<object> paramList = new List<object>();
                         list.ForEach(arg => paramList.Add(arg.Value));
                         ConditionalPatch condP = (ConditionalPatch)Activator.CreateInstance(cad.AttributeType, paramList.ToArray());
-                        if (condP.ShouldPatch()) {
-                            _harmony.CreateClassProcessor(type).Patch();
-                        }
+                        if (condP.ShouldPatch()) _harmony.CreateClassProcessor(type).Patch();
                         return;
                     }
                 }

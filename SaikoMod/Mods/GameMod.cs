@@ -16,7 +16,7 @@ namespace SaikoMod.Mods {
             cachedFont = __instance.noteText.font;
             SaikoTracker tracker = new GameObject("SaikoTracker").AddComponent<SaikoTracker>();
 
-            pc = __instance.playerController;
+            PlayerController pc = __instance.playerController;
             tracker.from = pc.yandereController.transform;
             tracker.to = pc.transform;
 
@@ -60,8 +60,6 @@ namespace SaikoMod.Mods {
             string n = obj.name;
             if (showESPkey && (n.StartsWith("Door_Key") || n == "StorageRoomKey" || n == "InfirmaryKey" || n == "ExitDoorKey" || (n.StartsWith("Drop_") && n.EndsWith("_Key")))) espKey.targets.Add(obj);
         }
-
-        static PlayerController pc;
     }
 
     [HarmonyPatch(typeof(Tutorial))]
@@ -89,7 +87,7 @@ namespace SaikoMod.Mods {
 
             tipTxt.rectTransform.sizeDelta = new Vector2(590f, tipTxt.rectTransform.sizeDelta.y);
 
-            for (int i = 6; i <= 17; i++) tutTrans.GetChild(i).position += new Vector3(0f, 240f); // KEYBOARDS
+            for (int i = 6; i <= 17; i++) tutTrans.GetChild(i).position += new Vector3(0f, 235f); // KEYBOARDS
             #endregion
         }
 
@@ -106,9 +104,7 @@ namespace SaikoMod.Mods {
 
     [HarmonyPatch(typeof(StairDrop), nameof(StairDrop.OnTriggerEnter))]
     class StairPatch {
-        static bool Prefix() {
-            return !YandModController.noPushing;
-        }
+        static bool Prefix() => !YandModController.noPushing;
     }
 
     [HarmonyPatch(typeof(DoorAndKeyManager))]

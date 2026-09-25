@@ -148,13 +148,8 @@ namespace SaikoMod.UI {
 
                 if (shaderName.StartsWith("Hidden/")) return true;
 
-                // TMP shaders
-                if (shaderName.Contains("TextMeshPro")) return true;
-                if (shaderName.Contains("TMP")) return true;
-
-                // Unity UI shaders
-                if (shaderName.Contains("UI/")) return true;
-                if (shaderName.Contains("Text")) return true;
+                if (shaderName.Contains("TextMeshPro") || shaderName.Contains("TMP")) return true; // TMP shaders
+                if (shaderName.Contains("UI/") || shaderName.Contains("Text")) return true; // Unity UI shaders
             }
 
             return false;

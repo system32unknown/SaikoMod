@@ -12,9 +12,7 @@ namespace SaikoMod.Core.Components {
 
         static bool _RenderTop = false;
         public static bool RenderTop {
-            get {
-                return _RenderTop;
-            }
+            get => _RenderTop;
             set {
                 lr?.material.SetInt("_ZTest", (int)(value ? CompareFunction.Always : CompareFunction.LessEqual));
                 _RenderTop = value;
@@ -23,9 +21,7 @@ namespace SaikoMod.Core.Components {
 
         static bool _UpdateTracker = false;
         public static bool UpdateTracker {
-            get {
-                return _UpdateTracker;
-            }
+            get => _UpdateTracker;
             set {
                 lr.enabled = value;
                 _UpdateTracker = value;
