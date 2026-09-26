@@ -68,8 +68,6 @@ namespace SaikoMod.Utils {
         /// <summary>
         /// Returns true if FPS is below half target framerate.
         /// </summary>
-        public bool Lagged {
-            get => CurFPS < TargetFPS * .5f;
-        }
+        public bool Lagged { get => CurFPS < TargetFPS * .5f; }
     }
 }

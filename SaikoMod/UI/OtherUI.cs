@@ -8,14 +8,8 @@ using UnityEngine.UI;
 
 namespace SaikoMod.UI {
     public class OtherUI : BaseWindowUI {
-        MinMaxFloat vertRange = new MinMaxFloat() {
-            min = .1f,
-            max = .1f
-        };
-        MinMaxFloat normRange = new MinMaxFloat() {
-            min = .1f,
-            max = .1f
-        };
+        MinMaxFloat vertRange = new MinMaxFloat() { min = .1f, max = .1f };
+        MinMaxFloat normRange = new MinMaxFloat() { min = .1f, max = .1f };
 
         int selMenu = 0;
 
@@ -35,16 +29,12 @@ namespace SaikoMod.UI {
             mats = Resources.FindObjectsOfTypeAll<Material>();
             tex2ds = Resources.FindObjectsOfTypeAll<Texture2D>();
 
-            TMP_Text[] tmpTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
-            Text[] uiTexts = Resources.FindObjectsOfTypeAll<Text>();
-
-            foreach (TMP_Text text in tmpTexts) {
+            foreach (TMP_Text text in Resources.FindObjectsOfTypeAll<TMP_Text>()) {
                 if (text.fontMaterial != null) protectedMaterials.Add(text.fontMaterial);
                 if (text.fontSharedMaterial != null) protectedMaterials.Add(text.fontSharedMaterial);
             }
 
-            // Legacy UI Text
-            foreach (Text text in uiTexts) {
+            foreach (Text text in Resources.FindObjectsOfTypeAll<Text>()) { // Legacy UI Text
                 if (text.material != null) protectedMaterials.Add(text.material);
                 if (text.font != null && text.font.material != null) protectedMaterials.Add(text.font.material);
                 if (text.defaultMaterial != null) protectedMaterials.Add(text.defaultMaterial);
