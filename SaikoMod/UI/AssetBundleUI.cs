@@ -66,9 +66,8 @@ namespace SaikoMod.UI {
                     lua.RegisterType<YandereAI>();
 
                     YandereController yc = Object.FindObjectOfType<YandereController>();
-                    NavMeshAgent nma = yc.GetComponent<NavMeshAgent>();
                     lua.SetGlobal("yand", yc);
-                    lua.SetGlobal("yandNav", nma);
+                    lua.SetGlobal("yandNav", yc.GetComponent<NavMeshAgent>());
 
                     lua.RegisterType<PlayerController>();
                     lua.SetGlobal("player", Object.FindObjectOfType<PlayerController>());

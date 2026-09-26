@@ -92,9 +92,7 @@ namespace SaikoMod.Mods {
         }
 
         [HarmonyPatch("Update"), HarmonyPrefix]
-        static bool UpdatePatch() {
-            return false;
-        }
+        static bool UpdatePatch() => false;
 
         [HarmonyPatch(nameof(Tutorial.StartGame)), HarmonyPostfix]
         static void StartGamePatch() {

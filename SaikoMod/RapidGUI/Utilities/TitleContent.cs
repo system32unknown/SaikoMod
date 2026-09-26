@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace RapidGUI {
     /// <summary>
     /// Title and content that opens and closes
@@ -25,7 +24,6 @@ namespace RapidGUI {
             this.name = name;
         }
 
-
         public T Add(Action guiAction) => Add(null, guiAction);
         public T Add(Func<bool> checkEnableFunc, Action guiAction) => Add(checkEnableFunc, () => { guiAction(); return false; });
         public T Add(Func<bool> guiFunc) => Add(null, guiFunc);
@@ -43,7 +41,6 @@ namespace RapidGUI {
         public T Close() { IsOpen = false; return (T)this; }
 
         public T SetTitleAction(Action titleAction) { this.titleAction = titleAction; return (T)this; }
-
 
         protected IEnumerable<Func<bool>> GetGUIFuncs() => funcDatas.Where(fd => fd.checkEnableFunc?.Invoke() ?? true).Select(fd => fd.guiFunc);
     }

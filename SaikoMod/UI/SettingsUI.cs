@@ -58,7 +58,6 @@ namespace SaikoMod.UI {
                     GUILayout.EndVertical();
                     break;
                 case 2: // Optimize
-                    if (eyeObj && RGUI.Button(eyeObj.activeSelf, "Vignette")) eyeObj.SetActive(!eyeObj.activeSelf);
                     if (GUILayout.Button("Optimize")) {
                         ForcePointFilter(Resources.FindObjectsOfTypeAll<Texture2D>());
                         ForcePointFilter(Resources.FindObjectsOfTypeAll<Texture>());
@@ -69,17 +68,18 @@ namespace SaikoMod.UI {
                         QualitySettings.shadowResolution = ShadowResolution.Low;
                         QualitySettings.antiAliasing = 0;
                     }
+                    if (eyeObj && RGUI.Button(eyeObj.activeSelf, "Vignette")) eyeObj.SetActive(!eyeObj.activeSelf);
                     if (windowLights != null && RGUI.Button(windowLightEnabled, "Window Lights")) {
                         windowLightEnabled = !windowLightEnabled;
                         foreach (GameObject window in windowLights) window.SetActive(windowLightEnabled);
                     }
-                    if (bloodEffect != null && RGUI.Button(bloodEffect.enabled, "Blood FX")) bloodEffect.enabled = !bloodEffect.enabled;
+                    if (bloodEffect && RGUI.Button(bloodEffect.enabled, "Blood FX")) bloodEffect.enabled = !bloodEffect.enabled;
                     break;
             }
         }
 
         void ForcePointFilter<T>(IEnumerable<T> textures) where T : Texture {
-            foreach (Texture tex in textures) if (tex.filterMode != FilterMode.Point) tex.filterMode = FilterMode.Point;
+            foreach (Texture tex in textures.Where(x => x.filterMode != FilterMode.Point)) tex.filterMode = FilterMode.Point;
         }
     }
 }

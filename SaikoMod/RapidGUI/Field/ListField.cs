@@ -21,12 +21,12 @@ namespace RapidGUI {
         static object ListField(object v, Type type) => ListField<object>(v, type, null);
 
         static object ListField<T>(object v, Type type, Func<T, int, string, object> customElementGUI) {
-            var list = v as IList;
-            var hasElem = (list != null) && list.Count > 0;
-            var elemType = TypeUtility.GetListInterface(type).GetGenericArguments().First();
+            IList list = v as IList;
+            bool hasElem = (list != null) && list.Count > 0;
+            Type elemType = TypeUtility.GetListInterface(type).GetGenericArguments().First();
 
-            var addIdx = -1;
-            var deleteIdx = -1;
+            int addIdx = -1;
+            int deleteIdx = -1;
             using (new GUILayout.VerticalScope("box")) {
                 if (v == null) {
                     WarningLabelNoStyle("List is null.");
@@ -34,13 +34,13 @@ namespace RapidGUI {
                     WarningLabelNoStyle("List is empty.");
                 } else {
                     for (var i = 0; i < list.Count; ++i) {
-                        var label = TypeUtility.IsMultiLine(elemType) ? $"Element {i}" : null;
+                        string label = TypeUtility.IsMultiLine(elemType) ? $"Element {i}" : null;
 
                         using (new IndentScope(20f)) {
                             list[i] = (customElementGUI != null) ? customElementGUI((T)list, i, label) : Field(list[i], elemType, label);
                         }
 
-                        var result = PopupOnLastRect(ListPopupButtonNames, 1);
+                        int result = PopupOnLastRect(ListPopupButtonNames, 1);
 
                         switch (result) {
                             case 0:
@@ -60,12 +60,11 @@ namespace RapidGUI {
                 using (new GUILayout.HorizontalScope()) {
                     GUILayout.FlexibleSpace();
 
-                    var width = GUILayout.Width(20f);
+                    GUILayoutOption width = GUILayout.Width(20f);
                     if (GUILayout.Button("+", width)) {
                         if (list == null) list = (IList)Activator.CreateInstance(type, 0);
 
-                        var baseElem = hasElem ? list[list.Count - 1] : null;
-
+                        object baseElem = hasElem ? list[list.Count - 1] : null;
                         list = AddElement(list, elemType, baseElem, list.Count);
                     }
 
@@ -80,13 +79,12 @@ namespace RapidGUI {
             return list;
         }
 
-
         static IList AddElement(IList list, Type elemType, object baseElem, int index) {
             index = Mathf.Clamp(index, 0, list.Count);
-            var newElem = CreateNewElement(baseElem, elemType);
+            object newElem = CreateNewElement(baseElem, elemType);
 
             if (list is Array array) {
-                var newArray = Array.CreateInstance(elemType, array.Length + 1);
+                Array newArray = Array.CreateInstance(elemType, array.Length + 1);
                 Array.Copy(array, newArray, index);
                 newArray.SetValue(newElem, index);
                 Array.Copy(array, index, newArray, index + 1, array.Length - index);
@@ -98,13 +96,11 @@ namespace RapidGUI {
 
         static IList DeleteElement(IList list, Type elemType, int index) {
             if (list is Array array) {
-                var newArray = Array.CreateInstance(elemType, array.Length - 1);
+                Array newArray = Array.CreateInstance(elemType, array.Length - 1);
                 Array.Copy(array, newArray, index);
                 Array.Copy(array, index + 1, newArray, index, array.Length - 1 - index);
                 list = newArray;
-            } else {
-                list.RemoveAt(index);
-            }
+            } else list.RemoveAt(index);
 
             return list;
         }
@@ -123,10 +119,7 @@ namespace RapidGUI {
                 }
             }
 
-            if (ret == null) {
-                ret = (elemType == typeof(string)) ? "" : Activator.CreateInstance(elemType);
-            }
-
+            if (ret == null) ret = (elemType == typeof(string)) ? "" : Activator.CreateInstance(elemType);
             return ret;
         }
     }

@@ -22,7 +22,7 @@ namespace RapidGUI {
         static void DoGUI() {
             Windows.ToList().ForEach(l => l?.DoGUIWindow());
 
-            var evt = Event.current;
+            Event evt = Event.current;
 
             if (evt.type == EventType.KeyUp && evt.keyCode == RapidGUIBehaviour.Instance.closeFocusedWindowKey && GUIUtility.keyboardControl == 0) {
                 if (Windows.Contains(focusedWindow)) {
@@ -31,9 +31,7 @@ namespace RapidGUI {
                 }
             }
 
-            if (Event.current.type == EventType.Repaint) {
-                Windows.Clear();
-            }
+            if (Event.current.type == EventType.Repaint) Windows.Clear();
         }
     }
 }

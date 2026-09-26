@@ -53,18 +53,16 @@ namespace SaikoMod {
     /// Always patches, same as not having a ConditionalPatch at all.
     /// </summary>
     public class ConditionalPatchAlways : ConditionalPatch {
-        public override bool ShouldPatch() {
-            return true;
-        }
+        public override bool ShouldPatch() => true;
     }
 
     /// <summary>
     /// Patches if the specified config is true.
     /// </summary>
     public class ConditionalPatchConfig : ConditionalPatch {
-        string _mod;
-        string _category;
-        string _name;
+        readonly string _mod;
+        readonly string _category;
+        readonly string _name;
         public ConditionalPatchConfig(string mod, string category, string name) {
             _mod = mod;
             _category = category;
@@ -90,9 +88,7 @@ namespace SaikoMod {
     /// Never patches.
     /// </summary>
     public class ConditionalPatchNever : ConditionalPatch {
-        public override bool ShouldPatch() {
-            return false;
-        }
+        public override bool ShouldPatch() => false;
     }
 
     /// <summary>
@@ -100,14 +96,8 @@ namespace SaikoMod {
     /// </summary>
     public class ConditionalPatchMod : ConditionalPatch {
         public string modKey;
-
-        public ConditionalPatchMod(string mod) {
-            modKey = mod;
-        }
-
-        public override bool ShouldPatch() {
-            return Chainloader.PluginInfos.ContainsKey(modKey);
-        }
+        public ConditionalPatchMod(string mod) => modKey = mod;
+        public override bool ShouldPatch() => Chainloader.PluginInfos.ContainsKey(modKey);
     }
 
     /// <summary>
@@ -115,13 +105,7 @@ namespace SaikoMod {
     /// </summary>
     public class ConditionalPatchNoMod : ConditionalPatch {
         public string modKey;
-
-        public ConditionalPatchNoMod(string mod) {
-            modKey = mod;
-        }
-
-        public override bool ShouldPatch() {
-            return !Chainloader.PluginInfos.ContainsKey(modKey);
-        }
+        public ConditionalPatchNoMod(string mod) => modKey = mod;
+        public override bool ShouldPatch() => !Chainloader.PluginInfos.ContainsKey(modKey);
     }
 }

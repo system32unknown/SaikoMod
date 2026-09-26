@@ -12,11 +12,11 @@ namespace RapidGUI {
         }
 
         public static Vector2 GetMouseScreenPos(Vector2? screenInsideOffset = null) {
-            var mousePos = Input.mousePosition;
-            var ret = new Vector2(mousePos.x, Screen.height - mousePos.y);
+            Vector3 mousePos = Input.mousePosition;
+            Vector2 ret = new Vector2(mousePos.x, Screen.height - mousePos.y);
 
             if (screenInsideOffset.HasValue) {
-                var maxPos = new Vector2(Screen.width, Screen.height) - screenInsideOffset.Value;
+                Vector2 maxPos = new Vector2(Screen.width, Screen.height) - screenInsideOffset.Value;
                 ret = Vector2.Min(ret, maxPos);
             }
 

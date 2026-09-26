@@ -47,12 +47,5 @@ namespace RapidGUI {
     public interface IMinMaxLerp<T> {
         T LerpUnclamped(float t);
     }
-
-    public static class IMinMaxLerp {
-        public static T Lerp<T>(this IMinMaxLerp<T> me, float t) {
-            return me.LerpUnclamped(Mathf.Clamp01(t));
-        }
-    }
-
     #endregion
 }

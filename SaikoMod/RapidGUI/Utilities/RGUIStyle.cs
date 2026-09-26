@@ -39,30 +39,26 @@ namespace RapidGUI {
         }
 
         static void CreateCenterLabel() {
-            GUIStyle style = new GUIStyle(GUI.skin.label) {
-                alignment = TextAnchor.MiddleCenter
+            centerLabel = new GUIStyle(GUI.skin.label) {
+                alignment = TextAnchor.MiddleCenter,
+                fixedHeight = 21f
             };
-
-            style.fixedHeight = 21f;
-            centerLabel = style;
         }
 
         static void CreateButton() {
-            var style = new GUIStyle(GUI.skin.button) {
-                alignment = TextAnchor.MiddleCenter
+            button = new GUIStyle(GUI.skin.button) {
+                alignment = TextAnchor.MiddleCenter,
+                fixedHeight = 21f
             };
-
-            style.fixedHeight = 21f;
-            button = style;
         }
 
         static void CreateFlatButton() {
-            var style = new GUIStyle(GUI.skin.label) {
+            GUIStyle style = new GUIStyle(GUI.skin.label) {
                 wordWrap = false,
                 alignment = TextAnchor.MiddleCenter
             };
 
-            var toggle = GUI.skin.toggle;
+            GUIStyle toggle = GUI.skin.toggle;
             style.normal.textColor = toggle.normal.textColor;
             style.hover.textColor = toggle.hover.textColor;
 
@@ -76,23 +72,21 @@ namespace RapidGUI {
         }
 
         static void CreatePopupFlatButton() {
-            var style = new GUIStyle(flatButton) {
+            popupFlatButton = new GUIStyle(flatButton) {
                 alignment = GUI.skin.label.alignment,
                 padding = new RectOffset(24, 48, 2, 2),
                 name = nameof(popupFlatButton)
             };
-
-            popupFlatButton = style;
         }
 
         static void CreatePopup() {
-            var style = new GUIStyle(GUI.skin.box) {
+            GUIStyle style = new GUIStyle(GUI.skin.box) {
                 border = new RectOffset()
             };
 
             popupTex = new Texture2D(1, 1);
-            var brightness = 0.2f;
-            var alpha = 0.9f;
+            float brightness = 0.2f;
+            float alpha = 0.9f;
             popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
             popupTex.Apply();
 
@@ -103,47 +97,41 @@ namespace RapidGUI {
 
 
         public static void CreateDarkWindow() {
-            var style = new GUIStyle(GUI.skin.window);
-
+            GUIStyle style = new GUIStyle(GUI.skin.window);
             style.normal.background = darkWindowTexNormal = CreateTexDark(style.normal.background, 0.5f, 1.4f);
             style.onNormal.background = darkWindowTexOnNormal = CreateTexDark(style.onNormal.background, 0.6f, 1.5f);
-
             style.name = nameof(darkWindow);
-
             darkWindow = style;
         }
 
         public static void CreateAlignLeftBox() {
-            var style = new GUIStyle(GUI.skin.box) {
+            alignLeftBox = new GUIStyle(GUI.skin.box) {
                 alignment = TextAnchor.MiddleCenter,
                 name = nameof(alignLeftBox),
+                fixedHeight = 21f,
+                fixedWidth = 260f
             };
-            style.fixedHeight = 21f;
-            style.fixedWidth = 260f;
-            alignLeftBox = style;
         }
 
         public static Texture2D CreateTexDark(Texture2D src, float colorRate, float alphaRate) {
             // copy texture trick.
             // Graphics.CopyTexture(src, dst) must same format src and dst.
             // but src format can't call GetPixels().
-            var tmp = RenderTexture.GetTemporary(src.width, src.height);
+            RenderTexture tmp = RenderTexture.GetTemporary(src.width, src.height);
             Graphics.Blit(src, tmp);
 
-            var prev = RenderTexture.active;
+            RenderTexture prev = RenderTexture.active;
             RenderTexture.active = prev;
 
-            var dst = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
+            Texture2D dst = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
             dst.ReadPixels(new Rect(0f, 0f, src.width, src.height), 0, 0);
-
 
             RenderTexture.active = prev;
             RenderTexture.ReleaseTemporary(tmp);
 
-
-            var pixels = dst.GetPixels();
-            for (var i = 0; i < pixels.Length; ++i) {
-                var col = pixels[i];
+            Color[] pixels = dst.GetPixels();
+            for (int i = 0; i < pixels.Length; ++i) {
+                Color col = pixels[i];
                 col.r *= colorRate;
                 col.g *= colorRate;
                 col.b *= colorRate;
@@ -158,24 +146,19 @@ namespace RapidGUI {
             return dst;
         }
 
-
         static void CreateWarningLabel() {
-            var style = new GUIStyle(GUI.skin.box) {
+            warningLabel = new GUIStyle(GUI.skin.box) {
                 alignment = GUI.skin.label.alignment,
                 richText = true,
                 name = nameof(warningLabel)
             };
-
-            warningLabel = style;
         }
 
         static void CreateWarningLabelNoStyle() {
-            var style = new GUIStyle(GUI.skin.label) {
+            warningLabelNoStyle = new GUIStyle(GUI.skin.label) {
                 richText = true,
                 name = nameof(warningLabelNoStyle)
             };
-
-            warningLabelNoStyle = style;
         }
 
         public static readonly Texture2D white = new SaikoMod.Utils.ConverterUtils.Texture(Color.white).tex;

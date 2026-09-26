@@ -25,7 +25,7 @@ namespace SaikoMod {
 
         internal ConfigEntry<bool> allowChangeWindowTitle;
         public ConfigEntry<bool> showFPSDisplay;
-        public ConfigEntry<bool> forceEnglish;
+        public ConfigEntry<bool> skipLanguage;
 
         readonly Harmony harmony = new Harmony(modGUID);
 
@@ -45,7 +45,7 @@ namespace SaikoMod {
             mls.LogInfo($"Mod Version: {modVer}");
 
             allowChangeWindowTitle = Config.Bind("General", "Allow Change Window Title", true);
-            forceEnglish = Config.Bind("General", "Force English Language", false);
+            skipLanguage = Config.Bind("General", "Skip Language Menu", false);
             showFPSDisplay = Config.Bind("Misc", "Show FPS Display", false);
 
             harmony.PatchAllConditionals();

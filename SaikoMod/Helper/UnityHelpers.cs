@@ -32,7 +32,7 @@ namespace SaikoMod.Helper {
             foreach (Transform t in obj.GetComponentsInChildren<Transform>(false)) {
                 if (t.gameObject.activeSelf) {
                     Renderer r = t.GetComponent<Renderer>();
-                    if (r != null && r.enabled) return true;
+                    if (r && r.enabled) return true;
                     try {
                         foreach (Component c in t.GetComponents<Component>())
                             if (c.name.Contains("TextMeshPro")) return true;

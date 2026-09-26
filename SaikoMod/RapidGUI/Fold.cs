@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-
 namespace RapidGUI {
     public class Fold : TitleContent<Fold> {
         public Fold() : base() { }
@@ -18,9 +17,7 @@ namespace RapidGUI {
                 }
 
                 using (new RGUI.IndentScope()) {
-                    if (IsOpen) {
-                        ret |= guiFuncs.Aggregate(false, (changed, drawFunc) => changed || drawFunc());
-                    }
+                    if (IsOpen) ret |= guiFuncs.Aggregate(false, (changed, drawFunc) => changed || drawFunc());
                 }
             }
 

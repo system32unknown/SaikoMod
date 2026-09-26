@@ -11,14 +11,11 @@ namespace RapidGUI {
             bool isLong = false;
 
             if (!string.IsNullOrEmpty(label)) {
-                var style = GUI.skin.label;
+                GUIStyle style = GUI.skin.label;
                 isLong = PrefixLabelSetting.width > 0f && style.CalcSize(RGUIUtility.TempContent(label)).x > PrefixLabelSetting.width;
 
-                if (isLong) {
-                    GUILayout.Label(label);
-                } else {
-                    GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));
-                }
+                if (isLong) GUILayout.Label(label);
+                else GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));
             }
 
             return isLong;
@@ -36,7 +33,6 @@ namespace RapidGUI {
 
 
         #region implement drag
-
         static Vector2 lastMousePos;
         static readonly int DoDragHash = "DoDrag".GetHashCode();
 
@@ -69,18 +65,18 @@ namespace RapidGUI {
                 case EventType.MouseDrag: {
                     if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) &&
                         (GUIUtility.hotControl == controlId)) {
-                        var diff = ev.mousePosition - lastMousePos;
-                        var add = (Mathf.Abs(diff.x) > Mathf.Abs(diff.y)) ? diff.x : diff.y;
+                        Vector2 diff = ev.mousePosition - lastMousePos;
+                        float add = (Mathf.Abs(diff.x) > Mathf.Abs(diff.y)) ? diff.x : diff.y;
                         add = Math.Sign(add);
 
                         lastMousePos = ev.mousePosition;
                         if (typeof(int) == type) {
-                            var v = (int)obj;
-                            v += (int)(add);
+                            int v = (int)obj;
+                            v += (int)add;
                             obj = v;
                         } else if (typeof(float) == type) {
-                            var scale = 0.03f;
-                            var v = (float)obj;
+                            float scale = 0.03f;
+                            float v = (float)obj;
                             v += add * scale;
                             v = Mathf.Floor(v * 100f) * 0.01f; // chop
                             obj = v;
@@ -95,14 +91,9 @@ namespace RapidGUI {
             return obj;
         }
 
-
         public static bool IsDraggable(Type type) {
-            return (
-                (typeof(int) == type) ||
-                (typeof(float)) == type
-            );
+            return typeof(int) == type || typeof(float) == type;
         }
     }
-
     #endregion
 }

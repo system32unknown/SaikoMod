@@ -15,13 +15,13 @@ namespace RapidGUI {
 
         public static int Page(int page, int maxPage, bool warped) {
             GUI.backgroundColor = Color.black;
-            GUILayout.FlexibleSpace(); // Push JUST this block to bottom
+            GUILayout.FlexibleSpace();
 
             GUILayout.BeginHorizontal();
 
             if ((page > 0 || warped) && GUILayout.Button("<", GUILayout.Width(40))) {
                 if (page > 0) page--;
-                else if (warped) page = maxPage; // wrap to end
+                else if (warped) page = maxPage;
             }
 
             GUILayout.FlexibleSpace();
@@ -30,7 +30,7 @@ namespace RapidGUI {
 
             if ((page < maxPage || warped) && GUILayout.Button(">", GUILayout.Width(40))) {
                 if (page < maxPage) page++;
-                else if (warped) page = 0; // wrap to beginning
+                else if (warped) page = 0;
             }
 
             GUILayout.EndHorizontal();
@@ -50,7 +50,6 @@ namespace RapidGUI {
             }
 
             GUI.backgroundColor = Color.black;
-            // Safety / normalize
             if (items == null || array.Length == 0) {
                 index = 0;
                 GUILayout.BeginHorizontal();
@@ -61,33 +60,24 @@ namespace RapidGUI {
                 return default;
             }
 
-            // Clamp index to valid range in case array changed externally
             if (index < 0) index = 0;
             if (index >= array.Length) index = array.Length - 1;
 
-            // Buttons + center label layout
             GUILayout.BeginHorizontal();
-
-            // Left button
             if (GUILayout.Button("<", GUILayout.Width(buttonWidth))) {
                 if (index > 0) index--;
                 else if (warped) index = array.Length - 1;
             }
-
-            // Center label (center by flexible spaces)
             GUILayout.FlexibleSpace();
 
             string labelText;
             T current = array[index];
             if (labelSelector != null) labelText = labelSelector(current);
             else labelText = (current != null) ? current.ToString() : "null";
-
-            // show index/count and item label
-            GUILayout.Label(string.Format("{0}/{1}  {2}", index + 1, array.Length, labelText), RGUIStyle.centerLabel, GUILayout.ExpandWidth(false));
+            GUILayout.Label(string.Format("{0}/{1} {2}", index + 1, array.Length, labelText), RGUIStyle.centerLabel, GUILayout.ExpandWidth(false));
 
             GUILayout.FlexibleSpace();
 
-            // Right button
             if (GUILayout.Button(">", GUILayout.Width(buttonWidth))) {
                 if (index < array.Length - 1) index++;
                 else if (warped) index = 0;

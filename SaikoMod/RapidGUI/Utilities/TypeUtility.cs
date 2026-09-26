@@ -10,18 +10,15 @@ namespace RapidGUI {
 
         public static bool IsList(Type type) => GetListInterface(type) != null;
 
-        static Dictionary<Type, bool> multiLineTable = new Dictionary<Type, bool>();
+        static readonly Dictionary<Type, bool> multiLineTable = new Dictionary<Type, bool>();
         public static bool IsMultiLine(Type type) {
-            bool ret;
-            if (!multiLineTable.TryGetValue(type, out ret)) {
-                var infoList = GetMemberInfoList(type);
+            if (!multiLineTable.TryGetValue(type, out bool ret)) {
+                List<MemberWrapper> infoList = GetMemberInfoList(type);
 
                 ret = infoList.Any(info => info.range != null);
                 if (!ret) {
-                    var elemtTypes = infoList.Select(info => info.MemberType);
-
-                    ret = elemtTypes.Any(t => IsRecursive(t) || IsList(t))
-                        || (elemtTypes.Count() > 4);
+                    IEnumerable<Type> elemtTypes = infoList.Select(info => info.MemberType);
+                    ret = elemtTypes.Any(t => IsRecursive(t) || IsList(t)) || (elemtTypes.Count() > 4);
                 }
 
                 multiLineTable[type] = ret;
@@ -30,10 +27,10 @@ namespace RapidGUI {
             return ret;
         }
 
-        static Dictionary<Type, bool> isRecursiveTable = new Dictionary<Type, bool>();
+        static readonly Dictionary<Type, bool> isRecursiveTable = new Dictionary<Type, bool>();
 
         public static bool IsRecursive(Type type) {
-            if (!isRecursiveTable.TryGetValue(type, out var ret)) {
+            if (!isRecursiveTable.TryGetValue(type, out bool ret)) {
                 ret = GetMemberInfoList(type).Any();
                 isRecursiveTable[type] = ret;
             }

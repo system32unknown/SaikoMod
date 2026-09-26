@@ -76,12 +76,10 @@ namespace SaikoMod.Helper {
 
             BindingFlags publicFlag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase;
 
-            // Try to get property "name" (case-insensitive)
-            PropertyInfo prop = type.GetProperty("name", publicFlag);
+            PropertyInfo prop = type.GetProperty("name", publicFlag); // Try to get property "name" (case-insensitive)
             if (prop != null && prop.PropertyType == typeof(string)) return prop.GetValue(obj) as string;
 
-            // Try field "name"
-            FieldInfo field = type.GetField("name", publicFlag);
+            FieldInfo field = type.GetField("name", publicFlag); // Try field "name"
             if (field != null && field.FieldType == typeof(string)) return field.GetValue(obj) as string;
 
             return null;

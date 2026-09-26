@@ -50,29 +50,29 @@ namespace RapidGUI {
                     popupControlId = 0;
                 } else {
                     if ((type == EventType.Layout) || (type == EventType.Repaint)) {
-                        var buttonStyle = RGUIStyle.popupFlatButton;
-                        var contentSize = Vector2.zero;
-                        for (var i = 0; i < displayOptions.Length; ++i) {
-                            var textSize = buttonStyle.CalcSize(RGUIUtility.TempContent(displayOptions[i]));
+                        GUIStyle buttonStyle = RGUIStyle.popupFlatButton;
+                        Vector2 contentSize = Vector2.zero;
+                        for (int i = 0; i < displayOptions.Length; ++i) {
+                            Vector2 textSize = buttonStyle.CalcSize(RGUIUtility.TempContent(displayOptions[i]));
                             contentSize.x = Mathf.Max(contentSize.x, textSize.x);
                             contentSize.y += textSize.y;
                         }
 
-                        var margin = buttonStyle.margin;
+                        RectOffset margin = buttonStyle.margin;
                         contentSize.y += Mathf.Max(0, displayOptions.Length - 1) * Mathf.Max(margin.top, margin.bottom); // is this right?
 
-                        var vbarSkin = GUI.skin.verticalScrollbar;
-                        var vbarSize = vbarSkin.CalcScreenSize(Vector2.zero);
-                        var vbarMargin = vbarSkin.margin;
+                        GUIStyle vbarSkin = GUI.skin.verticalScrollbar;
+                        Vector2 vbarSize = vbarSkin.CalcScreenSize(Vector2.zero);
+                        RectOffset vbarMargin = vbarSkin.margin;
 
-                        var hbarSkin = GUI.skin.horizontalScrollbar;
-                        var hbarSize = hbarSkin.CalcScreenSize(Vector2.zero);
-                        var hbarMargin = hbarSkin.margin;
+                        GUIStyle hbarSkin = GUI.skin.horizontalScrollbar;
+                        Vector2 hbarSize = hbarSkin.CalcScreenSize(Vector2.zero);
+                        RectOffset hbarMargin = hbarSkin.margin;
 
                         const float offset = 5f;
                         contentSize += new Vector2(vbarSize.x + vbarMargin.horizontal, hbarSize.y + hbarMargin.vertical) + Vector2.one * offset;
-                        var size = RGUIStyle.popup.CalcScreenSize(contentSize);
-                        var maxSize = new Vector2(Screen.width, Screen.height) - popupWindow.pos;
+                        Vector2 size = RGUIStyle.popup.CalcScreenSize(contentSize);
+                        Vector2 maxSize = new Vector2(Screen.width, Screen.height) - popupWindow.pos;
 
                         popupWindow.size = Vector2.Min(size, maxSize);
                     }
@@ -110,14 +110,14 @@ namespace RapidGUI {
                         }
                     }
 
-                    var ev = Event.current;
+                    Event ev = Event.current;
                     if ((ev.rawType == EventType.MouseDown) && !(new Rect(Vector2.zero, size).Contains(ev.mousePosition))) {
-                        result = -1; ;
+                        result = -1;
                     }
                 }, label, RGUIStyle.popup);
             }
 
-            public void CloseWindow() { result = -1; }
+            public void CloseWindow() => result = -1;
         }
     }
 }

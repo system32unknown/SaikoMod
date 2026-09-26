@@ -6,12 +6,12 @@ namespace SaikoMod.Utils {
         public static Material black {
             get {
                 Material m = new Material(Shader.Find("Unlit/Color")) {
-                    color = Color.black
+                    color = Color.black,
+                    renderQueue = (int)RenderQueue.Geometry
                 };
                 m.SetInt("_SrcBlend", (int)BlendMode.One);
                 m.SetInt("_DstBlend", (int)BlendMode.Zero);
                 m.SetInt("_ZWrite", 1);
-                m.renderQueue = (int)RenderQueue.Geometry;
                 return m;
             }
         }

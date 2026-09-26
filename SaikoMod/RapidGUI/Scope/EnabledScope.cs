@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace RapidGUI {
     public static partial class RGUI {
         static Stack<bool> enabledScopeStack = new Stack<bool>();

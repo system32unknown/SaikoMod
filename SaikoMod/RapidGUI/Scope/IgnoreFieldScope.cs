@@ -6,7 +6,7 @@ namespace RapidGUI {
     public static partial class RGUI {
         static bool CheckIgnoreField(string label) => ignoreFieldStack.Any(set => set.Contains(label));
 
-        static Stack<HashSet<string>> ignoreFieldStack = new Stack<HashSet<string>>();
+        readonly static Stack<HashSet<string>> ignoreFieldStack = new Stack<HashSet<string>>();
 
         public static void BeginIgnoreField(params string[] fieldNames) {
             ignoreFieldStack.Push(new HashSet<string>(fieldNames));

@@ -52,5 +52,4 @@ namespace RapidGUI {
             return value;
         }
     }
-
 }

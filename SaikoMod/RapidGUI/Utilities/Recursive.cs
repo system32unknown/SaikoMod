@@ -5,7 +5,7 @@ using TupleObject = System.ValueTuple<object, object>;
 
 namespace RapidGUI {
     public static partial class RGUI {
-        static Stack<object> recursiveTypeLoopCheck = new Stack<object>();
+        static readonly Stack<object> recursiveTypeLoopCheck = new Stack<object>();
 
         enum ObjStatus {
             Null,
@@ -19,7 +19,7 @@ namespace RapidGUI {
             ObjStatus GetStatus(object o) {
                 if (o == null) return ObjStatus.Null;
 
-                var type = o.GetType();
+                Type type = o.GetType();
                 if (type.IsValueType) {
                     return (type == typeof(TupleObject)) ? ObjStatus.Tuple : ObjStatus.ValueType;
                 } else if (recursiveTypeLoopCheck.Contains(o)) return ObjStatus.Loop;
@@ -39,7 +39,6 @@ namespace RapidGUI {
                     WarningLabel($"[{obj.GetType()}]: " + loopMsg);
                     break;
 
-
                 case ObjStatus.ValueType:
                     obj = doFunc();
                     break;
@@ -52,11 +51,11 @@ namespace RapidGUI {
 
                 case ObjStatus.Tuple:
                     var (min, max) = (TupleObject)obj;
-                    var stMin = GetStatus(min);
-                    var stMax = GetStatus(max);
+                    ObjStatus stMin = GetStatus(min);
+                    ObjStatus stMax = GetStatus(max);
 
-                    var str1 = (stMin == ObjStatus.Null) ? "min " + nullMsg : ((stMin == ObjStatus.Loop) ? "min: " + loopMsg : null);
-                    var str2 = (stMax == ObjStatus.Null) ? "max " + nullMsg : ((stMax == ObjStatus.Loop) ? "max: " + loopMsg : null);
+                    string str1 = (stMin == ObjStatus.Null) ? "min " + nullMsg : ((stMin == ObjStatus.Loop) ? "min: " + loopMsg : null);
+                    string str2 = (stMax == ObjStatus.Null) ? "max " + nullMsg : ((stMax == ObjStatus.Loop) ? "max: " + loopMsg : null);
 
                     if (str1 != null || str2 != null) {
                         WarningLabel(string.Join("\n", new[] { str1, str2 }.Where(str => str != null).ToArray()));
@@ -67,9 +66,7 @@ namespace RapidGUI {
                             obj = doFunc();
                             recursiveTypeLoopCheck.Pop();
                             recursiveTypeLoopCheck.Pop();
-                        } else {
-                            obj = doFunc();
-                        }
+                        } else obj = doFunc();
                     }
                     break;
             }

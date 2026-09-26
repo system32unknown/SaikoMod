@@ -13,10 +13,7 @@ namespace RapidGUI {
         static int lastControlID;
 
         public static UnparsedStr Create() {
-            if (FocusChecker.IsChanged()) {
-                Reset();
-            }
-
+            if (FocusChecker.IsChanged()) Reset();
             return new UnparsedStr();
         }
 
@@ -27,7 +24,7 @@ namespace RapidGUI {
 
         #endregion
 
-        int controlID;
+        readonly int controlID;
 
         protected UnparsedStr() {
             controlID = GUIUtility.GetControlID(FocusType.Passive);
@@ -39,9 +36,7 @@ namespace RapidGUI {
 
         public void Set(string str) {
             if (str == null) {
-                if (hasStr) {
-                    Reset();
-                }
+                if (hasStr) Reset();
             } else {
                 lastStr = str;
                 lastControlID = controlID;
@@ -51,8 +46,8 @@ namespace RapidGUI {
         public bool hasStr => (controlID == lastControlID);
 
         public bool CanParse(Type type) {
-            var ret = false;
-            var str = Get();
+            bool ret = false;
+            string str = Get();
 
             if (str != null)
                 try {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace RapidGUI {
     public static partial class RGUI {
         static Stack<Color> bacgroundColorScopeStack = new Stack<Color>();

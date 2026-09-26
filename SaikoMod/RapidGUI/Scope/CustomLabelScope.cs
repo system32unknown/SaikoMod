@@ -6,7 +6,7 @@ namespace RapidGUI {
     public static partial class RGUI {
         static string CheckCustomLabel(string label) {
             return customLabelScopeStack.Select(t => {
-                t.TryGetValue(label, out var l);
+                t.TryGetValue(label, out string l);
                 return l;
             }).FirstOrDefault(l => l != null);
         }

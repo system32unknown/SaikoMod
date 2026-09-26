@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-
 namespace RapidGUI {
     /// <summary>
     /// TypeUtility.GetmemberInfoList() implements
@@ -21,24 +20,19 @@ namespace RapidGUI {
             string label_;
 
             public string label {
-                get {
-                    return label_ ?? Name;
-                }
-
-                set {
-                    label_ = value;
-                }
+                get => label_ ?? Name;
+                set => label_ = value;
             }
 
             public MinMaxFloat range { get; set; }
         }
 
         public class MemberFieldInfo : MemberWrapper {
-            FieldInfo info;
+            readonly FieldInfo info;
 
             public MemberFieldInfo(FieldInfo info) {
                 this.info = info;
-                var rangeAttr = info.GetCustomAttribute<RangeAttribute>();
+                RangeAttribute rangeAttr = info.GetCustomAttribute<RangeAttribute>();
                 if (rangeAttr != null) {
                     range = new MinMaxFloat() {
                         min = rangeAttr.min,
@@ -52,12 +46,11 @@ namespace RapidGUI {
             public override Type MemberType => info.FieldType;
 
             public override object GetValue(object obj) => info.GetValue(obj);
-
             public override void SetValue(object obj, object value) => info.SetValue(obj, value);
         }
 
         public class MemberPropertyInfo : MemberWrapper {
-            PropertyInfo info;
+            readonly PropertyInfo info;
 
             public MemberPropertyInfo(PropertyInfo info) {
                 this.info = info;
@@ -68,15 +61,13 @@ namespace RapidGUI {
             public override Type MemberType => info.PropertyType;
 
             public override object GetValue(object obj) => info.GetValue(obj);
-
             public override void SetValue(object obj, object value) => info.SetValue(obj, value);
         }
         #endregion
 
         static Dictionary<Type, List<MemberWrapper>> memberInfoTable = new Dictionary<Type, List<MemberWrapper>>();
         public static List<MemberWrapper> GetMemberInfoList(Type type) {
-            List<MemberWrapper> list;
-            if (!memberInfoTable.TryGetValue(type, out list)) {
+            if (!memberInfoTable.TryGetValue(type, out List<MemberWrapper> list)) {
                 list = new List<MemberWrapper>();
                 list.AddRange(GetPropertyInfoList(type).Select(info => new MemberPropertyInfo(info)));
                 list.AddRange(GetFieldInfoList(type).Select(info => new MemberFieldInfo(info)));
@@ -114,7 +105,7 @@ namespace RapidGUI {
         static Dictionary<Type, List<FieldInfo>> fieldInfoTable = new Dictionary<Type, List<FieldInfo>>();
 
         static List<FieldInfo> GetFieldInfoList(Type type) {
-            if (!fieldInfoTable.TryGetValue(type, out var fiList)) {
+            if (!fieldInfoTable.TryGetValue(type, out List<FieldInfo> fiList)) {
                 fiList = type
                     .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(fi => !typeof(Delegate).IsAssignableFrom(fi.FieldType))

@@ -38,8 +38,7 @@ namespace RapidGUI {
 
             using (new GUILayout.VerticalScope(options))
             using (new GUILayout.HorizontalScope()) {
-                if (!string.IsNullOrEmpty(label))
-                    GUILayout.Label("<b>" + label + "</b>", GUILayout.Width(120f));
+                if (!string.IsNullOrEmpty(label)) GUILayout.Label("<b>" + label + "</b>", GUILayout.Width(120f));
 
                 // Left Button
                 if (GUILayout.Button("<b><=</b>", RGUIStyle.button, GUILayout.Width(30f))) {

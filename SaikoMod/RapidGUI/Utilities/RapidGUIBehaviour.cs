@@ -14,9 +14,7 @@ namespace RapidGUI {
                         instance = ga.AddComponent<RapidGUIBehaviour>();
                     }
 
-                    if (Application.isPlaying) {
-                        DontDestroyOnLoad(instance);
-                    }
+                    if (Application.isPlaying) DontDestroyOnLoad(instance);
                 }
 
                 return instance;
@@ -28,8 +26,6 @@ namespace RapidGUI {
         public int prefixLabelSlideButton = 1;
         public Action onGUI;
 
-        public void OnGUI() {
-            onGUI?.Invoke();
-        }
+        public void OnGUI() => onGUI?.Invoke();
     }
 }

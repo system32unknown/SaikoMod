@@ -17,9 +17,7 @@ namespace RapidGUI {
                 if (displayStr != text) {
                     try {
                         ret = Convert.ChangeType(displayStr, type);
-                        if (ret.ToString() == displayStr) {
-                            displayStr = null;
-                        }
+                        if (ret.ToString() == displayStr) displayStr = null;
                     } catch { }
 
                     unparsedStr.Set(displayStr);
