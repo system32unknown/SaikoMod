@@ -29,23 +29,26 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\Saikonosutoka201\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\..\..\Saikonosutoka201\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="MoonSharp.Interpreter">
-      <HintPath>..\..\..\Saikonosutoka201\BepInEx\plugins\MoonSharp.Interpreter.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\BepInEx\plugins\MoonSharp.Interpreter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,72 +60,68 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
-    <Compile Include="ModBase.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
@@ -152,35 +151,28 @@
     <Compile Include="RapidGUI\Field\EnumField.cs" />
     <Compile Include="RapidGUI\Field\ListField.cs" />
     <Compile Include="RapidGUI\Field\StandardField.cs" />
-    <Compile Include="RapidGUI\Field\RecursiveField.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\ColorPicker.cs" />
-    <Compile Include="RapidGUI\Fold.cs" />
     <Compile Include="RapidGUI\Field.cs" />
+    <Compile Include="RapidGUI\Fold.cs" />
     <Compile Include="RapidGUI\MinMax.cs" />
     <Compile Include="RapidGUI\Misc.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
-    <Compile Include="RapidGUI\PrefixLabel.cs" />
     <Compile Include="RapidGUI\Slider.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />
     <Compile Include="RapidGUI\Scope\EnabledScope.cs" />
     <Compile Include="RapidGUI\Scope\IndentScope.cs" />
-    <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
-    <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
-    <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
     <Compile Include="RapidGUI\Utilities\FocusChecker.cs" />
     <Compile Include="RapidGUI\Utilities\IDoGUIWindow.cs" />
     <Compile Include="RapidGUI\Utilities\RapidGUIBehaviour.cs" />
     <Compile Include="RapidGUI\Utilities\RGUIStyle.cs" />
     <Compile Include="RapidGUI\Utilities\RGUIUtility.cs" />
-    <Compile Include="RapidGUI\Utilities\TitleContent.cs" />
     <Compile Include="RapidGUI\Utilities\TypeUtility.cs" />
     <Compile Include="RapidGUI\Utilities\TypeUtilityMemberInfo.cs" />
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
-    <Compile Include="RapidGUI\Utilities\Recursive.cs" />
     <Compile Include="RapidGUI\Component\IDoGUI.cs" />
     <Compile Include="Utils\GUIUtils.cs" />
     <Compile Include="Utils\FPSUtils.cs" />

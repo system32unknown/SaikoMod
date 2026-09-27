@@ -18,7 +18,7 @@ namespace SaikoMod.Mods {
 
             Font ArialFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
 
-            if (ModBase.instance.skipLanguage.Value) {
+            if (Main.instance.skipLanguage.Value) {
                 GameObject langMenu = __instance.transform.GetChild(1).gameObject;
                 langMenu.GetComponent<LanguageMenu>().menuCamAnim.enabled = true;
                 langMenu.gameObject.SetActive(false);
@@ -34,7 +34,7 @@ namespace SaikoMod.Mods {
             text.color = Color.white;
             UI.AnchorUtils.SetAnchor(rect, UI.AnchorUtils.AnchorPreset.BottomRight);
             rect.anchoredPosition = Vector2.zero;
-            text.text += $"\n<size=16>Mod Version {ModBase.modVer}</size>";
+            text.text += $"\n<size=16>Mod Version {Main.modVer}</size>";
 
             CustomButton quick = UI.UIHelpers.CreateButton("Quick Start", main_UI, UI.AnchorUtils.AnchorPreset.Left, new Vector2(40f, 50f));
             quick.button.name = "Quick Start";

@@ -40,9 +40,7 @@ namespace RapidGUI {
                             list[i] = (customElementGUI != null) ? customElementGUI((T)list, i, label) : Field(list[i], elemType, label);
                         }
 
-                        int result = PopupOnLastRect(ListPopupButtonNames, 1);
-
-                        switch (result) {
+                        switch (PopupOnLastRect(ListPopupButtonNames, 1)) {
                             case 0:
                                 addIdx = i + 1;
                                 break;
@@ -69,9 +67,7 @@ namespace RapidGUI {
                     }
 
                     using (new EnabledScope(hasElem)) {
-                        if (GUILayout.Button("-", width)) {
-                            list = DeleteElement(list, elemType, list.Count - 1);
-                        }
+                        if (GUILayout.Button("-", width)) list = DeleteElement(list, elemType, list.Count - 1);
                     }
                 }
             }

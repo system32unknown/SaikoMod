@@ -31,15 +31,9 @@ namespace RapidGUI {
 
         static FieldFunc DispatchFieldFunc(Type type) {
             if (!fieldFuncTable.TryGetValue(type, out var func)) {
-                if (type.IsEnum) {
-                    func = new FieldFunc((obj, t) => EnumField(obj));
-                } else if (TypeUtility.IsList(type)) {
-                    func = ListField;
-                } else if (TypeUtility.IsRecursive(type)) {
-                    func = new FieldFunc((obj, _) => RecursiveField(obj));
-                } else {
-                    func = StandardField;
-                }
+                if (type.IsEnum) func = new FieldFunc((obj, t) => EnumField(obj));
+                else if (TypeUtility.IsList(type)) func = ListField;
+                else func = StandardField;
 
                 fieldFuncTable[type] = func;
             }

@@ -30,9 +30,7 @@ namespace RapidGUI {
             controlID = GUIUtility.GetControlID(FocusType.Passive);
         }
 
-        public string Get() {
-            return hasStr ? lastStr : null;
-        }
+        public string Get() => hasStr ? lastStr : null;
 
         public void Set(string str) {
             if (str == null) {

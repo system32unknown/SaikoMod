@@ -11,13 +11,13 @@ using UnityEngine;
 namespace SaikoMod {
     [BepInPlugin(modGUID, "Saiko Mod Menu", modVer)]
     [BepInProcess("Saiko no sutoka.exe")]
-    public class ModBase : BaseUnityPlugin {
+    public class Main : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
         public const string modVer = "0.0.3";
 
         public static Version Version => new Version(modVer);
 
-        internal static ModBase instance;
+        internal static Main instance;
         internal ManualLogSource mls;
 
         public static GameObject manager;

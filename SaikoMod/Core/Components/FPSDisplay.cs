@@ -21,7 +21,7 @@ namespace SaikoMod.Core.Components {
         }
 
         void OnGUI() {
-            if (!ModBase.instance.showFPSDisplay.Value) return;
+            if (!Main.instance.showFPSDisplay.Value) return;
             fps.Update(Time.unscaledDeltaTime * 1000f);
             switch (lagMode) {
                 case FPSLagMode.INSTANT:

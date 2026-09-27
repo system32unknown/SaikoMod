@@ -21,6 +21,8 @@ namespace SaikoMod.UI {
 
         OperatingSystem os;
 
+        Fold test = new Fold("TEST");
+
         public void OnLoad() {
             if (SceneManager.GetActiveScene().name == "LevelNew") {
                 windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r") && x.activeSelf).ToArray();
@@ -37,25 +39,28 @@ namespace SaikoMod.UI {
         }
 
         public override void Draw() {
-            if (fpsUtils == null) fpsUtils = ModBase.fpsDisplay.fps;
+            if (fpsUtils == null) fpsUtils = Main.fpsDisplay.fps;
 
             selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "General", "Stats", "Optimize" }, 3);
             switch (selMenu) {
                 case 0: // General
-                    if (ModBase.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
+                    if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Framerate");
-                        GUILayout.Label($"curFPS:{fpsUtils.CurFPS} / Total:{fpsUtils.TotalFPS}\nTarget:{fpsUtils.TargetFPS + (fpsUtils.ClampFPS ? " (Clamped)": "")}");
+                        GUILayout.Label($"curFPS: {fpsUtils.CurFPS} / Total: {fpsUtils.TotalFPS}\nTarget: {fpsUtils.TargetFPS + (fpsUtils.ClampFPS ? " (Clamped)": "")}");
                         GUILayout.EndVertical();
                     }
 
                     GUILayout.BeginVertical("Box");
                     GUILayout.Label("System");
-                    GUILayout.Label($"Platform: {os.VersionString}\nVersion: {Application.version} / Unity Ver: {Application.unityVersion}");
+                    GUILayout.Label($"Platform: {os.VersionString}\nVersion: {Application.version} / Unity {Application.unityVersion}");
                     GUILayout.EndVertical();
+                    if (test.DoFold()) {
+                        GUILayout.Label("test");
+                    }
                     break;
                 case 2: // Optimize
                     if (GUILayout.Button("Optimize")) {
