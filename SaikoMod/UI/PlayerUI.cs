@@ -211,6 +211,21 @@ namespace SaikoMod.UI {
             page = RGUI.Page(page, 4, true);
         }
 
+        public System.Collections.IEnumerator MoveLerp(float time, Vector3 dir) {
+            float lerp = time;
+            Vector3 moveDir = (Vector3)player.ReflectionGetVariable("moveDirection");
+            while (lerp > 0f) {
+                moveDir.x = dir.x;
+                if ((int)dir.y != 0) moveDir.y = dir.y;
+                moveDir.z = dir.z;
+                moveDir = player.transform.TransformDirection(moveDir);
+                player.controller.Move(moveDir * Time.deltaTime);
+                lerp -= Time.deltaTime;
+                yield return null;
+            }
+            yield break;
+        }
+
         public override string Title => "Player";
     }
 }

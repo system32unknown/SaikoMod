@@ -6,9 +6,7 @@ namespace RapidGUI {
     public static class WindowInvoker {
         static readonly HashSet<IDoGUIWindow> Windows = new HashSet<IDoGUIWindow>();
 
-        static WindowInvoker() {
-            RapidGUIBehaviour.Instance.onGUI += DoGUI;
-        }
+        static WindowInvoker() => RapidGUIBehaviour.Instance.onGUI += DoGUI;
 
         public static void Add(IDoGUIWindow window) => Windows.Add(window);
         public static void Remove(IDoGUIWindow window) => Windows.Remove(window);

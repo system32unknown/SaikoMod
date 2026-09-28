@@ -20,8 +20,7 @@ namespace SaikoMod.UI {
         bool windowLightEnabled = true;
 
         OperatingSystem os;
-
-        Fold test = new Fold("TEST");
+        Vector3 demo;
 
         public void OnLoad() {
             if (SceneManager.GetActiveScene().name == "LevelNew") {
@@ -45,6 +44,7 @@ namespace SaikoMod.UI {
             switch (selMenu) {
                 case 0: // General
                     if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
+                    demo = RGUI.Field(demo, "Demo");
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {
@@ -58,9 +58,6 @@ namespace SaikoMod.UI {
                     GUILayout.Label("System");
                     GUILayout.Label($"Platform: {os.VersionString}\nVersion: {Application.version} / Unity {Application.unityVersion}");
                     GUILayout.EndVertical();
-                    if (test.DoFold()) {
-                        GUILayout.Label("test");
-                    }
                     break;
                 case 2: // Optimize
                     if (GUILayout.Button("Optimize")) {

@@ -5,17 +5,40 @@ using UnityEngine;
 
 namespace RapidGUI {
     public static partial class RGUI {
-        static readonly string[] ListPopupButtonNames = new[] {
-            "Add Element",
-            "Delete Element"
-        };
+        static readonly string[] ListPopupButtonNames = new[] { "Add Element", "Delete Element" };
 
-        public static T ListField<T>(T list, Func<T, int, string, object> customElementGUI = null) where T : IList {
-            return ListField(list, null, customElementGUI);
+        public static T ListField<T>(T list, Func<T, int, string, object> customElementGUI = null, Func<T, object> customLabelRightFunc = null) where T : IList {
+            return ListField(list, null, customElementGUI, customLabelRightFunc);
         }
 
-        public static T ListField<T>(T list, string label, Func<T, int, string, object> customElementGUI = null) where T : IList {
-            return (T)DoField(list, list.GetType(), label, (v, type) => ListField(v, type, customElementGUI), null);
+        public static T ListField<T>(T list, string label, Func<T, int, string, object> customElementGUI = null, Func<T, object> customLabelRightFunc = null) where T : IList {
+            Func<object, Type, object> labelRightFunc = ListLabelRightFunc;
+            if (customLabelRightFunc != null) labelRightFunc = (obj, type) => customLabelRightFunc((T)obj);
+
+            return (T)DoField(list, typeof(T), label, styleNone, fieldFunc: (v, t) => ListField(v, t, customElementGUI), labelRightFunc: labelRightFunc, options: null);
+        }
+
+        public static T ListLabelRightFunc<T>(T v) where T : IList => (T)ListLabelRightFunc(v, typeof(T));
+
+        static object ListLabelRightFunc(object v, Type type) {
+            IList list = v as IList;
+            int count = list?.Count ?? 0;
+            Type elemType = TypeUtility.GetListInterface(type).GetGenericArguments().First();
+
+            GUILayout.FlexibleSpace();
+
+            int newCount = Field(count, null, GUILayout.Width(20f));
+            while (newCount > count) {
+                list = AddElementAtLast(list, type, elemType);
+                count = list.Count;
+            }
+
+            while (newCount < count) {
+                list = DeleteElementAtLast(list, elemType);
+                count = list.Count;
+            }
+
+            return list;
         }
 
         static object ListField(object v, Type type) => ListField<object>(v, type, null);
@@ -27,52 +50,59 @@ namespace RapidGUI {
 
             int addIdx = -1;
             int deleteIdx = -1;
-            using (new GUILayout.VerticalScope("box")) {
-                if (v == null) {
-                    WarningLabelNoStyle("List is null.");
-                } else if (!hasElem) {
-                    WarningLabelNoStyle("List is empty.");
-                } else {
-                    for (var i = 0; i < list.Count; ++i) {
-                        string label = TypeUtility.IsMultiLine(elemType) ? $"Element {i}" : null;
 
-                        using (new IndentScope(20f)) {
-                            list[i] = (customElementGUI != null) ? customElementGUI((T)list, i, label) : Field(list[i], elemType, label);
-                        }
+            using (new GUILayout.VerticalScope()) {
+                using (new GUILayout.VerticalScope("box")) {
+                    if (v == null) {
+                        WarningLabelNoStyle("List is null.");
+                    } else if (!hasElem) {
+                        WarningLabelNoStyle("List is empty.");
+                    } else {
+                        for (int i = 0; i < list.Count; ++i) {
+                            string label = TypeUtility.IsMultiLine(elemType) ? $"Element {i}" : null;
 
-                        switch (PopupOnLastRect(ListPopupButtonNames, 1)) {
-                            case 0:
-                                addIdx = i + 1;
-                                break;
-                            case 1:
-                                deleteIdx = i;
-                                break;
+                            using (new IndentScope(20f)) {
+                                list[i] = (customElementGUI != null) ? customElementGUI((T)list, i, label) : Field(list[i], elemType, label);
+                            }
+
+                            switch (PopupOnLastRect(ListPopupButtonNames, 1)) {
+                                case 0:
+                                    addIdx = i + 1;
+                                    break;
+                                case 1:
+                                    deleteIdx = i;
+                                    break;
+                            }
                         }
                     }
-                }
 
-                if (addIdx >= 0) list = AddElement(list, elemType, list[addIdx - 1], addIdx);
-                if (deleteIdx >= 0) list = DeleteElement(list, elemType, deleteIdx);
+                    if (addIdx >= 0) list = AddElement(list, elemType, list[addIdx - 1], addIdx);
+                    if (deleteIdx >= 0) list = DeleteElement(list, elemType, deleteIdx);
 
-                // +/- button
-                using (new GUILayout.HorizontalScope()) {
-                    GUILayout.FlexibleSpace();
+                    // +/- button
+                    using (new GUILayout.HorizontalScope()) {
+                        GUILayout.FlexibleSpace();
 
-                    GUILayoutOption width = GUILayout.Width(20f);
-                    if (GUILayout.Button("+", width)) {
-                        if (list == null) list = (IList)Activator.CreateInstance(type, 0);
+                        GUILayoutOption width = GUILayout.Width(20f);
+                        if (GUILayout.Button("+", width)) list = AddElementAtLast(list, type, elemType);
 
-                        object baseElem = hasElem ? list[list.Count - 1] : null;
-                        list = AddElement(list, elemType, baseElem, list.Count);
-                    }
-
-                    using (new EnabledScope(hasElem)) {
-                        if (GUILayout.Button("-", width)) list = DeleteElement(list, elemType, list.Count - 1);
+                        using (new EnabledScope(hasElem)) {
+                            if (GUILayout.Button("-", width)) list = DeleteElementAtLast(list, elemType);
+                        }
                     }
                 }
             }
 
             return list;
+        }
+
+        static IList AddElementAtLast(IList list, Type type, Type elemType) {
+            if (list == null) list = (IList)Activator.CreateInstance(type, 0);
+            return AddElement(list, elemType, list.Count > 0 ? list[list.Count - 1] : null, list.Count);
+        }
+
+        static IList DeleteElementAtLast(IList target, Type elemType) {
+            return DeleteElement(target, elemType, target.Count - 1);
         }
 
         static IList AddElement(IList list, Type elemType, object baseElem, int index) {
@@ -105,17 +135,13 @@ namespace RapidGUI {
             object ret = null;
 
             if (baseElem != null) {
-                // is cloneable
-                if (baseElem is ICloneable cloneable) {
-                    ret = cloneable.Clone();
-                } else if (elemType.IsValueType) {
-                    ret = baseElem;
-                } else if (elemType.GetConstructor(new[] { elemType }) != null) {
-                    ret = Activator.CreateInstance(elemType, baseElem); // has copy constructor
-                }
+                if (baseElem is ICloneable cloneable) ret = cloneable.Clone(); // is cloneable
+                else if (elemType.IsValueType) ret = baseElem;
+                else if (elemType.GetConstructor(new[] { elemType }) != null) ret = Activator.CreateInstance(elemType, baseElem); // has copy constructor
             }
 
             if (ret == null) ret = (elemType == typeof(string)) ? "" : Activator.CreateInstance(elemType);
+
             return ret;
         }
     }

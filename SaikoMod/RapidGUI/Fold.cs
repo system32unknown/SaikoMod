@@ -8,7 +8,7 @@ namespace RapidGUI {
         public Fold(string text) => this.text = text;
 
         public bool DoFold() {
-            if (GUILayout.Button("<b><size=14>" + (!active ? "▶" : "▼") + text + "</size></b>", "Label")) active = !active;
+            if (GUILayout.Button("<b><size=14>" + (active ? "▼" : "▶") + text + "</size></b>", "Label")) active = !active;
             return active;
         }
     }

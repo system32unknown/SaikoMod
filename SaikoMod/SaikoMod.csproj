@@ -150,6 +150,7 @@
     <Compile Include="RapidGUI\Field\BoolField.cs" />
     <Compile Include="RapidGUI\Field\EnumField.cs" />
     <Compile Include="RapidGUI\Field\ListField.cs" />
+    <Compile Include="RapidGUI\Field\RecursiveField.cs" />
     <Compile Include="RapidGUI\Field\StandardField.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\ColorPicker.cs" />
@@ -158,6 +159,10 @@
     <Compile Include="RapidGUI\MinMax.cs" />
     <Compile Include="RapidGUI\Misc.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
+    <Compile Include="RapidGUI\PrefixLabel.cs" />
+    <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
+    <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
+    <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
     <Compile Include="RapidGUI\Slider.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />
@@ -166,6 +171,7 @@
     <Compile Include="RapidGUI\Utilities\FocusChecker.cs" />
     <Compile Include="RapidGUI\Utilities\IDoGUIWindow.cs" />
     <Compile Include="RapidGUI\Utilities\RapidGUIBehaviour.cs" />
+    <Compile Include="RapidGUI\Utilities\Recursive.cs" />
     <Compile Include="RapidGUI\Utilities\RGUIStyle.cs" />
     <Compile Include="RapidGUI\Utilities\RGUIUtility.cs" />
     <Compile Include="RapidGUI\Utilities\TypeUtility.cs" />
