@@ -9,25 +9,14 @@ namespace RapidGUI {
         }
 
         static object DoRecursiveField(object obj) {
-            if (obj is IDoGUI doGuiObj) {
-                GUILayout.EndHorizontal();
-                using (new PrefixLabelIndentScope()) doGuiObj.DoGUI();
-                GUILayout.BeginHorizontal();
+            Type type = obj.GetType();
+            if (TypeUtility.IsMultiLine(type)) {
+                DoFields(obj, type);
             } else {
-                Type type = obj.GetType();
-                if (TypeUtility.IsMultiLine(type)) {
-                    GUILayout.EndHorizontal();
-                    using (new PrefixLabelIndentScope()) DoFields(obj, type);
-                    GUILayout.BeginHorizontal();
-                } else {
-                    float tmp = PrefixLabelSetting.width;
-                    PrefixLabelSetting.width = 0f;
-
-                    DoFields(obj, type);
-
-                    GUILayout.FlexibleSpace();
-                    PrefixLabelSetting.width = tmp;
-                }
+                bool tmpInline = drawingInlineFields;
+                drawingInlineFields = true;
+                DoFields(obj, type);
+                drawingInlineFields = tmpInline;
             }
 
             return obj;
@@ -48,7 +37,7 @@ namespace RapidGUI {
                 tmpStringBuilder.Append(elemName);
                 tmpStringBuilder.Append(" ");
 
-                v = Field(v, info.MemberType, tmpStringBuilder.ToString());
+                v = Field(v, info.MemberType, tmpStringBuilder.ToString(), drawingInlineFields ? inlineFieldOptions : Array.Empty<GUILayoutOption>());
                 info.SetValue(obj, v);
             }
         }

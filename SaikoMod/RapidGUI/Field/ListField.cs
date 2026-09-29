@@ -7,38 +7,12 @@ namespace RapidGUI {
     public static partial class RGUI {
         static readonly string[] ListPopupButtonNames = new[] { "Add Element", "Delete Element" };
 
-        public static T ListField<T>(T list, Func<T, int, string, object> customElementGUI = null, Func<T, object> customLabelRightFunc = null) where T : IList {
-            return ListField(list, null, customElementGUI, customLabelRightFunc);
+        public static T ListField<T>(T list, Func<T, int, string, object> customElementGUI = null) where T : IList {
+            return ListField(list, null, customElementGUI);
         }
 
-        public static T ListField<T>(T list, string label, Func<T, int, string, object> customElementGUI = null, Func<T, object> customLabelRightFunc = null) where T : IList {
-            Func<object, Type, object> labelRightFunc = ListLabelRightFunc;
-            if (customLabelRightFunc != null) labelRightFunc = (obj, type) => customLabelRightFunc((T)obj);
-
-            return (T)DoField(list, typeof(T), label, styleNone, fieldFunc: (v, t) => ListField(v, t, customElementGUI), labelRightFunc: labelRightFunc, options: null);
-        }
-
-        public static T ListLabelRightFunc<T>(T v) where T : IList => (T)ListLabelRightFunc(v, typeof(T));
-
-        static object ListLabelRightFunc(object v, Type type) {
-            IList list = v as IList;
-            int count = list?.Count ?? 0;
-            Type elemType = TypeUtility.GetListInterface(type).GetGenericArguments().First();
-
-            GUILayout.FlexibleSpace();
-
-            int newCount = Field(count, null, GUILayout.Width(20f));
-            while (newCount > count) {
-                list = AddElementAtLast(list, type, elemType);
-                count = list.Count;
-            }
-
-            while (newCount < count) {
-                list = DeleteElementAtLast(list, elemType);
-                count = list.Count;
-            }
-
-            return list;
+        public static T ListField<T>(T list, string label, Func<T, int, string, object> customElementGUI = null) where T : IList {
+            return (T)DoField(list, typeof(T), label, fieldFunc: (v, t) => ListField(v, t, customElementGUI), options: null);
         }
 
         static object ListField(object v, Type type) => ListField<object>(v, type, null);
@@ -50,7 +24,6 @@ namespace RapidGUI {
 
             int addIdx = -1;
             int deleteIdx = -1;
-
             using (new GUILayout.VerticalScope()) {
                 using (new GUILayout.VerticalScope("box")) {
                     if (v == null) {

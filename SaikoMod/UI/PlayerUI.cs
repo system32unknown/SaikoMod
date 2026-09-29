@@ -204,7 +204,7 @@ namespace SaikoMod.UI {
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(PlayerMod.allowJump, "Allow Jumping")) PlayerMod.allowJump = !PlayerMod.allowJump;
                     if (RGUI.Button(PlayerMod.infJump, "Infinite Jump")) PlayerMod.infJump = !PlayerMod.infJump;
-                    player.jumpSpeed = RGUI.SliderFloat(player.jumpSpeed, 0.5f, 20f, 7f, "Jump Speed");
+                    if (player) player.jumpSpeed = RGUI.SliderFloat(player.jumpSpeed, 0.5f, 20f, 7f, "Jump Speed");
                     GUILayout.EndVertical();
                     break;
             }

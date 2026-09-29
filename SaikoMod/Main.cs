@@ -26,7 +26,6 @@ namespace SaikoMod {
         internal ConfigEntry<bool> allowChangeWindowTitle;
         public ConfigEntry<bool> showFPSDisplay;
         public ConfigEntry<bool> skipLanguage;
-        public ConfigEntry<KeyCode> moveBackKey;
 
         readonly Harmony harmony = new Harmony(modGUID);
 
@@ -48,7 +47,6 @@ namespace SaikoMod {
             allowChangeWindowTitle = Config.Bind("General", "Allow Change Window Title", true);
             skipLanguage = Config.Bind("General", "Skip Language Menu", false);
             showFPSDisplay = Config.Bind("Misc", "Show FPS Display", false);
-            moveBackKey = Config.Bind("General", "Move Back Key", KeyCode.F);
 
             harmony.PatchAllConditionals();
             if (allowChangeWindowTitle.Value) WindowTitle.SetText($"SaikoMod v{modVer}");

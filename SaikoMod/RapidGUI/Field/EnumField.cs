@@ -8,8 +8,7 @@ namespace RapidGUI {
             Type type = v.GetType();
             System.Collections.Generic.List<object> enumValues = Enum.GetValues(type).Cast<object>().ToList();
 
-            bool isFlag = type.GetCustomAttributes(typeof(FlagsAttribute), true).Any();
-            if (isFlag) {
+            if (type.GetCustomAttributes(typeof(FlagsAttribute), true).Any()) {
                 ulong flagV = Convert.ToUInt64(Convert.ChangeType(v, type));
                 enumValues.ForEach(value => {
                     ulong flag = Convert.ToUInt64(value);

@@ -20,8 +20,6 @@ namespace SaikoMod.UI {
         bool windowLightEnabled = true;
 
         OperatingSystem os;
-        Vector3 demo;
-
         public void OnLoad() {
             if (SceneManager.GetActiveScene().name == "LevelNew") {
                 windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r") && x.activeSelf).ToArray();
@@ -44,7 +42,6 @@ namespace SaikoMod.UI {
             switch (selMenu) {
                 case 0: // General
                     if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
-                    demo = RGUI.Field(demo, "Demo");
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {

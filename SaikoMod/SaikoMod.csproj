@@ -159,10 +159,8 @@
     <Compile Include="RapidGUI\MinMax.cs" />
     <Compile Include="RapidGUI\Misc.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
-    <Compile Include="RapidGUI\PrefixLabel.cs" />
     <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
     <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
-    <Compile Include="RapidGUI\Scope\PrefixLabelIndentScope.cs" />
     <Compile Include="RapidGUI\Slider.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />

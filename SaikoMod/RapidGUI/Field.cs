@@ -4,49 +4,35 @@ using UnityEngine;
 
 namespace RapidGUI {
     using FieldFunc = Func<object, Type, object>;
-    using LabelRightFunc = Func<object, Type, object>;
 
     public static partial class RGUI {
-        // dummy GUIStyle.none.
-        // unity is optimized to GUIStyle.none.
-        // it seems to occur indent mismatch for complex Vertical/Horizontal Scope.
-        readonly static GUIStyle styleNone = new GUIStyle(GUIStyle.none);
-
-        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field<T>(v, label, styleNone, options);
-
-        public static T Field<T>(T v, string label, GUIStyle style, params GUILayoutOption[] options) {
+        public static T Field<T>(T v, string label, params GUILayoutOption[] options) {
             Type type = typeof(T);
-            return (T)Convert.ChangeType(Field(v, type, label, style, options), type);
+            return (T)Convert.ChangeType(Field(v, type, label, options), type);
         }
 
-        public static object Field(object obj, Type type, string label = null, params GUILayoutOption[] options) => Field(obj, type, label, GUIStyle.none, options);
-
-        public static object Field(object obj, Type type, string label, GUIStyle style, params GUILayoutOption[] options) {
-            return DoField(obj, type, label, style, DispatchFieldFunc(type), DispatchLabelRightFunc(type), options);
+        public static object Field(object obj, Type type, string label, params GUILayoutOption[] options) {
+            return DoField(obj, type, label, DispatchFieldFunc(type), options);
         }
 
-        static object DoField(object obj, Type type, string label, GUIStyle style, FieldFunc fieldFunc, LabelRightFunc labelRightFunc, GUILayoutOption[] options) {
-            using (new GUILayout.VerticalScope(style, options)) {
-                GUILayout.BeginHorizontal();
+        static bool drawingInlineFields;
+        static readonly GUILayoutOption[] inlineFieldOptions = {
+            GUILayout.ExpandWidth(false),
+            GUILayout.MinWidth(48f),
+        };
 
-                obj = PrefixLabelDraggable(label, obj, type, out var isLong);
-
-                if (isLong || labelRightFunc != null) {
-                    if (labelRightFunc != null) obj = labelRightFunc(obj, type);
-                    GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Space(PrefixLabelSetting.width + GUI.skin.label.margin.horizontal);
-                }
-
+        static object DoField(object obj, Type type, string label, FieldFunc fieldFunc, GUILayoutOption[] options) {
+            using (new GUILayout.VerticalScope(options))
+            using (new GUILayout.HorizontalScope()) {
+                GUILayout.Label("<b>" + label + "</b>", GUILayout.ExpandWidth(!drawingInlineFields));
                 obj = fieldFunc(obj, type);
-                GUILayout.EndHorizontal();
             }
 
             return obj;
         }
 
-        static Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>() {
-            {typeof(bool), new FieldFunc((obj,t) => BoolField(obj)) }
+        static readonly Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>() {
+            {typeof(bool), new FieldFunc((obj, t) => BoolField(obj)) }
         };
 
         static FieldFunc DispatchFieldFunc(Type type) {
@@ -60,12 +46,6 @@ namespace RapidGUI {
             }
 
             return func;
-        }
-
-        static LabelRightFunc DispatchLabelRightFunc(Type type) {
-            LabelRightFunc ret = null;
-            if (TypeUtility.IsList(type)) ret = ListLabelRightFunc;
-            return ret;
         }
     }
 }
