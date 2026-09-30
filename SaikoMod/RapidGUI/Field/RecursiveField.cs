@@ -4,9 +4,7 @@ using UnityEngine;
 
 namespace RapidGUI {
     public static partial class RGUI {
-        static object RecursiveField(object obj) {
-            return DoRecursiveSafe(obj, () => DoRecursiveField(obj));
-        }
+        static object RecursiveField(object obj) => DoRecursiveSafe(obj, () => DoRecursiveField(obj));
 
         static object DoRecursiveField(object obj) {
             Type type = obj.GetType();
@@ -32,8 +30,7 @@ namespace RapidGUI {
                 object v = info.GetValue(obj);
                 string elemName = CheckCustomLabel(info.Name) ?? info.label;
 
-                // for the bug that short label will be strange word wrap at unity2019
-                tmpStringBuilder.Clear();
+                tmpStringBuilder.Clear(); // for the bug that short label will be strange word wrap at unity2019
                 tmpStringBuilder.Append(elemName);
                 tmpStringBuilder.Append(" ");
 

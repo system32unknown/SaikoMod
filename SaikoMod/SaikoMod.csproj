@@ -53,11 +53,11 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+	<Reference Include="System.Xml" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+	<Reference Include="Microsoft.CSharp" />
     <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Saikonosutoka201\Saiko no sutoka_Data\Managed\Unity.TextMeshPro.dll</HintPath>
@@ -159,9 +159,9 @@
     <Compile Include="RapidGUI\MinMax.cs" />
     <Compile Include="RapidGUI\Misc.cs" />
     <Compile Include="RapidGUI\Popup.cs" />
+	<Compile Include="RapidGUI\Slider.cs" />
     <Compile Include="RapidGUI\Scope\CustomLabelScope.cs" />
     <Compile Include="RapidGUI\Scope\IgnoreFieldScope.cs" />
-    <Compile Include="RapidGUI\Slider.cs" />
     <Compile Include="RapidGUI\Scope\BackgroundColorScope.cs" />
     <Compile Include="RapidGUI\Scope\ColorScope.cs" />
     <Compile Include="RapidGUI\Scope\EnabledScope.cs" />

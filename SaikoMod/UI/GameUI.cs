@@ -55,7 +55,6 @@ namespace SaikoMod.UI {
 
             RenderTexture renderTex = mat.mainTexture as RenderTexture;
             if (!renderTex) return;
-
             renderTex.filterMode = FilterMode.Point;
 
             rawImage = UIHelpers.CreateRawImg("CCTVIMG", GameCanvas.transform.GetChild(0), AnchorUtils.AnchorPreset.TopRight);

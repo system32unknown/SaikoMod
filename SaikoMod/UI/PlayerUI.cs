@@ -36,7 +36,7 @@ namespace SaikoMod.UI {
             pf = Object.FindObjectOfType<PlayerFunctions>();
             player = Object.FindObjectOfType<PlayerController>();
             cam = Object.FindObjectOfType<CameraMotionController>();
-            hm = Object.FindObjectOfType<HealthManager>();
+            hm = player?.GetComponent<HealthManager>();
             shoes = Object.FindObjectOfType<Shoes>();
 
             if (player) {
