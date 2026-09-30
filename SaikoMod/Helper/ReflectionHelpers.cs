@@ -36,7 +36,7 @@ namespace SaikoMod.Helper {
         public static object ReflectionInvoke(this object obj, string methodName, params object[] methodParams) {
             Type[] array;
             if (methodParams == null) array = null;
-            else array = methodParams.Select((object p) => p.GetType()).ToArray();
+            else array = methodParams.Select(p => p.GetType()).ToArray();
 
             Type[] array2 = array ?? new Type[0];
             BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -58,9 +58,7 @@ namespace SaikoMod.Helper {
             if (instance == null) return Array.Empty<T>();
 
             List<T> list = new List<T>();
-            FieldInfo[] fields = instance.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-            foreach (FieldInfo field in fields) {
+            foreach (FieldInfo field in instance.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance)) {
                 if (field.FieldType == typeof(T)) {
                     list.Add((T)field.GetValue(instance));
                 }

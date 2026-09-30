@@ -104,16 +104,12 @@ namespace RapidGUI {
                         scrollPosition = sc.scrollPosition;
 
                         for (int j = 0; j < displayOptions.Length; ++j) {
-                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupFlatButton)) {
-                                result = j;
-                            }
+                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupFlatButton)) result = j;
                         }
                     }
 
                     Event ev = Event.current;
-                    if ((ev.rawType == EventType.MouseDown) && !(new Rect(Vector2.zero, size).Contains(ev.mousePosition))) {
-                        result = -1;
-                    }
+                    if ((ev.rawType == EventType.MouseDown) && !new Rect(Vector2.zero, size).Contains(ev.mousePosition)) result = -1;
                 }, label, RGUIStyle.popup);
             }
 

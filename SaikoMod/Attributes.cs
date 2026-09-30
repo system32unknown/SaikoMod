@@ -36,9 +36,7 @@ namespace SaikoMod {
         /// </summary>
         /// <param name="_harmony"></param>
         public static void PatchAllConditionals(this Harmony _harmony) {
-            MethodBase method = new StackTrace().GetFrame(1).GetMethod();
-            Assembly assembly = method.ReflectedType.Assembly;
-            _harmony.PatchAllConditionals(assembly);
+            _harmony.PatchAllConditionals(new StackTrace().GetFrame(1).GetMethod().ReflectedType.Assembly);
         }
     }
 

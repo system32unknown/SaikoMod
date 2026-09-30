@@ -11,24 +11,8 @@ namespace RapidGUI {
         public static void Add(IDoGUIWindow window) => Windows.Add(window);
         public static void Remove(IDoGUIWindow window) => Windows.Remove(window);
 
-        static IDoGUIWindow focusedWindow;
-
-        public static void SetFocusedWindow(IDoGUIWindow window) {
-            focusedWindow = window;
-        }
-
         static void DoGUI() {
             Windows.ToList().ForEach(l => l?.DoGUIWindow());
-
-            Event evt = Event.current;
-
-            if (evt.type == EventType.KeyUp && evt.keyCode == RapidGUIBehaviour.Instance.closeFocusedWindowKey && GUIUtility.keyboardControl == 0) {
-                if (Windows.Contains(focusedWindow)) {
-                    focusedWindow.CloseWindow();
-                    focusedWindow = null;
-                }
-            }
-
             if (Event.current.type == EventType.Repaint) Windows.Clear();
         }
     }

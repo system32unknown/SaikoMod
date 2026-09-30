@@ -13,8 +13,7 @@ namespace SaikoMod.Core.Components {
         IEnumerator LoadAsynchronously(int sceneIdx) {
             AsyncOperation op = SceneManager.LoadSceneAsync(sceneIdx);
             while (!op.isDone) {
-                float progress = Mathf.Clamp01(op.progress / .9f);
-                loadingText.text = loadingPrefix + $"{progress * 100f:0.0}%";
+                loadingText.text = loadingPrefix + $"{Mathf.Clamp01(op.progress / .9f) * 100f:0.0}%";
                 yield return null;
             }
         }

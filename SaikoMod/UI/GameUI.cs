@@ -33,10 +33,10 @@ namespace SaikoMod.UI {
         int roomIdx = 0;
 
         public void OnLoad() {
-            ep = Object.FindObjectOfType<ElectricPuzzle>();
-            ele = Object.FindObjectOfType<Electricity>();
-            interact = Object.FindObjectOfType<InteractManager>();
             gm = HFPS_GameManager.instance;
+            ep = GameObject.Find("Dynamic_ElectricBox")?.GetComponent<ElectricPuzzle>();
+            ele = gm?.GetComponent<Electricity>();
+            interact = Object.FindObjectOfType<InteractManager>();
 
             aiRooms = Object.FindObjectsOfType<AIRoom>();
             curRoom = aiRooms.FirstOrDefault();

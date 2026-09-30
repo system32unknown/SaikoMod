@@ -22,10 +22,7 @@ namespace RapidGUI {
         }
         #endregion
 
-        public KeyCode closeFocusedWindowKey = KeyCode.Q;
-        public int prefixLabelSlideButton = 1;
         public Action onGUI;
-
         public void OnGUI() => onGUI?.Invoke();
     }
 }

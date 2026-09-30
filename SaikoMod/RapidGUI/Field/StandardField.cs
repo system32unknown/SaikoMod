@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RapidGUI {
     public static partial class RGUI {
-        static GUILayoutOption fieldWidthMin = GUILayout.MinWidth(50f);
+        readonly static GUILayoutOption fieldWidthMin = GUILayout.MinWidth(50f);
 
         static object StandardField(object v, Type type) => StandardField(v, type, null);
 
@@ -11,7 +11,7 @@ namespace RapidGUI {
             object ret = v;
 
             UnparsedStr unparsedStr = UnparsedStr.Create();
-            using (new ColorScope((unparsedStr.hasStr && !unparsedStr.CanParse(type)) ? Color.red : GUI.color)) {
+            using (new ColorScope((unparsedStr.HasStr && !unparsedStr.CanParse(type)) ? Color.red : GUI.color)) {
                 string text = unparsedStr.Get() ?? ((v != null) ? v.ToString() : "");
                 string displayStr = GUILayout.TextField(text, GUILayout.Height(21f), option ?? fieldWidthMin);
                 if (displayStr != text) {

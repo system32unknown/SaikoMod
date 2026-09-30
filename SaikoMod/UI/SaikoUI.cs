@@ -48,7 +48,7 @@ namespace SaikoMod.UI {
         }
 
         public void OnLoad() {
-            if (yand = Object.FindObjectOfType<YandereController>()) {
+            if (yand = GameObject.Find("yandere").GetComponent<YandereController>()) {
                 ai = yand.aI;
                 mood = yand.mood;
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();

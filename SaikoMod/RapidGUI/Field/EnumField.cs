@@ -22,11 +22,7 @@ namespace RapidGUI {
                 v = Enum.ToObject(type, flagV);
             } else {
                 int idx = enumValues.IndexOf(v);
-                string[] valueNames = enumValues.Select(value => value.ToString()).ToArray();
-                {
-                    idx = SelectionPopup(idx, valueNames);
-                }
-
+                idx = SelectionPopup(idx, enumValues.Select(value => value.ToString()).ToArray());
                 v = enumValues.ElementAtOrDefault(idx);
             }
             return v;

@@ -19,8 +19,6 @@ namespace SaikoMod.UI {
         CameraBloodEffect bloodEffect;
         bool windowLightEnabled = true;
 
-        Vector3 demo;
-
         OperatingSystem os;
         public void OnLoad() {
             if (SceneManager.GetActiveScene().name == "LevelNew") {
@@ -44,7 +42,6 @@ namespace SaikoMod.UI {
             switch (selMenu) {
                 case 0: // General
                     if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
-                    demo = RGUI.Field(demo, "Demo");
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {

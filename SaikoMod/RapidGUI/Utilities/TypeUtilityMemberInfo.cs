@@ -95,15 +95,13 @@ namespace RapidGUI {
                 propertyInfoTable = list.ToDictionary(tn => tn.type, tn => tn.names.Select(name => tn.type.GetProperty(name)).ToList());
             }
 
-            propertyInfoTable.TryGetValue(type, out var piList);
-
+            propertyInfoTable.TryGetValue(type, out List<PropertyInfo> piList);
             return piList ?? new List<PropertyInfo>();
         }
         #endregion
 
         #region Field Info List
         static Dictionary<Type, List<FieldInfo>> fieldInfoTable = new Dictionary<Type, List<FieldInfo>>();
-
         static List<FieldInfo> GetFieldInfoList(Type type) {
             if (!fieldInfoTable.TryGetValue(type, out List<FieldInfo> fiList)) {
                 fiList = type

@@ -38,9 +38,9 @@ namespace SaikoMod.UI {
                     break;
 
                 case AnchorPreset.TopRight:
-                    rect.anchorMin = new Vector2(1f, 1f);
-                    rect.anchorMax = new Vector2(1f, 1f);
-                    rect.pivot = new Vector2(1f, 1f);
+                    rect.anchorMin = Vector2.one;
+                    rect.anchorMax = Vector2.one;
+                    rect.pivot = Vector2.one;
                     break;
 
                 case AnchorPreset.Left:
@@ -62,9 +62,9 @@ namespace SaikoMod.UI {
                     break;
 
                 case AnchorPreset.BottomLeft:
-                    rect.anchorMin = new Vector2(0f, 0f);
-                    rect.anchorMax = new Vector2(0f, 0f);
-                    rect.pivot = new Vector2(0f, 0f);
+                    rect.anchorMin = Vector2.zero;
+                    rect.anchorMax = Vector2.zero;
+                    rect.pivot = Vector2.zero;
                     break;
 
                 case AnchorPreset.Bottom:

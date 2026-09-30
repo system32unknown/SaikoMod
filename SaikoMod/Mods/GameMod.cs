@@ -1,5 +1,4 @@
-﻿using BepInEx.Logging;
-using HarmonyLib;
+﻿using HarmonyLib;
 using SaikoMod.Core.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +25,7 @@ namespace SaikoMod.Mods {
 
             Resources.FindObjectsOfTypeAll<Image>().First(x => x.name == "PausePanel").enabled = false;
 
-            DynamicObject powerbox = Resources.FindObjectsOfTypeAll<DynamicObject>().First(x => x.name == "locker" && x.transform.parent.name == "Dynamic_ElectricBox");
+            DynamicObject powerbox = GameObject.Find("Dynamic_ElectricBox/locker")?.GetComponent<DynamicObject>();
             powerbox.backUseAnim2 = "PowerBox_Close";
 
             __instance.healthManager.Health = 200f;
@@ -63,35 +62,6 @@ namespace SaikoMod.Mods {
 
             string n = obj.name;
             if (showESPkey && (n.StartsWith("Door_Key") || n == "StorageRoomKey" || n == "InfirmaryKey" || n == "ExitDoorKey" || (n.StartsWith("Drop_") && n.EndsWith("_Key")))) espKey.targets.Add(obj);
-        }
-    }
-
-    [HarmonyPatch(typeof(HFPS_GameManager), "startQuickTimeEvents", MethodType.Enumerator)]
-    static class StartQuickTimeEvents_Patch {
-        public const int NewMax = 1; // your new maximum
-
-        [HarmonyTranspiler]
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
-            FieldInfo target = AccessTools.Field(typeof(HFPS_GameManager), "numberOfTimeQuickClicked");
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-            bool patched = false;
-
-            for (int i = 0; i < codes.Count - 1; i++) {
-                if (codes[i].opcode != OpCodes.Ldfld || !ReferenceEquals(codes[i].operand, target))
-                    continue;
-
-                CodeInstruction next = codes[i + 1];
-
-                if ((next.opcode == OpCodes.Ldc_I4_S || next.opcode == OpCodes.Ldc_I4) && System.Convert.ToInt32(next.operand) == 14) {
-                    next.opcode = OpCodes.Ldc_I4;
-                    next.operand = NewMax;
-                    patched = true;
-                }
-            }
-
-            if (patched) Debug.Log("Patched successfully!");
-
-            return codes;
         }
     }
 

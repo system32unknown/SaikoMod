@@ -14,7 +14,7 @@ namespace SaikoMod.UI {
         Vector3 originalLightPos;
         Quaternion originalLightRot;
         public void OnLoad() {
-            directionLight = Object.FindObjectsOfType<Light>().First(x => x.type == LightType.Directional);
+            directionLight = GameObject.Find("Directional Light").GetComponent<Light>();
             GameObject plrObj = GameObject.Find("FPSPLAYER");
             if (plrObj) playerTransform = plrObj.transform;
             originalLightPos = directionLight.transform.position;
@@ -23,13 +23,8 @@ namespace SaikoMod.UI {
         }
 
         public void OnUpdate() {
-            if (playerTransform && directionLight.type == LightType.Point) {
-                directionLight.transform.position = playerTransform.position;
-                directionLight.transform.rotation = playerTransform.rotation;
-            } else if (mainCam && directionLight.type == LightType.Spot) {
-                directionLight.transform.position = mainCam.transform.position;
-                directionLight.transform.rotation = mainCam.transform.rotation;
-            }
+            if (playerTransform && directionLight.type == LightType.Point) directionLight.transform.SetPositionAndRotation(playerTransform.position, playerTransform.rotation);
+            else if (mainCam && directionLight.type == LightType.Spot) directionLight.transform.SetPositionAndRotation(mainCam.transform.position, mainCam.transform.rotation);
         }
 
         public override void Draw() {

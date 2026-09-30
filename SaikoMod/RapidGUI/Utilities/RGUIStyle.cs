@@ -80,16 +80,14 @@ namespace RapidGUI {
         }
 
         static void CreatePopup() {
-            GUIStyle style = new GUIStyle(GUI.skin.box) {
-                border = new RectOffset()
-            };
-
             popupTex = new Texture2D(1, 1);
             float brightness = 0.2f;
             float alpha = 0.9f;
             popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
             popupTex.Apply();
 
+            GUIStyle style = new GUIStyle(GUI.skin.box);
+            style.border = new RectOffset();
             style.normal.background = style.hover.background = popupTex;
             style.name = nameof(popup);
             popup = style;

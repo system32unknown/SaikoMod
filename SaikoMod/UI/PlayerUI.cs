@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using GodModeType = SaikoMod.Core.Enums.GodModeType;
 
 namespace SaikoMod.UI {
     public class PlayerUI : BaseWindowUI {
@@ -17,6 +18,7 @@ namespace SaikoMod.UI {
 
         PlayerFunctions pf;
         PlayerController player;
+        FlyController flyController;
         CameraMotionController cam;
         HealthManager hm;
         DoorAndKeyManager dkm;
@@ -27,24 +29,22 @@ namespace SaikoMod.UI {
 
         bool _regeneration = false;
 
-        FlyController flyController;
-
         Animator camAnim;
 
         public void OnLoad() {
             dkm = Object.FindObjectOfType<DoorAndKeyManager>();
-            pf = Object.FindObjectOfType<PlayerFunctions>();
-            player = Object.FindObjectOfType<PlayerController>();
-            cam = Object.FindObjectOfType<CameraMotionController>();
-            hm = player?.GetComponent<HealthManager>();
             shoes = Object.FindObjectOfType<Shoes>();
+            player = GameObject.Find("FPSPLAYER")?.GetComponent<PlayerController>();
+            hm = player?.GetComponent<HealthManager>();
+            pf = player?.transform.Find("CameraAnimations/MouseLook").GetComponent<PlayerFunctions>();
 
             if (player) {
                 flyController = player.gameObject.AddComponent<FlyController>();
                 flyController.enabled = false;
             }
 
-            camAnim = Camera.main.GetComponent<Animator>();
+            cam = Camera.main.GetComponent<CameraMotionController>();
+            camAnim = cam.GetComponent<Animator>();
         }
 
         public void OnUnload() {
@@ -142,7 +142,6 @@ namespace SaikoMod.UI {
                         if (camAnim && RGUI.Button(camAnim.enabled, "Cam Animation")) camAnim.enabled = !camAnim.enabled;
                         GUILayout.EndVertical();
 
-                        GUILayout.BeginVertical("Box");
                         if (cam && cam.chairWithRope.activeSelf && GUILayout.Button("Escape Chair")) {
                             player.playerAnimModel.SetBool("Sitting", false);
                             player.boundedInChair = false;
@@ -153,22 +152,25 @@ namespace SaikoMod.UI {
                             GameObject.Find("yandere").GetComponent<NavMeshAgent>().enabled = true;
                             HFPS_GameManager.instance.cf2rig.enabled = HFPS_GameManager.instance.uiInteractive = true;
                         }
-                        GUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Drugged")) player.GetsDrugged();
-                        if (GUILayout.Button("Poisoned")) player.GetsPoisoned();
-                        GUILayout.EndHorizontal();
-                        if (hm) {
-                            if (!_regeneration && GUILayout.Button("Start Regeneration")) {
-                                hm.StartCoroutine("Regenerate");
-                                _regeneration = true;
+                        if (HealthMod.godModeType == GodModeType.None || HealthMod.godModeType == GodModeType.Kill) {
+                            GUILayout.BeginVertical("Box");
+                            GUILayout.BeginHorizontal();
+                            if (GUILayout.Button("Drugged")) player.GetsDrugged();
+                            if (GUILayout.Button("Poisoned")) player.GetsPoisoned();
+                            GUILayout.EndHorizontal();
+                            if (hm) {
+                                if (!_regeneration && GUILayout.Button("Start Regeneration")) {
+                                    hm.StartCoroutine("Regenerate");
+                                    _regeneration = true;
+                                }
+                                if (_regeneration && GUILayout.Button("Stop Regeneration")) {
+                                    hm.StopCoroutine("Regenerate");
+                                    _regeneration = false;
+                                }
+                                hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
                             }
-                            if (_regeneration && GUILayout.Button("Stop Regeneration")) {
-                                hm.StopCoroutine("Regenerate");
-                                _regeneration = false;
-                            }
-                            hm.regenerationSpeed = RGUI.SliderFloat(hm.regenerationSpeed, 0.5f, 99f, 1f, "Regeneration Speed");
+                            GUILayout.EndVertical();
                         }
-                        GUILayout.EndVertical();
                     }
 
                     if (dkm) {

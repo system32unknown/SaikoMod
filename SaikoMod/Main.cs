@@ -13,7 +13,7 @@ namespace SaikoMod {
     [BepInProcess("Saiko no sutoka.exe")]
     public class Main : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
-        public const string modVer = "0.0.3";
+        public const string modVer = "0.0.4";
 
         public static Version Version => new Version(modVer);
 
@@ -58,8 +58,6 @@ namespace SaikoMod {
             }
         }
 
-        static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka") {
-            return Application.temporaryCachePath.Contains(gameName);
-        }
+        static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka") => Application.temporaryCachePath.Contains(gameName);
     }
 }
