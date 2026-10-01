@@ -42,7 +42,7 @@ namespace SaikoMod.UI {
             curRoom = aiRooms.FirstOrDefault();
 
             keypad = Object.FindObjectsOfType<Keypad>().FirstOrDefault(x => x.gameObject.name == "Keypad (1)");
-            GameCanvas = Object.FindObjectsOfType<Canvas>().FirstOrDefault(x => x.transform.parent?.name == "GAMEMANAGER");
+            GameCanvas = GameObject.Find("GAMEMANAGER")?.transform.GetChild(0).GetComponent<Canvas>();
 
             SetupCameraPreview();
 
@@ -123,7 +123,7 @@ namespace SaikoMod.UI {
                         if (RGUI.Button(PuzzleMod.PuzzleHack, "Puzzle Hack")) PuzzleMod.PuzzleHack = !PuzzleMod.PuzzleHack;
                         if (!ep.puzzleSolved && GUILayout.Button("Solve Puzzle")) ep.PuzzleSolved();
                         if (ep.puzzleSolved && !ele.isPoweredOn && GUILayout.Button("Switch On")) ele.SwitcherUp();
-                        GUIUtils.DrawField("Keycode Access", ref keypad.AccessCode, new GUILayoutOption[] { GUILayout.ExpandWidth(false), GUILayout.Height(21f) });
+                        GUIUtils.DrawField("Keycode Access", ref keypad.AccessCode, new GUILayoutOption[] { GUILayout.Height(21f), GUILayout.ExpandWidth(false) });
                         GUILayout.EndVertical();
                     }
                     curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
@@ -160,10 +160,7 @@ namespace SaikoMod.UI {
                     }
                     break;
                 case 1:
-                    GUILayout.BeginVertical("Box");
-                    GUILayout.Label("Camera");
                     if (rawImage && GUILayout.Button("Toggle Minicam")) rawImage.gameObject.SetActive(!rawImage.gameObject.activeSelf);
-                    GUILayout.EndVertical();
                     if (RGUI.Button(GameManagerMod.showESPkey, "ESP Key")) GameManagerMod.showESPkey = !GameManagerMod.showESPkey;
                     break;
             }

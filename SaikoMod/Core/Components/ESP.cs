@@ -27,8 +27,6 @@ namespace SaikoMod.Core.Components {
         void Start() {
             _cam = Camera.main;
             _interactLayer = LayerMask.NameToLayer("Interact");
-
-            if (_interactLayer == -1) Debug.LogWarning("ESP: Layer 'Interact' was not found.");
         }
 
         void Update() {

@@ -14,7 +14,7 @@ namespace SaikoMod.UI {
         Vector3 originalLightPos;
         Quaternion originalLightRot;
         public void OnLoad() {
-            directionLight = GameObject.Find("Directional Light").GetComponent<Light>();
+            directionLight = GameObject.Find("Directional Light")?.GetComponent<Light>();
             GameObject plrObj = GameObject.Find("FPSPLAYER");
             if (plrObj) playerTransform = plrObj.transform;
             originalLightPos = directionLight.transform.position;

@@ -72,7 +72,7 @@ namespace SaikoMod.Controller {
         public override void DoGUI() {
             if (!showMainMenu) return;
 
-            MainMenuRect = GUILayout.Window(9000, MainMenuRect, MainMenu, "<b>Saiko Mod Menu</b>");
+            MainMenuRect = GUILayout.Window(9000, MainMenuRect, MainMenu, "<b>SaikoMod</b>");
 
             if (MenuTab == MenuTab.Off) return;
             TabMenuRect = GUI.Window(9001, new Rect(TabMenuRect.position, GetTabSize()), GetTabWinFunc(MenuTab), "<b>" + GetTabTitle(MenuTab) + "</b>");
