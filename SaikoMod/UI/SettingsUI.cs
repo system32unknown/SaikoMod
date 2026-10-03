@@ -1,4 +1,5 @@
 ﻿using RapidGUI;
+using SaikoMod.Controller;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace SaikoMod.UI {
 
         OperatingSystem os;
         public void OnLoad() {
-            if (SceneManager.GetActiveScene().name == "LevelNew") {
+            if (UIController.isSchool) {
                 windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r") && x.activeSelf).ToArray();
                 windowLightEnabled = true;
             }
@@ -32,7 +33,7 @@ namespace SaikoMod.UI {
         }
 
         public void OnUnload() {
-            if (SceneManager.GetActiveScene().name == "LevelNew") windowLights = null;
+            if (UIController.isSchool) windowLights = null;
         }
 
         public override void Draw() {

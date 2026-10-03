@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 namespace SaikoMod.Controller {
     public class UIController : BaseController {
         public static UIController Instance;
+        public static bool isSchool;
 
         public Rect MainMenuRect = new Rect(20f, (Screen.height / 2) - (200 / 2), 130f, 240f);
         public Rect TabMenuRect = new Rect(200f, (Screen.height / 2) - 370.5f, 100f, 200f);
@@ -28,7 +29,8 @@ namespace SaikoMod.Controller {
 
         public override void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
             if (loadSceneMode == LoadSceneMode.Single) {
-                if (scene.name == "LevelNew") {
+                isSchool = scene.name == "LevelNew";
+                if (isSchool) {
                     playermods.OnLoad();
                     gamemods.OnLoad();
                     saikomods.OnLoad();
@@ -42,7 +44,7 @@ namespace SaikoMod.Controller {
             }
         }
         public override void OnSceneUnload(Scene scene) {
-            if (scene.name == "LevelNew") {
+            if (isSchool) {
                 saikomods.OnUnload();
                 assetBundle.OnUnload();
                 gamemods.OnUnload();
@@ -52,7 +54,7 @@ namespace SaikoMod.Controller {
         }
 
         void Update() {
-            if (SceneManager.GetActiveScene().name == "LevelNew") {
+            if (isSchool) {
                 gamemods.OnUpdate();
                 lighting.OnUpdate();
             }
@@ -64,7 +66,7 @@ namespace SaikoMod.Controller {
         }
 
         void SetCursorState(bool opened) {
-            if (SceneManager.GetActiveScene().name == "MainMenu") return;
+            if (!isSchool) return;
             Cursor.visible = opened;
             Cursor.lockState = opened ? CursorLockMode.None : CursorLockMode.Locked;
         }
