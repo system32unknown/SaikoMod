@@ -22,9 +22,7 @@ namespace RapidGUI {
         public static Texture2D darkWindowTexNormal;
         public static Texture2D darkWindowTexOnNormal;
 
-        static RGUIStyle() {
-            CreateStyles();
-        }
+        static RGUIStyle() => CreateStyles();
 
         public static void CreateStyles() {
             CreateButton();
@@ -86,11 +84,12 @@ namespace RapidGUI {
             popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
             popupTex.Apply();
 
-            GUIStyle style = new GUIStyle(GUI.skin.box);
-            style.border = new RectOffset();
-            style.normal.background = style.hover.background = popupTex;
-            style.name = nameof(popup);
-            popup = style;
+            popup = new GUIStyle(GUI.skin.box) {
+                border = new RectOffset(),
+                normal = { background = popupTex },
+                hover = { background = popupTex },
+                name = nameof(popup)
+            };
         }
 
 

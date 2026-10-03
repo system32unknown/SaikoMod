@@ -1,7 +1,5 @@
 ﻿using SaikoMod.Core.Components.UI;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SaikoMod.UI {
@@ -84,10 +82,9 @@ namespace SaikoMod.UI {
 
     public static class UIHelpers {
         public static CustomButton CreateButton(string label, Transform parent, AnchorUtils.AnchorPreset anchor, Vector2 position) {
-            Button but = null;
             string labelBut = "Canvas/Panel/Start";
             if (Controller.UIController.isSchool) labelBut = "GAMEMANAGER/Canvas/UI/Tutorial/Play (1)";
-            but = Object.Instantiate(GameObject.Find(labelBut).GetComponent<Button>(), parent);
+            Button but = Object.Instantiate(GameObject.Find(labelBut).GetComponent<Button>(), parent);
             if (!but) return null;
 
             CustomButton button = new CustomButton(but);

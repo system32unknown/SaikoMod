@@ -3,26 +3,25 @@
 namespace RapidGUI {
     public static partial class RGUI {
         public static Color ColorPicker(Color color, string label = null, bool hasHex = false) {
-            GUI.backgroundColor = Color.white;
-            GUILayout.BeginVertical("box");
-            if (label != null) GUILayout.Label(label);
+            using (new GUILayout.VerticalScope("box")) {
+                if (label != null) GUILayout.Label(label);
 
-            // SLIDERS
-            color.r = _Slider("R", color.r);
-            color.g = _Slider("G", color.g);
-            color.b = _Slider("B", color.b);
-            color.a = _Slider("A", color.a);
+                // SLIDERS
+                color.r = _Slider("R", color.r);
+                color.g = _Slider("G", color.g);
+                color.b = _Slider("B", color.b);
+                color.a = _Slider("A", color.a);
 
-            // HEX INPUT
-            if (hasHex) {
-                string hex = ColorUtility.ToHtmlStringRGBA(color);
-                string newHex = GUILayout.TextField(hex, GUILayout.Width(120));
+                // HEX INPUT
+                if (hasHex) {
+                    string hex = ColorUtility.ToHtmlStringRGBA(color);
+                    string newHex = GUILayout.TextField(hex, GUILayout.Width(120));
 
-                if (newHex != hex && newHex.Length == 8) {
-                    if (ColorUtility.TryParseHtmlString("#" + newHex, out Color c)) color = c;
+                    if (newHex != hex && newHex.Length == 8) {
+                        if (ColorUtility.TryParseHtmlString("#" + newHex, out Color c)) color = c;
+                    }
                 }
             }
-            GUILayout.EndVertical();
 
             return color;
         }
@@ -37,7 +36,6 @@ namespace RapidGUI {
             color.g = v;
             color.b = v;
             color.a = v;
-
             GUILayout.EndVertical();
 
             return color;

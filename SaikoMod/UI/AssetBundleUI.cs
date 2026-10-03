@@ -45,7 +45,7 @@ namespace SaikoMod.UI {
         public override void Draw() {
             if (objAssets.Count <= 0) return;
             GUILayout.BeginVertical("Box");
-            if (RGUI.ArrayNavigatorButton<GameObject>(ref objIdx, objAssets, "objs")) {
+            if (RGUI.ArrayNavigator<GameObject>(ref objIdx, objAssets, "objs")) {
                 GameObject curObj = objAssets[objIdx];
                 if (curObj == null) return;
 

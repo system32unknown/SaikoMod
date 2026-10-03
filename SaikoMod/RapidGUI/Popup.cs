@@ -23,7 +23,6 @@ namespace RapidGUI {
 
         public static int PopupOnLastRect(string[] displayOptions, string label = "") => PopupOnLastRect(-1, displayOptions, -1, label);
         public static int PopupOnLastRect(string[] displayOptions, int button, string label = "") => PopupOnLastRect(-1, displayOptions, button, label);
-
         public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int mouseButton = -1, string label = "") => Popup(GUILayoutUtility.GetLastRect(), mouseButton, selectionIndex, displayOptions, label);
 
         public static int Popup(Rect launchRect, int mouseButton, int selectionIndex, string[] displayOptions, string label = "") {

@@ -38,7 +38,50 @@ namespace RapidGUI {
             return page;
         }
 
-        public static T ArrayNavigator<T>(object items, ref int index, bool warped = true, Func<T, string> labelSelector = null, float buttonWidth = 40f) {
+        public static bool ArrayNavigator<T>(ref int index, object collection, string label = null) {
+            T[] array;
+            if (collection is T[] arr) {
+                array = arr;
+            } else if (collection is List<T> list) {
+                array = list.ToArray();
+            } else {
+                GUILayout.Label("<b>Error: Not array or list</b>");
+                return false;
+            }
+
+            if (array == null || array.Length == 0) {
+                GUILayout.Label("<b>No Items</b>");
+                return false;
+            }
+
+            GUI.backgroundColor = Color.black;
+            bool clickedCenter = false;
+
+            GUILayout.BeginHorizontal();
+            if (!string.IsNullOrEmpty(label)) GUILayout.Label("<b>" + label + "</b>", GUILayout.Width(120f));
+
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("<", RGUIStyle.button, GUILayout.Width(30f))) {
+                index--;
+                if (index < 0) index = array.Length - 1;
+            }
+
+            string text = "Null";
+            if (array[index] != null) text = SaikoMod.Helper.ReflectionHelpers.GetNameIfExists(array[index]);
+
+            if (GUILayout.Button("<b>" + text + "</b>", GUILayout.Width(200f))) {
+                clickedCenter = true;
+            }
+
+            if (GUILayout.Button(">", GUILayout.Width(30f))) {
+                index++;
+                if (index >= array.Length) index = 0;
+            }
+            GUILayout.EndHorizontal();
+
+            return clickedCenter;
+        }
+        public static T ArrayNavigator<T>(object items, ref int index, bool warped = true, Func<T, string> labelSelector = null) {
             T[] array;
             if (items is T[] arr) {
                 array = arr;
@@ -60,11 +103,10 @@ namespace RapidGUI {
                 return default;
             }
 
-            if (index < 0) index = 0;
-            if (index >= array.Length) index = array.Length - 1;
+            index = Mathf.Clamp(index, 0, array.Length - 1);
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("<", GUILayout.Width(buttonWidth))) {
+            if (GUILayout.Button("<", GUILayout.Width(30f))) {
                 if (index > 0) index--;
                 else if (warped) index = array.Length - 1;
             }
@@ -78,11 +120,10 @@ namespace RapidGUI {
 
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button(">", GUILayout.Width(buttonWidth))) {
+            if (GUILayout.Button(">", GUILayout.Width(30f))) {
                 if (index < array.Length - 1) index++;
                 else if (warped) index = 0;
             }
-
             GUILayout.EndHorizontal();
 
             return array[index];

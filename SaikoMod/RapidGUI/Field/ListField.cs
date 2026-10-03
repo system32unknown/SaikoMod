@@ -114,7 +114,6 @@ namespace RapidGUI {
             }
 
             if (ret == null) ret = (elemType == typeof(string)) ? "" : Activator.CreateInstance(elemType);
-
             return ret;
         }
     }

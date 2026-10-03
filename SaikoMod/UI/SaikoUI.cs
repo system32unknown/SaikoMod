@@ -162,7 +162,7 @@ namespace SaikoMod.UI {
                                         if (EmoteAnimation) Object.Destroy(EmoteAnimation);
                                     }
                                     if (animAdded && EmoteAnimation) {
-                                        if (RGUI.ArrayNavigatorButton<AnimationClip>(ref animIdx, animationClips, "Animation")) {
+                                        if (RGUI.ArrayNavigator<AnimationClip>(ref animIdx, animationClips, "Animation")) {
                                             if (EmoteAnimation.GetClip(EmoteNames[animIdx]) == null) EmoteAnimation.AddClip(curClip, EmoteNames[animIdx]);
                                             EmoteAnimation.Play(EmoteNames[animIdx]);
                                         }

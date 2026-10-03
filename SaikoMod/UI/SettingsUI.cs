@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using FPSCounter = SaikoMod.Core.Components.FPSDisplay;
 using FPSUtils = SaikoMod.Utils.FPSUtils;
 
@@ -19,6 +18,8 @@ namespace SaikoMod.UI {
         GameObject eyeObj;
         CameraBloodEffect bloodEffect;
         bool windowLightEnabled = true;
+
+        List<int> demo = new List<int>();
 
         OperatingSystem os;
         public void OnLoad() {
@@ -43,6 +44,7 @@ namespace SaikoMod.UI {
             switch (selMenu) {
                 case 0: // General
                     if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
+                    demo = RGUI.Field(demo, "Demo");
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {
