@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RapidGUI {
     public static partial class RGUI {
-        static Stack<Color> bacgroundColorScopeStack = new Stack<Color>();
+        readonly static Stack<Color> bacgroundColorScopeStack = new Stack<Color>();
 
         public static void BeginBackgroundColor(Color color) {
             bacgroundColorScopeStack.Push(GUI.backgroundColor);

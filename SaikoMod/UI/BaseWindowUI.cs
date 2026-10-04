@@ -8,10 +8,8 @@ namespace SaikoMod.UI {
         public abstract string Title { get; }
         public abstract void Draw();
 
-        public virtual void OnClose() {
-            // Default behavior: close the menu panel
-            UIController.Instance.MenuTab = Core.Enums.MenuTab.Off;
-        }
+        // Default behavior: close the menu panel
+        public virtual void OnClose() => UIController.Instance.MenuTab = Core.Enums.MenuTab.Off;
 
         public void WindowLayout(int _) {
             GUI.backgroundColor = BgColor;

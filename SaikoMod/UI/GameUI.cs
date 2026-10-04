@@ -65,6 +65,7 @@ namespace SaikoMod.UI {
 
         public void OnUnload() {
             timerStarted = true;
+            aiRooms = System.Array.Empty<AIRoom>();
             Object.Destroy(rawImage);
         }
 
@@ -126,7 +127,7 @@ namespace SaikoMod.UI {
                         GUIUtils.DrawField("Keycode Access", ref keypad.AccessCode, new GUILayoutOption[] { GUILayout.Height(21f), GUILayout.ExpandWidth(false) });
                         GUILayout.EndVertical();
                     }
-                    curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
+                    if (aiRooms != null) curRoom = RGUI.ArrayNavigator<AIRoom>(aiRooms, ref roomIdx);
 
                     if (gm) {
                         GUILayout.BeginVertical("Box");

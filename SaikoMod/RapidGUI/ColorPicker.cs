@@ -3,6 +3,7 @@
 namespace RapidGUI {
     public static partial class RGUI {
         public static Color ColorPicker(Color color, string label = null, bool hasHex = false) {
+            GUI.backgroundColor = Color.white;
             using (new GUILayout.VerticalScope("box")) {
                 if (label != null) GUILayout.Label(label);
 

@@ -14,7 +14,7 @@ namespace SaikoMod.Core.Components {
         public static bool RenderTop {
             get => _RenderTop;
             set {
-                lr?.material.SetInt("_ZTest", (int)(value ? CompareFunction.Always : CompareFunction.LessEqual));
+                if (lr) lr?.material.SetInt("_ZTest", (int)(value ? CompareFunction.Always : CompareFunction.LessEqual));
                 _RenderTop = value;
             }
         }
@@ -23,7 +23,7 @@ namespace SaikoMod.Core.Components {
         public static bool UpdateTracker {
             get => _UpdateTracker;
             set {
-                lr.enabled = value;
+                if (lr) lr.enabled = value;
                 _UpdateTracker = value;
             }
         }
