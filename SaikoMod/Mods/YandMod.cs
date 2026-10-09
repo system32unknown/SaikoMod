@@ -95,6 +95,6 @@ namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(YandereMoodController))]
     internal class YandModMood {
         [HarmonyPatch(nameof(YandereMoodController.CanExitAtemptKidnap)), HarmonyPrefix]
-        static bool CanExitAtemptKidnapPatch()=> !YandModController.noBadEnding;
+        static bool CanExitAtemptKidnapPatch() => !YandModController.noBadEnding;
     }
 }
