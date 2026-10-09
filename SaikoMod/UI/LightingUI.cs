@@ -27,15 +27,13 @@ namespace SaikoMod.UI {
         }
 
         public override void Draw() {
-            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Fog", "Light", "Ambient" }, 3);
-            switch (selMenu) {
+            switch (selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Fog", "Light", "Ambient" }, 3)) {
                 case 0:
                     GUILayout.BeginVertical("Box");
                     if (RGUI.Button(RenderSettings.fog, "Fog")) RenderSettings.fog = !RenderSettings.fog;
                     if (RenderSettings.fog) {
                         RenderSettings.fogColor = RGUI.ColorPicker(RenderSettings.fogColor);
-                        RenderSettings.fogMode = RGUI.Field(RenderSettings.fogMode, "Fog Mode");
-                        switch (RenderSettings.fogMode) {
+                        switch (RenderSettings.fogMode = RGUI.Field(RenderSettings.fogMode, "Fog Mode")) {
                             case FogMode.Linear:
                                 RenderSettings.fogStartDistance = RGUI.SliderFloat(RenderSettings.fogStartDistance, 0f, 9999f, 0f, "Fog Start Distance");
                                 RenderSettings.fogEndDistance = RGUI.SliderFloat(RenderSettings.fogEndDistance, 0f, 9999f, 30f, "Fog End Distance");
@@ -53,8 +51,7 @@ namespace SaikoMod.UI {
                         GUILayout.BeginVertical("Box");
                         if (RGUI.Button(directionLight.enabled, "Light")) directionLight.enabled = !directionLight.enabled;
                         if (directionLight.enabled) {
-                            directionLight.type = RGUI.Field(directionLight.type, "Light Type");
-                            switch (directionLight.type) {
+                            switch (directionLight.type = RGUI.Field(directionLight.type, "Light Type")) {
                                 case LightType.Directional:
                                     if (directionLight.transform.parent != null) directionLight.transform.parent = null;
                                     directionLight.transform.position = originalLightPos;
@@ -79,8 +76,7 @@ namespace SaikoMod.UI {
                     break;
                 case 2:
                     GUILayout.BeginVertical("Box");
-                    RenderSettings.ambientMode = RGUI.Field(RenderSettings.ambientMode, "Ambient Mode");
-                    switch (RenderSettings.ambientMode) {
+                    switch (RenderSettings.ambientMode = RGUI.Field(RenderSettings.ambientMode, "Ambient Mode")) {
                         case AmbientMode.Skybox:
                         case AmbientMode.Flat:
                             RenderSettings.ambientLight = RGUI.ColorPicker(RenderSettings.ambientLight);

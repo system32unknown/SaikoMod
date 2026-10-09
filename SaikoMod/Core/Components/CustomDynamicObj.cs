@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Action = System.Action;
 using UnityEngine;
 
 namespace SaikoMod.Core.Components {

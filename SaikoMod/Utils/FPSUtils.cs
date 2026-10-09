@@ -41,7 +41,6 @@ namespace SaikoMod.Utils {
             sliceCnt = 0;
 
             int delta = Mathf.RoundToInt(dt);
-
             times.Add(delta);
             sum += delta;
 

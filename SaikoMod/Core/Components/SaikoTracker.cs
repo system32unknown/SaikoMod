@@ -50,9 +50,7 @@ namespace SaikoMod.Core.Components {
             lr.endWidth = lr.startWidth = .1f;
         }
 
-        void OnDestroy() {
-            RenderTop = false;
-        }
+        void OnDestroy() => RenderTop = false;
 
         void Update() {
             if (UpdateTracker) {

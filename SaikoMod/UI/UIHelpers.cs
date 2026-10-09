@@ -9,7 +9,7 @@ namespace SaikoMod.UI {
             Top,
             TopRight,
             Left,
-            MiddleCenter,
+            Center,
             Right,
             BottomLeft,
             Bottom,
@@ -20,62 +20,54 @@ namespace SaikoMod.UI {
         /// Sets anchor, pivot, and anchoredPosition using an enum.
         /// </summary>
         public static void SetAnchor(RectTransform rect, AnchorPreset preset) {
-            if (rect == null) return;
-
             switch (preset) {
                 case AnchorPreset.TopLeft:
                     rect.anchorMin = new Vector2(0f, 1f);
                     rect.anchorMax = new Vector2(0f, 1f);
                     rect.pivot = new Vector2(0f, 1f);
                     break;
-
                 case AnchorPreset.Top:
-                    rect.anchorMin = new Vector2(0.5f, 1f);
-                    rect.anchorMax = new Vector2(0.5f, 1f);
-                    rect.pivot = new Vector2(0.5f, 1f);
+                    rect.anchorMin = new Vector2(.5f, 1f);
+                    rect.anchorMax = new Vector2(.5f, 1f);
+                    rect.pivot = new Vector2(.5f, 1f);
                     break;
-
                 case AnchorPreset.TopRight:
                     rect.anchorMin = Vector2.one;
                     rect.anchorMax = Vector2.one;
                     rect.pivot = Vector2.one;
                     break;
-
                 case AnchorPreset.Left:
-                    rect.anchorMin = new Vector2(0f, 0.5f);
-                    rect.anchorMax = new Vector2(0f, 0.5f);
-                    rect.pivot = new Vector2(0f, 0.5f);
+                    rect.anchorMin = new Vector2(0f, .5f);
+                    rect.anchorMax = new Vector2(0f, .5f);
+                    rect.pivot = new Vector2(0f, .5f);
                     break;
-
-                case AnchorPreset.MiddleCenter:
-                    rect.anchorMin = new Vector2(0.5f, 0.5f);
-                    rect.anchorMax = new Vector2(0.5f, 0.5f);
-                    rect.pivot = new Vector2(0.5f, 0.5f);
+                case AnchorPreset.Center:
+                    rect.anchorMin = new Vector2(.5f, .5f);
+                    rect.anchorMax = new Vector2(.5f, .5f);
+                    rect.pivot = new Vector2(.5f, .5f);
                     break;
-
                 case AnchorPreset.Right:
-                    rect.anchorMin = new Vector2(1f, 0.5f);
-                    rect.anchorMax = new Vector2(1f, 0.5f);
-                    rect.pivot = new Vector2(1f, 0.5f);
+                    rect.anchorMin = new Vector2(1f, .5f);
+                    rect.anchorMax = new Vector2(1f, .5f);
+                    rect.pivot = new Vector2(1f, .5f);
                     break;
-
                 case AnchorPreset.BottomLeft:
                     rect.anchorMin = Vector2.zero;
                     rect.anchorMax = Vector2.zero;
                     rect.pivot = Vector2.zero;
                     break;
-
                 case AnchorPreset.Bottom:
-                    rect.anchorMin = new Vector2(0.5f, 0f);
-                    rect.anchorMax = new Vector2(0.5f, 0f);
-                    rect.pivot = new Vector2(0.5f, 0f);
+                    rect.anchorMin = new Vector2(.5f, 0f);
+                    rect.anchorMax = new Vector2(.5f, 0f);
+                    rect.pivot = new Vector2(.5f, 0f);
                     break;
-
                 case AnchorPreset.BottomRight:
                     rect.anchorMin = new Vector2(1f, 0f);
                     rect.anchorMax = new Vector2(1f, 0f);
                     rect.pivot = new Vector2(1f, 0f);
                     break;
+                default:
+                    throw new System.ArgumentOutOfRangeException("preset", preset, null);
             }
         }
     }
@@ -105,7 +97,6 @@ namespace SaikoMod.UI {
             _rawrect.anchoredPosition = pos;
             return raw;
         }
-
         public static RawImage CreateRawImg(string name, Transform parent, AnchorUtils.AnchorPreset anchor) {
             GameObject temp = new GameObject(name);
             temp.transform.parent = parent;

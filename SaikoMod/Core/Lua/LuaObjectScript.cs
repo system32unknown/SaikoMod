@@ -43,8 +43,7 @@ namespace SaikoMod.Core.Lua {
         public bool InitFromFile(string luaFilePath) {
             LastError = null;
 
-            if (string.IsNullOrEmpty(luaFilePath) || !File.Exists(luaFilePath))
-                return false;
+            if (string.IsNullOrEmpty(luaFilePath) || !File.Exists(luaFilePath)) return false;
 
             UserData.RegisterAssembly();
 
@@ -121,16 +120,11 @@ namespace SaikoMod.Core.Lua {
 
             DynValue value = DynValue.Nil;
             if (_env != null) value = _env.Get(name);
-
-            if (value.Type != DataType.Function)
-                value = _script.Globals.Get(name);
-
+            if (value.Type != DataType.Function)  value = _script.Globals.Get(name);
             return value.Type == DataType.Function;
         }
 
-        public void RegisterType<T>() {
-            UserData.RegisterType<T>();
-        }
+        public void RegisterType<T>() => UserData.RegisterType<T>();
 
         public void SetGlobal(Type type) => _script.Globals[type.Name] = type;
         public void SetGlobal(string key, object obj) => _script.Globals[key] = obj;

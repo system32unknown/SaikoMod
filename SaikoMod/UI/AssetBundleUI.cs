@@ -54,8 +54,7 @@ namespace SaikoMod.UI {
                 cloned.transform.parent = gameObjParent.transform;
                 CustomDynamicObj cdo = cloned.AddComponent<CustomDynamicObj>();
 
-                string bundleFile = ObjFilenames[objIdx]; // same index as objAssets
-                string luaPath = Path.Combine(filePath, Path.GetFileNameWithoutExtension(bundleFile) + ".lua");
+                string luaPath = Path.Combine(filePath, Path.GetFileNameWithoutExtension(ObjFilenames[objIdx]) + ".lua");
 
                 LuaObjectScript lua = null;
                 if (File.Exists(luaPath)) {

@@ -18,7 +18,7 @@ namespace SaikoMod {
         public static Version Version => new Version(modVer);
 
         internal static Main instance;
-        internal static ManualLogSource Log = new ManualLogSource(modGUID);
+        internal static ManualLogSource Log = BepInEx.Logging.Logger.CreateLogSource(modGUID);
 
         public static GameObject manager;
         public static FPSDisplay fpsDisplay;
@@ -26,8 +26,6 @@ namespace SaikoMod {
         internal ConfigEntry<bool> allowChangeWindowTitle;
         public ConfigEntry<bool> showFPSDisplay;
         public ConfigEntry<bool> skipLanguage;
-
-        readonly Harmony harmony = new Harmony(modGUID);
 
         void Awake() {
             if (!IsGameValid() && WinMessageBox.Show("This version of the Modmenu is intended to be used with \"Saiko No Sutoka\".", WinMessageBox.MBIcon.Error)) {
@@ -37,9 +35,9 @@ namespace SaikoMod {
 
             manager = new GameObject("SaikoModMenu");
             manager.AddComponent<UIController>();
-            manager.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(manager);
 
+            Harmony harmony = new Harmony(modGUID);
             Log.LogInfo("Mod Loaded Successfully.");
             Log.LogInfo("Mod Version: " + modVer);
 
@@ -58,7 +56,6 @@ namespace SaikoMod {
                 DontDestroyOnLoad(_fpsDis);
             }
         }
-        void OnDestroy() => harmony?.UnpatchSelf();
 
         static bool IsGameValid(string gameName = "Habupain/Saiko no sutoka") => Application.temporaryCachePath.Contains(gameName);
     }

@@ -53,9 +53,7 @@ namespace SaikoMod.UI {
                 mood = yand.mood;
                 graphic = yand.GetComponent<YandereGraphicQualityManager>();
 
-                for (int i = 0; i < graphic.meshToChangeMat.Length; i++) {
-                    originalMat[i] = graphic.meshToChangeMat[i].materials;
-                }
+                for (int i = 0; i < graphic.meshToChangeMat.Length; i++) originalMat[i] = graphic.meshToChangeMat[i].materials;
             }
 
             custom_eye = PathUtils.TextureFromFile("mods/textures/saiko/custom_eye.png", TextureFormat.RGBA32);
@@ -145,8 +143,7 @@ namespace SaikoMod.UI {
                     }
                     break;
                 case 2:
-                    selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Animation", "Skins" }, 2);
-                    switch (selMenu) {
+                    switch (selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Animation", "Skins" }, 2)) {
                         case 0:
                             if (EmoteFilenames.Count > 0) {
                                 if (yand) {

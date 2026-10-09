@@ -61,13 +61,10 @@ namespace SaikoMod.WinAPI {
         /// Shows a Windows MessageBox using WinAPI.
         /// </summary>
         public static MBResult Show(string text, string caption = "Message", MBButtons buttons = MBButtons.OK, MBIcon icon = MBIcon.None, MBDefaultButton defaultButton = MBDefaultButton.Button1, MBOptions options = MBOptions.None) {
-            uint type = (uint)buttons | (uint)icon | (uint)defaultButton | (uint)options;
-            return (MBResult)MessageBox(IntPtr.Zero, text, caption, type);
+            return (MBResult)MessageBox(IntPtr.Zero, text, caption, (uint)buttons | (uint)icon | (uint)defaultButton | (uint)options);
         }
-
         public static bool Show(string text, MBIcon icon = MBIcon.None) {
-            uint type = (uint)MBButtons.OK | (uint)icon;
-            return (MBResult)MessageBox(IntPtr.Zero, text, "Saiko Mod Menu", type) == MBResult.OK;
+            return (MBResult)MessageBox(IntPtr.Zero, text, "Saiko Mod Menu", (uint)MBButtons.OK | (uint)icon) == MBResult.OK;
         }
     }
 }

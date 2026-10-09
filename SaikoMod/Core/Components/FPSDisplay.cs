@@ -6,7 +6,7 @@ namespace SaikoMod.Core.Components {
     public enum FPSLagMode {
         INSTANT,
         LERP
-    };
+    }
 
     public class FPSDisplay : MonoBehaviour {
         public FPSUtils fps;
@@ -36,7 +36,7 @@ namespace SaikoMod.Core.Components {
                     break;
             }
 
-            GUI.Label(new Rect(2f, 2f, 100f, 20f), $"{fps.TotalFPS:#}fps", FpsStyle);
+            GUI.Label(new Rect(Vector2.zero, new Vector2(100f, 20f)), $"{fps.TotalFPS:#}fps", FpsStyle);
         }
     }
 }

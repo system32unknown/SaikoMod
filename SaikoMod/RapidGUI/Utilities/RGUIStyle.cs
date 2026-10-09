@@ -80,8 +80,7 @@ namespace RapidGUI {
         static void CreatePopup() {
             popupTex = new Texture2D(1, 1);
             float brightness = 0.2f;
-            float alpha = 0.9f;
-            popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
+            popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, .9f) });
             popupTex.Apply();
 
             popup = new GUIStyle(GUI.skin.box) {

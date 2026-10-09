@@ -42,8 +42,7 @@ namespace SaikoMod.UI {
         }
 
         public override void Draw() {
-            selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Corruptions", "Fun" }, 2);
-            switch (selMenu) {
+            switch (selMenu = GUILayout.SelectionGrid(selMenu, new string[] { "Corruptions", "Fun" }, 2)) {
                 case 0:
                     GUILayout.BeginVertical("Box");
                     GUILayout.Label("Corruptions");

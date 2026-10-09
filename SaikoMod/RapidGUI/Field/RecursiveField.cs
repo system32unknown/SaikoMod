@@ -28,10 +28,9 @@ namespace RapidGUI {
                 if (CheckIgnoreField(info.Name)) continue;
 
                 object v = info.GetValue(obj);
-                string elemName = CheckCustomLabel(info.Name) ?? info.label;
 
                 tmpStringBuilder.Clear(); // for the bug that short label will be strange word wrap at unity2019
-                tmpStringBuilder.Append(elemName);
+                tmpStringBuilder.Append(CheckCustomLabel(info.Name) ?? info.label);
                 tmpStringBuilder.Append(" ");
 
                 v = Field(v, info.MemberType, tmpStringBuilder.ToString(), drawingInlineFields ? inlineFieldOptions : Array.Empty<GUILayoutOption>());

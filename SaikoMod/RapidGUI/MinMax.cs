@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-
 namespace RapidGUI {
     [Serializable]
     public class MinMaxInt : MinMax<int>, IMinMaxLerp<int> {

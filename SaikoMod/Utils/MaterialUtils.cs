@@ -33,7 +33,7 @@ namespace SaikoMod.Utils {
         /// <param name="color">Base color including alpha (default: white with 50% alpha)</param>
         /// <returns>Newly created Material configured for transparency</returns>
         public static Material CreateTransparent(Color? color = null) {
-            Color col = color ?? new Color(1f, 1f, 1f, 0.5f);
+            Color col = color ?? new Color(1f, 1f, 1f, .5f);
 
             Shader shader = Shader.Find("Standard");
             if (shader == null) shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("URP/Lit") ?? Shader.Find("HDRP/Lit");

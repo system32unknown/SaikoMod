@@ -33,13 +33,10 @@ namespace SaikoMod.Utils {
 
         public static string GetString(int max, bool includeSpace = false, int chance = 50) {
             StringBuilder tempStr = new StringBuilder();
-
             for (int i = 0; i < max; i++) {
-                char randomChar = (char)Random.Range(65, 123);
-                tempStr.Append(randomChar);
+                tempStr.Append((char)Random.Range(65, 123));
                 if (includeSpace && Random.Range(0, 100) < chance) tempStr.Append('\n');
             }
-
             return tempStr.ToString();
         }
 
