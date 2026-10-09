@@ -76,6 +76,9 @@ namespace SaikoMod.Mods {
         [HarmonyPatch("FixedUpdate"), HarmonyPrefix]
         static bool FixedUpdatePatch() => !customEye;
 
+        [HarmonyPatch(nameof(YandereAI.playerLookingAt)), HarmonyPrefix]
+        static bool PlayerLookingAtPatch() => !YandModController.noDetect;
+
         [HarmonyPatch(nameof(YandereAI.PlayerCanDetectAI)), HarmonyPrefix]
         static bool PlayerCanDetectPatch() => !YandModController.noDetect;
 
