@@ -121,12 +121,6 @@ namespace SaikoMod.UI {
             if ((mat.hideFlags & HideFlags.NotEditable) != 0) return true;
             if ((mat.hideFlags & HideFlags.HideAndDontSave) != 0) return true;
 
-#if UNITY_EDITOR
-            string path = UnityEditor.AssetDatabase.GetAssetPath(mat);
-            if (string.IsNullOrEmpty(path)) return true;
-            if (path.StartsWith("Resources/unity_builtin")) return true;
-#endif
-
             // TMP default materials
             if (TMP_Settings.defaultFontAsset != null) {
                 if (mat == TMP_Settings.defaultFontAsset.material) return true;

@@ -113,7 +113,7 @@ namespace SaikoMod.UI {
                         AIRoom curRoom = player.currentRoom;
                         if (curRoom) {
                             GUILayout.BeginVertical("Box");
-                            GUILayout.Label("Current Room: " + curRoom.roomName + " (" + curRoom.roomType + ")");
+                            GUILayout.Label("Current Room: " + curRoom.roomName + " (" + curRoom.roomType + ", " + curRoom.GetKeyID() + ")");
                             GUILayout.Label("Saiko Visited: " + curRoom.isVisitedRoom + " | Locked: " + curRoom.isLockedRoom + " | Lights: " + curRoom.AllowLights, RGUIStyle.centerLabel);
                             GUILayout.BeginHorizontal();
                             if (GUILayout.Button("Toggle Lights")) curRoom.AllowLights = !curRoom.AllowLights;
