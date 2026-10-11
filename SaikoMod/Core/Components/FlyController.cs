@@ -1,48 +1,26 @@
 ﻿using UnityEngine;
 
 namespace SaikoMod.Core.Components {
-    public enum NoclipMode {
-        Rigidbody,
-        Transform
-    }
-
     [RequireComponent(typeof(Rigidbody))]
     public class FlyController : MonoBehaviour {
-        public NoclipMode noclipMode = NoclipMode.Rigidbody;
-
         [Header("Fly Settings")]
         public float speed = 50f;
         public float acc = 12f;
 
-        Rigidbody rb;
         Transform cam;
-
         Vector3 curVel;
 
-        void Awake() {
-            rb = GetComponent<Rigidbody>();
-            if (!rb) return;
-
-            cam = Camera.main?.transform;
-        }
-
+        void Awake() => cam = Camera.main?.transform;
         void OnDisable() => curVel = Vector3.zero;
 
         void Update() {
             curVel = Vector3.Lerp(curVel, GetInputDirection() * speed, acc * Time.deltaTime);
-            if (!cam || noclipMode == NoclipMode.Transform) MoveTransform();
-        }
-
-        void FixedUpdate() {
-            if (!cam || noclipMode != NoclipMode.Rigidbody) return;
-            MoveRigidbody();
+            transform.position += curVel * Time.deltaTime;
+            RotateTowardsCamera(r => transform.rotation = r);
         }
 
         Vector3 GetInputDirection() {
-            if (!cam) return Vector3.zero;
-
             Vector3 dir = Vector3.zero;
-
             if (Input.GetKey(KeyCode.W)) dir += cam.forward;
             if (Input.GetKey(KeyCode.S)) dir -= cam.forward;
             if (Input.GetKey(KeyCode.D)) dir += cam.right;
@@ -51,16 +29,6 @@ namespace SaikoMod.Core.Components {
             if (Input.GetKey(KeyCode.LeftControl)) dir -= Vector3.up;
 
             return dir.sqrMagnitude > 0f ? dir.normalized : Vector3.zero;
-        }
-
-        void MoveRigidbody() {
-            rb.MovePosition(rb.position + curVel * Time.fixedDeltaTime);
-            RotateTowardsCamera(rb.MoveRotation);
-        }
-
-        void MoveTransform() {
-            transform.position += curVel * Time.deltaTime;
-            RotateTowardsCamera(r => transform.rotation = r);
         }
 
         void RotateTowardsCamera(System.Action<Quaternion> applyRotation) {

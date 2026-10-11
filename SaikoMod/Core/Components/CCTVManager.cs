@@ -6,8 +6,10 @@ namespace SaikoMod.Core.Components {
             if (AddedMoreCam) return;
 
             CCTVCameraSystem cctv = Object.FindObjectOfType<CCTVCameraSystem>();
-            if (cctv == null) return;
+            if (!cctv) return;
             Camera saikoCamera = GetHead("yandere").GetChild(2).GetComponent<Camera>();
+            if (!saikoCamera) return;
+
             saikoCamera.name = "Saiko POV";
             cctv.cctvCams[cctv.cctvCams.Length - 1] = saikoCamera;
             cctv.activeCams[cctv.activeCams.Length - 1] = true;

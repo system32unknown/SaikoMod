@@ -32,6 +32,8 @@ namespace SaikoMod.UI {
         public static AIRoom curRoom;
         int roomIdx = 0;
 
+        Coroutine timerCoroutine;
+
         public void OnLoad() {
             gm = HFPS_GameManager.instance;
             ep = GameObject.Find("Dynamic_ElectricBox")?.GetComponent<ElectricPuzzle>();
@@ -135,11 +137,11 @@ namespace SaikoMod.UI {
                         GUILayout.BeginHorizontal();
                         if (timerStarted && GUILayout.Button("Stop")) {
                             timerStarted = false;
-                            gm.StopTimer();
+                            timerCoroutine = gm.StartCoroutine("startTimer");
                         }
                         if (!timerStarted && GUILayout.Button("Start")) {
                             timerStarted = true;
-                            gm.StartTimer();
+                            if (timerCoroutine != null) gm.StopCoroutine(timerCoroutine);
                         }
                         if (GUILayout.Button("Reset")) gm.seconds = 0;
                         GUILayout.EndHorizontal();

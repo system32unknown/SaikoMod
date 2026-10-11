@@ -8,7 +8,11 @@ namespace SaikoMod.Core.Components {
         public Text loadingText;
         public string loadingPrefix = "";
 
-        public void LoadLevel(int sceneIdx) => StartCoroutine(LoadAsynchronously(sceneIdx));
+        Coroutine loadCoroutine;
+        public void LoadLevel(int sceneIdx) {
+            if (loadCoroutine != null) StopCoroutine(loadCoroutine);
+            loadCoroutine = StartCoroutine(LoadAsynchronously(sceneIdx));
+        }
 
         IEnumerator LoadAsynchronously(int sceneIdx) {
             AsyncOperation op = SceneManager.LoadSceneAsync(sceneIdx);

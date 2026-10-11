@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SaikoMod.Helper {
     public static class SaikoHelpers {
         public static string GetSmartName(GameObject obj) {
-            BindingFlags publicFlag = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             try {
                 foreach (Component c in obj.GetComponentsInChildren<Component>(false)) {
                     if (c == null) continue;
@@ -14,13 +14,13 @@ namespace SaikoMod.Helper {
                     string typeName = type.Name;
 
                     if (typeName.Contains("TextMeshPro") || typeName.Contains("TMP_Text")) {
-                        PropertyInfo prop = type.GetProperty("text", publicFlag);
+                        PropertyInfo prop = type.GetProperty("text", flags);
                         if (prop != null && prop.CanRead) {
                             object val = prop.GetValue(c, null);
                             if (val != null) return val.ToString();
                         }
 
-                        FieldInfo field = type.GetField("m_text", publicFlag);
+                        FieldInfo field = type.GetField("m_text", flags);
                         if (field != null) {
                             object val = field.GetValue(c);
                             if (val != null) return val.ToString();

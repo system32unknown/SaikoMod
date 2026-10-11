@@ -121,9 +121,7 @@ namespace SaikoMod.Controller {
         }
 
         void CreateTabButton(MenuTab tab, string label) {
-            if (GUILayout.Button("<b>" + label + "</b>", GUILayout.Height(21f))) {
-                MenuTab = (MenuTab == tab) ? MenuTab.Off : tab;
-            }
+            if (GUILayout.Button("<b>" + label + "</b>", GUILayout.Height(21f))) MenuTab = (MenuTab == tab) ? MenuTab.Off : tab;
         }
     }
 }

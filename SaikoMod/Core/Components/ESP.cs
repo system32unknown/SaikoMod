@@ -47,7 +47,6 @@ namespace SaikoMod.Core.Components {
                 if (col == null) continue;
 
                 GameObject obj = col.gameObject;
-
                 if (obj == null || obj.layer != _interactLayer) continue;
                 if (!obj.activeInHierarchy) continue;
                 if (!_targetSet.Add(obj)) continue;
@@ -56,7 +55,6 @@ namespace SaikoMod.Core.Components {
             }
 
             RemoveInvalidTargets();
-
             onRunFirst = true;
         }
 
@@ -86,7 +84,6 @@ namespace SaikoMod.Core.Components {
                 if (!UnityHelpers.IsVisiblyActive(target)) continue;
 
                 Vector3 screenPosition = _cam.WorldToScreenPoint(target.transform.position);
-
                 if (screenPosition.z <= 0f) continue;
 
                 string name = smartName ? SaikoHelpers.GetSmartName(target) : objName;

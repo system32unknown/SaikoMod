@@ -34,6 +34,8 @@ namespace SaikoMod.Mods {
                 espKey.color = Color.cyan;
                 espKey.onRefresh = obj => CheckItem(obj);
             }
+
+            if (!UI.SettingsUI.AutoStartTimer) __instance.StopTimer();
         }
 
         public static void OpenNotePadCustom(string text, bool paused = true) {
