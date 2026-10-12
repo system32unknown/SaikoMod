@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace SaikoMod.Helper {
@@ -7,23 +6,14 @@ namespace SaikoMod.Helper {
         public static void RemoveAllComponents(GameObject obj) {
             foreach (Component component in obj.GetComponents<Component>()) {
                 if (component is Transform) continue;
-#if UNITY_EDITOR
-                UnityEngine.Object.DestroyImmediate(component);
-#else
-                UnityEngine.Object.Destroy(component);
-#endif
+                Object.Destroy(component);
             }
         }
-
-        public static void RemoveAllComponents(GameObject obj, params Type[] exclude) {
+        public static void RemoveAllComponents(GameObject obj, params System.Type[] exclude) {
             foreach (Component component in obj.GetComponents<Component>()) {
                 if (component is Transform) continue;
                 if (exclude != null && exclude.Contains(component.GetType())) continue;
-#if UNITY_EDITOR
-                UnityEngine.Object.DestroyImmediate(component);
-#else
-                UnityEngine.Object.Destroy(component);
-#endif
+                Object.Destroy(component);
             }
         }
 

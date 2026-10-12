@@ -98,5 +98,7 @@ namespace SaikoMod.Mods {
         static bool CanExitAtemptKidnapPatch() => !YandModController.noBadEnding;
         [HarmonyPatch(nameof(YandereMoodController.CanAmbushPlayers)), HarmonyPrefix]
         static bool CanAmbushPlayerPatch() => !YandModController.noDetect;
+        [HarmonyPatch(nameof(YandereMoodController.CanHarrassPlayer)), HarmonyPrefix]
+        static bool CanHarrassPlayerPatch(ref bool __result) => __result = Utils.RandomUtils.GetBool();
     }
 }

@@ -13,7 +13,7 @@ namespace SaikoMod {
     [BepInProcess("Saiko no sutoka.exe")]
     public class Main : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
-        public const string modVer = "0.0.5";
+        public const string modVer = "0.0.5.1";
 
         public static Version Version => new Version(modVer);
 
