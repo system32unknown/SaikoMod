@@ -127,7 +127,6 @@
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
     <Compile Include="Core\Lua\LuaObjectScript.cs" />
     <Compile Include="Core\Enums\GodModeType.cs" />
-    <Compile Include="Core\Enums\MessageType.cs" />
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />
@@ -176,8 +175,8 @@
     <Compile Include="RapidGUI\Utilities\TypeUtilityMemberInfo.cs" />
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
-    <Compile Include="RapidGUI\Component\IDoGUI.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
+    <Compile Include="RapidGUI\Component\IDoGUI.cs" />
     <Compile Include="Utils\GUIUtils.cs" />
     <Compile Include="Utils\FPSUtils.cs" />
     <Compile Include="Utils\LipSyncUtils.cs" />

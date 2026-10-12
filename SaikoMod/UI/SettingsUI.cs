@@ -13,6 +13,7 @@ namespace SaikoMod.UI {
         int selMenu = 0;
 
         public static bool AutoStartTimer = true;
+        public static bool StartSaiko = false;
 
         FPSUtils fpsUtils;
 
@@ -45,6 +46,7 @@ namespace SaikoMod.UI {
                 case 0: // General
                     if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
                     if (RGUI.Button(AutoStartTimer, "Auto Start Timer")) AutoStartTimer = !AutoStartTimer;
+                    if (RGUI.Button(StartSaiko, "Start Saiko")) StartSaiko = !StartSaiko;
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {

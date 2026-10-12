@@ -97,8 +97,9 @@ namespace SaikoMod.Mods {
         static bool UpdatePatch() => false;
 
         [HarmonyPatch(nameof(Tutorial.StartGame)), HarmonyPostfix]
-        static void StartGamePatch() {
+        static void StartGamePatch(Tutorial __instance) {
             if (GameManagerMod.showESPkey) GameManagerMod.espKey.Refresh();
+            if (UI.SettingsUI.StartSaiko) __instance.yandere.isActive = true;
         }
     }
 

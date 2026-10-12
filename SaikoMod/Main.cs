@@ -13,7 +13,7 @@ namespace SaikoMod {
     [BepInProcess("Saiko no sutoka.exe")]
     public class Main : BaseUnityPlugin {
         public const string modGUID = "Altertoriel.SaikoMod";
-        public const string modVer = "0.0.4";
+        public const string modVer = "0.0.5";
 
         public static Version Version => new Version(modVer);
 
@@ -28,9 +28,7 @@ namespace SaikoMod {
         public ConfigEntry<bool> skipLanguage;
 
         void Awake() {
-            if (!IsGameValid() && WinMessageBox.Show("This version of the Modmenu is intended to be used with \"Saiko No Sutoka\".", WinMessageBox.MBIcon.Error)) {
-                Application.Quit();
-            }
+            if (!IsGameValid() && WinMessageBox.Show("This version of the Modmenu is intended to be used with \"Saiko No Sutoka\".", WinMessageBox.MBIcon.Error)) Application.Quit();
             instance = this;
 
             manager = new GameObject("SaikoModMenu");

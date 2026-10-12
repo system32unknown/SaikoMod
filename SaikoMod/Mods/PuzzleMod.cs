@@ -26,7 +26,7 @@ namespace SaikoMod.Mods {
 
         public static void SetPuzzle(string digits) {
             if (i == null) return;
-            i.puzzlePair = digits.Split(',').Select(new System.Func<string, int>(int.Parse)).ToList().ToArray();
+            i.puzzlePair = digits.Split(',').Select(new System.Func<string, int>(int.Parse)).ToArray();
 
             for (int idx = 0; idx < i.puzzlePair.Length; idx++) {
                 int ledIndex = idx / 2;

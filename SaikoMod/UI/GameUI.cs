@@ -1,6 +1,5 @@
 ﻿using RapidGUI;
 using SaikoMod.Core.Components;
-using SaikoMod.Core.Enums;
 using SaikoMod.Mods;
 using SaikoMod.Utils;
 using System.Linq;
@@ -10,9 +9,7 @@ using UnityEngine.UI;
 namespace SaikoMod.UI {
     public class GameUI : BaseWindowUI {
         int page = 0;
-        string gameMessage = "";
-        bool timerStarted = true;
-        MessageType messageType = MessageType.Hint;
+        bool timerStarted;
 
         public static string patternCode = "";
 
@@ -32,8 +29,6 @@ namespace SaikoMod.UI {
         public static AIRoom curRoom;
         int roomIdx = 0;
 
-        Coroutine timerCoroutine;
-
         public void OnLoad() {
             gm = HFPS_GameManager.instance;
             ep = GameObject.Find("Dynamic_ElectricBox")?.GetComponent<ElectricPuzzle>();
@@ -49,6 +44,7 @@ namespace SaikoMod.UI {
             SetupCameraPreview();
 
             CCTVManager.AddedMoreCam = false;
+            timerStarted = SettingsUI.AutoStartTimer;
         }
 
         void SetupCameraPreview() {
@@ -66,7 +62,6 @@ namespace SaikoMod.UI {
         }
 
         public void OnUnload() {
-            timerStarted = true;
             aiRooms = System.Array.Empty<AIRoom>();
             Object.Destroy(rawImage);
         }
@@ -91,23 +86,6 @@ namespace SaikoMod.UI {
                     if (!CCTVManager.AddedMoreCam && GUILayout.Button("Add POV CCTV")) CCTVManager.AddMoreCam();
 
                     if (gm) {
-                        GUILayout.BeginVertical("Box");
-                        GUILayout.Label("Messages");
-                        messageType = RGUI.Field(messageType, "Message Type");
-                        GUILayout.BeginHorizontal();
-                        gameMessage = GUILayout.TextField(gameMessage, GUILayout.Height(21f));
-                        if (GUILayout.Button("Send Message", new GUILayoutOption[] { GUILayout.Height(21f), GUILayout.ExpandWidth(false) })) {
-                            switch (messageType) {
-                                case MessageType.Hint: gm.ShowHint(gameMessage); break;
-                                case MessageType.Message: gm.AddMessage(gameMessage); break;
-                                case MessageType.ItemName: gm.AddPickupMessage(gameMessage); break;
-                                case MessageType.Warning: gm.WarningMessage(gameMessage); break;
-                                default: break;
-                            }
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.EndVertical();
-
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Endings");
                         GUILayout.BeginHorizontal();
@@ -137,11 +115,11 @@ namespace SaikoMod.UI {
                         GUILayout.BeginHorizontal();
                         if (timerStarted && GUILayout.Button("Stop")) {
                             timerStarted = false;
-                            timerCoroutine = gm.StartCoroutine("startTimer");
+                            gm.StopTimer();
                         }
                         if (!timerStarted && GUILayout.Button("Start")) {
                             timerStarted = true;
-                            if (timerCoroutine != null) gm.StopCoroutine(timerCoroutine);
+                            gm.StartTimer();
                         }
                         if (GUILayout.Button("Reset")) gm.seconds = 0;
                         GUILayout.EndHorizontal();

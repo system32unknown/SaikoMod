@@ -109,7 +109,6 @@ namespace SaikoMod.UI {
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();
                     break;
-
                 case 1:
                     break;
             }
