@@ -14,6 +14,7 @@ namespace SaikoMod.Mods {
         static void Preload(MainMenuManager __instance) {
             loader = __instance.gameObject.AddComponent<LevelLoader>();
             Transform main_UI = __instance.transform.GetChild(0);
+            Transform choosedifficulty_UI = __instance.transform.GetChild(3);
             Transform loading_UI = __instance.transform.GetChild(4);
 
             Font ArialFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
@@ -50,6 +51,23 @@ namespace SaikoMod.Mods {
             changelang.button.onClick.AddListener(() => __instance.transform.Find("ChooseLanguage").gameObject.SetActive(true));
             #endregion
 
+            #region CHOOSE DIFFICULTY
+            choosedifficulty_UI.Find("Text (3)").name = "SelectMode";
+            choosedifficulty_UI.Find("Exit (1)").name = "Yangire";
+            choosedifficulty_UI.Find("Exit (2)").name = "Hard";
+            choosedifficulty_UI.Find("Practice").name = "Yandere";
+            choosedifficulty_UI.Find("Practice (1)").name = "Play";
+            choosedifficulty_UI.Find("Easy").name = "Normal";
+
+            foreach (string obj in new string[] {"Play", "EASY", "Exit (3)", "Exit (4)", "Image (3)", "Image (4)"}) Object.Destroy(choosedifficulty_UI.Find(obj).gameObject);
+
+            CustomButton closeBtn = UI.UIHelpers.CreateButton("Close", choosedifficulty_UI, UI.AnchorUtils.AnchorPreset.TopRight, new Vector2(0f, 0f));
+            closeBtn.button.name = "Close";
+            closeBtn.Label.fontSize = 14;
+            closeBtn.Rect.sizeDelta /= 1.5f;
+            closeBtn.button.onClick.AddListener(() => CloseDiffPage(__instance));
+            #endregion
+
             #region LOADING SCREEN
             Text loadTxt = loading_UI.Find("Text (3)").GetComponent<Text>();
             Object.Destroy(loadTxt.GetComponent<Outline>());
@@ -60,6 +78,12 @@ namespace SaikoMod.Mods {
             loader.loadingPrefix = "Loading: ";
             loader.loadingText = loadTxt;
             #endregion
+        }
+
+        static void CloseDiffPage(MainMenuManager i) {
+            i.cameras[0].SetActive(true);
+            i.cameras[1].SetActive(false);
+            i.diffPage.SetActive(false);
         }
 
         [HarmonyPatch(nameof(MainMenuManager.PlayGame)), HarmonyPrefix]

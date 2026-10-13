@@ -29,8 +29,7 @@ namespace SaikoMod.Controller {
 
         public override void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode) {
             if (loadSceneMode == LoadSceneMode.Single) {
-                isSchool = scene.name == "LevelNew";
-                if (isSchool) {
+                if (isSchool = scene.name == "LevelNew") {
                     playermods.OnLoad();
                     gamemods.OnLoad();
                     saikomods.OnLoad();
