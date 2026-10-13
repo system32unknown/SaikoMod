@@ -65,7 +65,11 @@ namespace SaikoMod.Mods {
             closeBtn.button.name = "Close";
             closeBtn.Label.fontSize = 14;
             closeBtn.Rect.sizeDelta /= 1.5f;
-            closeBtn.button.onClick.AddListener(() => CloseDiffPage(__instance));
+            closeBtn.button.onClick.AddListener(() => {
+                __instance.cameras[0].SetActive(true);
+                __instance.cameras[1].SetActive(false);
+                __instance.diffPage.SetActive(false);
+            });
             #endregion
 
             #region LOADING SCREEN
@@ -78,12 +82,6 @@ namespace SaikoMod.Mods {
             loader.loadingPrefix = "Loading: ";
             loader.loadingText = loadTxt;
             #endregion
-        }
-
-        static void CloseDiffPage(MainMenuManager i) {
-            i.cameras[0].SetActive(true);
-            i.cameras[1].SetActive(false);
-            i.diffPage.SetActive(false);
         }
 
         [HarmonyPatch(nameof(MainMenuManager.PlayGame)), HarmonyPrefix]
