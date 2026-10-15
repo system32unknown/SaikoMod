@@ -25,7 +25,7 @@ namespace SaikoMod.UI {
         OperatingSystem os;
         public void OnLoad() {
             if (UIController.isSchool) {
-                windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.Contains("SHW_Add_effect_r") && x.activeSelf).ToArray();
+                windowLights = Resources.FindObjectsOfTypeAll<GameObject>().Where(x => x.name.StartsWith("SHW_Add_effect") && x.activeSelf).ToArray();
                 windowLightEnabled = true;
             }
 
