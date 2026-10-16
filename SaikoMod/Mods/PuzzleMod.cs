@@ -29,15 +29,14 @@ namespace SaikoMod.Mods {
             i.puzzlePair = digits.Split(',').Select(new System.Func<string, int>(int.Parse)).ToArray();
 
             for (int idx = 0; idx < i.puzzlePair.Length; idx++) {
-                int ledIndex = idx / 2;
                 ElectricPuzzleSwitch sw = i.switches[i.puzzlePair[idx]];
-                sw.switchLed.GetComponent<MeshRenderer>().material = i.puzzleLed[ledIndex];
+                sw.switchLed.GetComponent<MeshRenderer>().material = i.puzzleLed[idx / 2];
             }
         }
         public static string GetPatterns {
             get {
                 if (i == null) return string.Empty;
-                else return string.Join(",", i.puzzlePair);
+                return string.Join(",", i.puzzlePair);
             }
         }
     }

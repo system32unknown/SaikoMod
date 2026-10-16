@@ -1,5 +1,6 @@
 ﻿using RapidGUI;
 using SaikoMod.Controller;
+using SaikoMod.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,7 @@ namespace SaikoMod.UI {
                     if (Main.instance.showFPSDisplay.Value) FPSCounter.lagMode = RGUI.Field(FPSCounter.lagMode, "Lag Display Mode");
                     if (RGUI.Button(AutoStartTimer, "Auto Start Timer")) AutoStartTimer = !AutoStartTimer;
                     if (RGUI.Button(StartSaiko, "Start Saiko")) StartSaiko = !StartSaiko;
+                    if (RGUI.Button(InteractManagerMod.ForceUnlock, "Force Unlock")) InteractManagerMod.ForceUnlock = !InteractManagerMod.ForceUnlock;
                     break;
                 case 1: // Stats
                     if (fpsUtils != null) {

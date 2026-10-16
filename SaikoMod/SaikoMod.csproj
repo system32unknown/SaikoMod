@@ -139,6 +139,7 @@
     <Compile Include="Core\Components\ESP.cs" />
     <Compile Include="Core\Components\FlyController.cs" />
     <Compile Include="Core\Components\LevelLoader.cs" />
+    <Compile Include="Mods\InteractMod.cs" />
     <Compile Include="Mods\LipPatches.cs" />
     <Compile Include="Mods\GameMod.cs" />
     <Compile Include="Mods\HealthMod.cs" />
