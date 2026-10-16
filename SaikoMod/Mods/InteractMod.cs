@@ -9,7 +9,7 @@ namespace SaikoMod.Mods {
 
         [HarmonyPatch(nameof(InteractManager.Interact)), HarmonyPrefix]
         static void Interact_Prefix(GameObject __0) {
-            if (!ForceUnlock || __0) return;
+            if (!ForceUnlock || !__0) return;
 
             DynamicObject door = __0.GetComponent<DynamicObject>();
             if (!door) door = __0.GetComponent<DynamicNode>()?.door;
@@ -27,13 +27,9 @@ namespace SaikoMod.Mods {
             UnlockDoor(door.attachedDoor, visited);
         }
 
-        [HarmonyPatch(typeof(DynamicObject), nameof(DynamicObject.CheckHasKey)), HarmonyPrefix]
-        static bool CheckHasKeyPatch(DynamicObject __instance, ref bool __result) {
-            if (ForceUnlock && !__instance && __instance.isLocked) {
-                __result = true;
-                return false;
-            }
-            return true;
+        [HarmonyPatch(typeof(DynamicObject), nameof(DynamicObject.CheckHasKey)), HarmonyPostfix]
+        static void CheckHasKeyPatch(DynamicObject __instance, ref bool __result) {
+            if (ForceUnlock && __instance && __instance.isLocked) __result = true;
         }
     }
 }

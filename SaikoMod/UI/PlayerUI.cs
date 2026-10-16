@@ -64,7 +64,11 @@ namespace SaikoMod.UI {
                     if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
                     if (player) {
-                        if (RGUI.Button(player.beingRide, "Being Ride")) player.beingRide = !player.beingRide;
+                        if (player.beingRide && GUILayout.Button("Stop Being Ride")) {
+                            player.beingRide = false;
+                            player.yandereController.GetOffBack();
+                        }
+                        if (player.attacked && GUILayout.Button("Stop Attacking")) player.attacked = false;
                         if (shoes && !player.hasShoes && GUILayout.Button("Unlock Shoes")) shoes.PutShoesOn();
                         GUILayout.BeginVertical("Box");
                         player.runSpeed = RGUI.SliderFloat(player.runSpeed, 0f, 999f, 7f, "Run Speed");

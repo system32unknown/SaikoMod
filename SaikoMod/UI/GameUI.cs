@@ -74,7 +74,6 @@ namespace SaikoMod.UI {
                 dynamicObj = null;
                 return;
             }
-
             dynamicObj = rayObj.GetComponent<DynamicObject>() ?? rayObj.GetComponent<DynamicNode>()?.door;
         }
 
@@ -99,10 +98,12 @@ namespace SaikoMod.UI {
                     if (ep) {
                         GUILayout.BeginVertical("Box");
                         GUILayout.Label("Electric Puzzle & KeyPad");
-                        patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
-                        if (GUILayout.Button("Set Pattern")) PuzzleMod.SetPuzzle(patternCode);
                         if (RGUI.Button(PuzzleMod.PuzzleHack, "Puzzle Hack")) PuzzleMod.PuzzleHack = !PuzzleMod.PuzzleHack;
-                        if (!ep.puzzleSolved && GUILayout.Button("Solve Puzzle")) ep.PuzzleSolved();
+                        if (!ep.puzzleSolved) {
+                            patternCode = GUILayout.TextField(patternCode, GUILayout.Height(21f));
+                            if (GUILayout.Button("Set Pattern")) PuzzleMod.SetPuzzle(patternCode);
+                            if (GUILayout.Button("Solve Puzzle")) ep.PuzzleSolved();
+                        }
                         if (ep.puzzleSolved && !ele.isPoweredOn && GUILayout.Button("Switch On")) ele.SwitcherUp();
                         GUIUtils.DrawField("Keycode Access", ref keypad.AccessCode, new GUILayoutOption[] { GUILayout.Height(21f), GUILayout.ExpandWidth(false) });
                         GUILayout.EndVertical();

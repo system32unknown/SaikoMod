@@ -15,14 +15,8 @@ namespace SaikoMod.Mods {
             GameUI.patternCode = GetPatterns;
         }
 
-        [HarmonyPatch(nameof(ElectricPuzzle.CheckCanContinue)), HarmonyPrefix]
-        static bool CheckCanContinuePatch(ref bool __result) {
-            if (PuzzleHack) {
-                __result = true;
-                return false;
-            }
-            return true;
-        }
+        [HarmonyPatch(nameof(ElectricPuzzle.CheckCanContinue)), HarmonyPostfix]
+        static void CheckCanContinuePatch(ref bool __result) => __result = PuzzleHack;
 
         public static void SetPuzzle(string digits) {
             if (i == null) return;
@@ -34,10 +28,7 @@ namespace SaikoMod.Mods {
             }
         }
         public static string GetPatterns {
-            get {
-                if (i == null) return string.Empty;
-                return string.Join(",", i.puzzlePair);
-            }
+            get => i == null ? string.Empty : string.Join(",", i.puzzlePair);
         }
     }
 }
