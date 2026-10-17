@@ -7,7 +7,7 @@ using RandomUtils = SaikoMod.Utils.RandomUtils;
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(YandereController))]
     internal class YandModController {
-        public static YandereController yand;
+        static YandereController yand;
 
         public static bool noDetect = false;
         public static bool noAlert = false;
