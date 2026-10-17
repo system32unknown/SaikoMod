@@ -3,8 +3,6 @@
         None,
         Kill,
         Damage,
-        DamageNoQuick,
-        All,
-        AllNoQuick
+        All
     }
 }

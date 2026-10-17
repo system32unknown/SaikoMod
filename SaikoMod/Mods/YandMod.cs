@@ -2,10 +2,13 @@
 using SaikoMod.Core.Enums;
 using System;
 using UnityEngine;
+using RandomUtils = SaikoMod.Utils.RandomUtils;
 
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(YandereController))]
     internal class YandModController {
+        public static YandereController yand;
+
         public static bool noDetect = false;
         public static bool noAlert = false;
         public static bool noChoke = false;
@@ -16,7 +19,8 @@ namespace SaikoMod.Mods {
         static Transform[] transforms;
 
         [HarmonyPatch("Start"), HarmonyPostfix]
-        static void InitYandController() {
+        static void InitYandController(YandereController __instance) {
+            yand = __instance;
             transforms = Resources.FindObjectsOfTypeAll<Transform>();
         }
 
@@ -40,7 +44,7 @@ namespace SaikoMod.Mods {
 
         [HarmonyPatch(nameof(YandereController.KillPlayerFromFront)), HarmonyPrefix]
         static bool KillPlayerFromFrontPatch() {
-            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All || HealthMod.godModeType == GodModeType.AllNoQuick);
+            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All);
         }
 
         [HarmonyPatch(nameof(YandereController.PushPlayerDown), new Type[] { typeof(bool) }), HarmonyPrefix]
@@ -51,7 +55,13 @@ namespace SaikoMod.Mods {
 
         [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
         static bool StabPatch() {
-            return !(HealthMod.godModeType == GodModeType.DamageNoQuick || HealthMod.godModeType == GodModeType.AllNoQuick);
+            if (yand && (HealthMod.godModeType == GodModeType.Damage || HealthMod.godModeType == GodModeType.All)) {
+                yand.AttackPlayer(false);
+                yand.playerChar.attacked = false;
+                yand.StopStabbing();
+                return false;
+            }
+            return true;
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]
@@ -65,6 +75,9 @@ namespace SaikoMod.Mods {
                     break;
             }
         }
+
+        [HarmonyPatch(nameof(YandereController.CheckIfCanHideBehindDesk), new Type[] { typeof(AIRoom) }), HarmonyPrefix]
+        static void CheckIfCanHideBehindDeskPatch(ref bool __result) => __result = RandomUtils.GetBool();
     }
 
     [HarmonyPatch(typeof(YandereAI))]
@@ -99,6 +112,6 @@ namespace SaikoMod.Mods {
         [HarmonyPatch(nameof(YandereMoodController.CanAmbushPlayers)), HarmonyPrefix]
         static bool CanAmbushPlayerPatch() => !YandModController.noDetect;
         [HarmonyPatch(nameof(YandereMoodController.CanHarrassPlayer)), HarmonyPrefix]
-        static bool CanHarrassPlayerPatch(ref bool __result) => __result = Utils.RandomUtils.GetBool();
+        static bool CanHarrassPlayerPatch(ref bool __result) => __result = RandomUtils.GetBool();
     }
 }

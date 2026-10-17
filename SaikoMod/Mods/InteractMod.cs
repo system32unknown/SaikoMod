@@ -13,7 +13,6 @@ namespace SaikoMod.Mods {
 
             DynamicObject door = __0.GetComponent<DynamicObject>();
             if (!door) door = __0.GetComponent<DynamicNode>()?.door;
-
             UnlockDoor(door, new HashSet<DynamicObject>());
         }
 

@@ -73,6 +73,7 @@ namespace SaikoMod.UI {
                         QualitySettings.shadows = ShadowQuality.HardOnly;
                         QualitySettings.shadowResolution = ShadowResolution.Low;
                         QualitySettings.antiAliasing = 0;
+                        UnityEngine.Object.FindObjectOfType<YandereGraphicQualityManager>()?.PutLowQuality();
                     }
                     if (eyeObj && RGUI.Button(eyeObj.activeSelf, "Vignette")) eyeObj.SetActive(!eyeObj.activeSelf);
                     if (windowLights != null && RGUI.Button(windowLightEnabled, "Window Lights")) {

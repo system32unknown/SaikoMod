@@ -66,7 +66,7 @@ namespace SaikoMod.UI {
                     if (player) {
                         if (player.beingRide && GUILayout.Button("Stop Being Ride")) {
                             player.beingRide = false;
-                            player.yandereController.GetOffBack();
+                            player.yandereController.aI.currentState = AIState.GetOffFromBack;
                         }
                         if (player.attacked && GUILayout.Button("Stop Attacking")) player.attacked = false;
                         if (shoes && !player.hasShoes && GUILayout.Button("Unlock Shoes")) shoes.PutShoesOn();

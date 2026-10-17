@@ -9,17 +9,17 @@ namespace SaikoMod.Mods {
 
         [HarmonyPatch(nameof(HealthManager.ApplyBleedDamage), new Type[] { typeof(float) }), HarmonyPrefix]
         static bool ApplyBleedDamagePatch() {
-            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.DamageNoQuick || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
+            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.All);
         }
 
         [HarmonyPatch(nameof(HealthManager.ApplyDamage), new Type[] { typeof(float) }), HarmonyPrefix]
         static bool ApplyDamagePatch() {
-            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.DamageNoQuick || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
+            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.All);
         }
 
         [HarmonyPatch(nameof(HealthManager.Kill)), HarmonyPrefix]
         static bool KillPatch() {
-            return !(godModeType == GodModeType.Kill || godModeType == GodModeType.All || godModeType == GodModeType.AllNoQuick);
+            return !(godModeType == GodModeType.Kill || godModeType == GodModeType.All);
         }
     }
 }
