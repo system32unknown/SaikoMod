@@ -1,25 +1,18 @@
 ﻿using HarmonyLib;
-using SaikoMod.Core.Enums;
 using System;
 
 namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(HealthManager))]
     internal class HealthMod {
-        public static GodModeType godModeType = GodModeType.None;
+        public static bool godMode = false;
 
         [HarmonyPatch(nameof(HealthManager.ApplyBleedDamage), new Type[] { typeof(float) }), HarmonyPrefix]
-        static bool ApplyBleedDamagePatch() {
-            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.All);
-        }
+        static bool ApplyBleedDamagePatch() => !godMode;
 
         [HarmonyPatch(nameof(HealthManager.ApplyDamage), new Type[] { typeof(float) }), HarmonyPrefix]
-        static bool ApplyDamagePatch() {
-            return !(godModeType == GodModeType.Damage || godModeType == GodModeType.All);
-        }
+        static bool ApplyDamagePatch() => !godMode;
 
         [HarmonyPatch(nameof(HealthManager.Kill)), HarmonyPrefix]
-        static bool KillPatch() {
-            return !(godModeType == GodModeType.Kill || godModeType == GodModeType.All);
-        }
+        static bool KillPatch() => !godMode;
     }
 }

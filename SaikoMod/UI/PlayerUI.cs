@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using GodModeType = SaikoMod.Core.Enums.GodModeType;
 
 namespace SaikoMod.UI {
     public class PlayerUI : BaseWindowUI {
@@ -60,7 +59,7 @@ namespace SaikoMod.UI {
                     if (RGUI.Button(SaikoTracker.RenderTop, "Render On Top")) SaikoTracker.RenderTop = !SaikoTracker.RenderTop;
                     GUILayout.EndVertical();
 
-                    HealthMod.godModeType = RGUI.Field(HealthMod.godModeType, "Godmode Type");
+                    if (RGUI.Button(HealthMod.godMode, "God Mode")) HealthMod.godMode = !HealthMod.godMode;
                     if (RGUI.Button(YandModController.noChoke, "No Choking")) YandModController.noChoke = !YandModController.noChoke;
 
                     if (player) {
@@ -156,7 +155,7 @@ namespace SaikoMod.UI {
                             GameObject.Find("yandere").GetComponent<NavMeshAgent>().enabled = true;
                             HFPS_GameManager.instance.cf2rig.enabled = HFPS_GameManager.instance.uiInteractive = true;
                         }
-                        if (HealthMod.godModeType == GodModeType.None || HealthMod.godModeType == GodModeType.Kill) {
+                        if (!HealthMod.godMode) {
                             GUILayout.BeginVertical("Box");
                             GUILayout.BeginHorizontal();
                             if (GUILayout.Button("Drugged")) player.GetsDrugged();

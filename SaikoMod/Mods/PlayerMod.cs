@@ -6,9 +6,7 @@ namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(PlayerController))]
     class PlayerMod {
         [HarmonyPatch(nameof(PlayerController.GetsNeckBroken)), HarmonyPrefix]
-        static bool KillPatch() {
-            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All);
-        }
+        static bool KillPatch() => !HealthMod.godMode;
 
         public static bool allowJump = false;
         public static bool infJump = false;
@@ -28,8 +26,6 @@ namespace SaikoMod.Mods {
     [HarmonyPatch(typeof(CameraMotionController))]
     class PlayerCamMod {
         [HarmonyPatch(nameof(CameraMotionController.PlayNeckBreakAnimation)), HarmonyPrefix]
-        static bool KillPatch() {
-            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All);
-        }
+        static bool KillPatch() => !HealthMod.godMode;
     }
 }

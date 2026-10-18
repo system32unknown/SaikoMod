@@ -126,7 +126,6 @@
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Core\Interfaces\IWindowUI.cs" />
     <Compile Include="Core\Lua\LuaObjectScript.cs" />
-    <Compile Include="Core\Enums\GodModeType.cs" />
     <Compile Include="Core\Enums\SaikoSkins.cs" />
     <Compile Include="Core\Enums\MenuTab.cs" />
     <Compile Include="Core\Enums\SaikoLookMode.cs" />

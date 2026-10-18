@@ -43,9 +43,7 @@ namespace SaikoMod.Mods {
         static bool SpawnAtGameIntroPosPatch() => !noBadEnding;
 
         [HarmonyPatch(nameof(YandereController.KillPlayerFromFront)), HarmonyPrefix]
-        static bool KillPlayerFromFrontPatch() {
-            return !(HealthMod.godModeType == GodModeType.Kill || HealthMod.godModeType == GodModeType.All);
-        }
+        static bool KillPlayerFromFrontPatch() => !HealthMod.godMode;
 
         [HarmonyPatch(nameof(YandereController.PushPlayerDown), new Type[] { typeof(bool) }), HarmonyPrefix]
         static bool PushPlayerDownPatch() => !noPushing;
@@ -55,13 +53,26 @@ namespace SaikoMod.Mods {
 
         [HarmonyPatch("stabbing", MethodType.Enumerator), HarmonyPrefix]
         static bool StabPatch() {
-            if (yand && (HealthMod.godModeType == GodModeType.Damage || HealthMod.godModeType == GodModeType.All)) {
+            if (yand && HealthMod.godMode) {
                 yand.AttackPlayer(false);
                 yand.playerChar.attacked = false;
                 yand.StopStabbing();
                 return false;
             }
             return true;
+        }
+
+        [HarmonyPatch(nameof(YandereController.AttackPlayer), new Type[] {typeof(bool)}), HarmonyPrefix]
+        static bool AttackPlayerPatch(YandereController __instance) {
+            if (!HealthMod.godMode) return true;
+
+            __instance.facial.PlayRandomLaugh();
+            if (__instance.mood.timeSinceTurnedYangire > 0f) {
+                __instance.mood.timeSinceTurnedYangire -= 10f;
+                return false;
+            }
+            __instance.mood.timeSinceTurnedYangire = 0f;
+            return false;
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]
